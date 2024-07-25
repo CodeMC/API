@@ -7,6 +7,7 @@ import io.codemc.api.JOB_FREESTYLE
 import io.codemc.api.JOB_MAVEN
 import io.codemc.api.RESOURCE_CACHE
 import io.codemc.api.USER_CONFIG
+import org.jetbrains.annotations.VisibleForTesting
 
 var jenkinsConfig: JenkinsConfig = JenkinsConfig("", "", "")
     set(value) {
@@ -36,6 +37,12 @@ fun createJenkinsUser(username: String): Boolean {
     return status.value()
 }
 
+@VisibleForTesting
+internal fun getJenkinsUser(username: String): String {
+    val user = client.api().jobsApi().config("/", username)
+    return user ?: ""
+}
+
 fun createJenkinsJob(username: String, jobName: String, repoLink: String, isFreestyle: Boolean): Boolean {
     val template = (if (isFreestyle) RESOURCE_CACHE[JOB_FREESTYLE] else RESOURCE_CACHE[JOB_MAVEN])
         ?.replace("{PROJECT_URL}", repoLink) ?: return false
@@ -43,4 +50,10 @@ fun createJenkinsJob(username: String, jobName: String, repoLink: String, isFree
     // Jenkins will automatically add job to the URL
     val status = client.api().jobsApi().create(username, jobName, template)
     return status.value()
+}
+
+@VisibleForTesting
+internal fun getJenkinsJob(username: String, jobName: String): String {
+    val job = client.api().jobsApi().config("/", "$username/job/$jobName")
+    return job ?: ""
 }
