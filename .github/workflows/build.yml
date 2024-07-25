@@ -136,12 +136,12 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: jenkins/jenkins:lts
-          options: -v ${{ github.workspace }}:/work
+          options: -v ${{ github.workspace }}:/work -u root
           shell: bash
           run: |
             cd work
             chmod +x ./gradlew
-            sudo ./gradlew test
+            ./gradlew test
 
   # Test Nexus Server
   test-nexus:
@@ -166,9 +166,9 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: sonatype/nexus3
-          options: -v ${{ github.workspace }}:/work
+          options: -v ${{ github.workspace }}:/work -u root
           shell: bash
           run: |
             cd work
             chmod +x ./gradlew
-            sudo ./gradlew test
+            ./gradlew test
