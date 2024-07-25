@@ -136,9 +136,9 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: jenkins/jenkins:lts
-          options: -v ${{ github.workspace }}:/var/jenkins
+          options: -v ${{ github.workspace }}:/work
           run: |
-            ls -la
+            cd work
             chmod +x ./gradlew
             ./gradlew test
 
@@ -165,7 +165,8 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: sonatype/nexus3
-          options: -v ${{ github.workspace }}:/ver/nexus
+          options: -v ${{ github.workspace }}:/work
           run: |
+            cd work
             chmod +x ./gradlew
             ./gradlew test
