@@ -36,6 +36,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: 'gradle'
+      - name: Change Permissions
+        run: chmod +x ./gradlew
       - name: Setup Servers
         run: |
           docker build -t nexus-rest/nexus src/test/docker/nexus
