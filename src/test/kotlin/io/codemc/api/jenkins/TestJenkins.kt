@@ -1,22 +1,22 @@
 package io.codemc.api.jenkins
 
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
 
-@EnabledIfEnvironmentVariable(named = "JENKINS_USERNAME", matches = "(?!^\$)([^\\s])")
-@EnabledIfEnvironmentVariable(named = "JENKINS_PASSWORD", matches = "(?!^\$)([^\\s])")
 object TestJenkins {
+
+    init {
+        jenkinsConfig = JenkinsConfig(
+            url = "http://localhost:8080",
+            username = "",
+            password = ""
+        )
+    }
 
     @JvmStatic
     @BeforeAll
-    fun setup() {
-        jenkinsConfig = JenkinsConfig(
-            "http://localhost:8080",
-            System.getenv("JENKINS_USERNAME"),
-            System.getenv("JENKINS_PASSWORD")
-        )
-
+    fun testPing() {
         assert(ping())
     }
 
