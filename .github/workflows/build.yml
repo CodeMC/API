@@ -111,3 +111,61 @@ jobs:
           name: codemc-api
           path: |
             build/libs/*.jar
+
+  # Test Jenkins Server
+  test-jenkins:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    name: Test Jenkins Server
+    needs: test
+    env:
+      # For Test Server
+      JENKINS_USERNAME: "admin"
+      JENKINS_PASSWORD: "password"
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup JDK 8
+        uses: actions/setup-java@v4
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          cache: 'gradle'
+      - name: Test Jenkins Server
+        uses: addnab/docker-run-action@v3
+        with:
+          image: jenkins/jenkins:lts
+          options: -v ${{ github.workspace }}:/var/jenkins
+          run: |
+            ls -la
+            chmod +x ./gradlew
+            ./gradlew test
+
+  # Test Nexus Server
+  test-nexus:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    name: Test Nexus Server
+    needs: test
+    env:
+      # For Test Server
+      NEXUS_INSTANCE: "true"
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup JDK 8
+        uses: actions/setup-java@v4
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          cache: 'gradle'
+      - name: Test Nexus Server
+        uses: addnab/docker-run-action@v3
+        with:
+          image: sonatype/nexus3
+          options: -v ${{ github.workspace }}:/ver/nexus
+          run: |
+            chmod +x ./gradlew
+            ./gradlew test
