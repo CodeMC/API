@@ -1,0 +1,9 @@
+plugins:
+  - artifactId: json-path-api
+  - artifactId: maven-plugin
+  - artifactId: cloudbees-credentials
+  - artifactId: cloudbees-folder
+  - artifactId: configuration-as-code
+  - artifactId: workflow-aggregator
+  - artifactId: badge
+  - artifactId: github-oauth
