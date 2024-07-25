@@ -137,6 +137,7 @@ jobs:
         with:
           image: jenkins/jenkins:lts
           options: -v ${{ github.workspace }}:/work
+          shell: bash
           run: |
             cd work
             chmod +x ./gradlew
@@ -166,6 +167,7 @@ jobs:
         with:
           image: sonatype/nexus3
           options: -v ${{ github.workspace }}:/work
+          shell: bash
           run: |
             cd work
             chmod +x ./gradlew
