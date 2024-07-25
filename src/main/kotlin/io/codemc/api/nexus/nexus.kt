@@ -47,7 +47,6 @@ suspend fun createNexus(name: String, password: String) = withContext(Dispatcher
         header("Content-Type", "application/json")
     }
 
-    println(repoResponse.body())
     if (repoResponse.statusCode() != 201) return@withContext false
 
     // Add Role
