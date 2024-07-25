@@ -140,7 +140,7 @@ jobs:
           run: |
             cd work
             chmod +x ./gradlew
-            ./gradlew test
+            sudo ./gradlew test
 
   # Test Nexus Server
   test-nexus:
@@ -169,4 +169,4 @@ jobs:
           run: |
             cd work
             chmod +x ./gradlew
-            ./gradlew test
+            sudo ./gradlew test
