@@ -25,7 +25,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: jenkins/jenkins:lts
-          options: -v /jenkins-data
+          options: -v ${{ github.workspace }}:/jenkins-data
           run: |
             chmod +x ./gradlew
             ./gradlew test

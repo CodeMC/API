@@ -24,7 +24,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: sonatype/nexus3
-          options: -v /nexus-data
+          options: -v ${{ github.workspace }}:/nexus-data
           run: |
             chmod +x ./gradlew
             ./gradlew test
