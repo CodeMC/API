@@ -8,8 +8,6 @@ import io.codemc.api.JOB_MAVEN
 import io.codemc.api.RESOURCE_CACHE
 import io.codemc.api.USER_CONFIG
 import org.jetbrains.annotations.VisibleForTesting
-import java.net.URI
-import java.net.URL
 
 var jenkinsConfig: JenkinsConfig = JenkinsConfig("", "", "")
     set(value) {
@@ -35,8 +33,11 @@ data class JenkinsConfig(
 fun ping(): Boolean =
     client.api().systemApi().systemInfo().jenkinsVersion() != null
 
-fun createJenkinsUser(username: String): Boolean {
-    val config = RESOURCE_CACHE[USER_CONFIG]?.replace("{USERNAME}", username) ?: return false
+fun createJenkinsUser(username: String, password: String): Boolean {
+    val config0 = RESOURCE_CACHE[USER_CONFIG] ?: return false
+    val config = config0
+        .replace("{USERNAME}", username)
+        .replace("{PASSWORD}", password)
     val status = client.api().jobsApi().create("/", username, config)
 
     return status.value()

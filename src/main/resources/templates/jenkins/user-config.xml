@@ -1,9 +1,9 @@
 <?xml version='1.1' encoding='UTF-8'?>
-<com.cloudbees.hudson.plugins.folder.Folder plugin="cloudbees-folder@6.858.v898218f3609d">
+<com.cloudbees.hudson.plugins.folder.Folder plugin="cloudbees-folder@6.928.v7c780211d66e">
     <actions/>
-    <description/>
+    <description></description>
     <properties>
-        <org.jenkinsci.plugins.configfiles.folder.FolderConfigFileProperty plugin="config-file-provider@968.ve1ca_eb_913f8c">
+        <org.jenkinsci.plugins.configfiles.folder.FolderConfigFileProperty plugin="config-file-provider@973.vb_a_80ecb_9a_4d0">
             <configs class="sorted-set">
                 <comparator class="org.jenkinsci.plugins.configfiles.ConfigByIdComparator"/>
             </configs>
@@ -43,13 +43,29 @@
                     </com.cloudbees.plugins.credentials.domains.Domain>
                     <java.util.concurrent.CopyOnWriteArrayList/>
                 </entry>
+                <entry>
+                    <com.cloudbees.plugins.credentials.domains.Domain plugin="credentials@1337.v60b_d7b_c7b_c9f">
+                        <name>Server Credentials</name>
+                        <description>Your credentials for your Nexus Repository</description>
+                        <specifications/>
+                    </com.cloudbees.plugins.credentials.domains.Domain>
+                    <list>
+                        <com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl plugin="credentials@1337.v60b_d7b_c7b_c9f">
+                            <id>nexus-repository</id>
+                            <description>Your Nexus Login Details</description>
+                            <username>{USERNAME}</username>
+                            <password>{PASSWORD}</password>
+                            <usernameSecret>true</usernameSecret>
+                        </com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl>
+                    </list>
+                </entry>
             </domainCredentialsMap>
         </com.cloudbees.hudson.plugins.folder.properties.FolderCredentialsProvider_-FolderCredentialsProperty>
-        <org.jenkinsci.plugins.docker.workflow.declarative.FolderConfig plugin="docker-workflow@572.v950f58993843">
+        <org.jenkinsci.plugins.docker.workflow.declarative.FolderConfig plugin="docker-workflow@580.vc0c340686b_54">
             <dockerLabel/>
             <registry plugin="docker-commons@439.va_3cb_0a_6a_fb_29"/>
         </org.jenkinsci.plugins.docker.workflow.declarative.FolderConfig>
-        <org.jenkinsci.plugins.pipeline.maven.MavenConfigFolderOverrideProperty plugin="pipeline-maven@1376.v18876d10ce9c">
+        <org.jenkinsci.plugins.pipeline.maven.MavenConfigFolderOverrideProperty plugin="pipeline-maven@1421.v610fa_b_e2d60e">
             <settings class="jenkins.mvn.DefaultSettingsProvider"/>
             <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
             <override>false</override>

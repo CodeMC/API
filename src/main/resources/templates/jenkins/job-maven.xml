@@ -80,7 +80,17 @@
             <followSymlinks>false</followSymlinks>
         </hudson.tasks.ArtifactArchiver>
     </publishers>
-    <buildWrappers/>
+    <buildWrappers>
+        <org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper plugin="credentials-binding@677.vdc9d38cb_254d">
+            <bindings>
+                <org.jenkinsci.plugins.credentialsbinding.impl.UsernamePasswordMultiBinding>
+                    <credentialsId>nexus-repository</credentialsId>
+                    <usernameVariable>JENKINS_USERNAME</usernameVariable>
+                    <passwordVariable>JENKINS_PASSWORD</passwordVariable>
+                </org.jenkinsci.plugins.credentialsbinding.impl.UsernamePasswordMultiBinding>
+            </bindings>
+        </org.jenkinsci.plugins.credentialsbinding.impl.SecretBuildWrapper>
+    </buildWrappers>
     <prebuilders/>
     <postbuilders/>
     <runPostStepsIfResult>

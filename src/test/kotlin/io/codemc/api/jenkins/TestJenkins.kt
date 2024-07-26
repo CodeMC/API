@@ -22,10 +22,10 @@ object TestJenkins {
 
     @Test
     fun testCreateJenkinsUser() {
-        assert(createJenkinsUser("test"))
+        assert(createJenkinsUser("test", "test_password"))
         assert(getJenkinsUser("test").isNotEmpty())
 
-        assert(createJenkinsUser("MyPlayer123"))
+        assert(createJenkinsUser("MyPlayer123", "MyPassword456"))
         assert(getJenkinsUser("MyPlayer123").isNotEmpty())
     }
 
@@ -34,7 +34,7 @@ object TestJenkins {
         val name = "TestUsername"
         val url = "https://github.com/TestUsername/TestRepo"
 
-        assert(createJenkinsUser(name))
+        assert(createJenkinsUser(name, "TestPassword"))
         assert(getJenkinsUser(name).isNotEmpty())
 
         assert(createJenkinsJob(name, "TestJob_Freestyle", url, true))

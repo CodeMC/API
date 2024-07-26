@@ -7,3 +7,4 @@ plugins:
   - artifactId: workflow-aggregator
   - artifactId: badge
   - artifactId: github-oauth
+  - artifactId: credentials
