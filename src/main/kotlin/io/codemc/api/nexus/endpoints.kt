@@ -1,3 +1,5 @@
+@file:JvmName("NexusEndpoints")
+
 package io.codemc.api.nexus
 
 import kotlinx.coroutines.Dispatchers
