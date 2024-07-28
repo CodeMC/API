@@ -79,6 +79,24 @@ artifacts {
 }
 
 publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            artifactId = project.name
+
+            pom {
+                description.set(project.description)
+                licenses {
+                    license {
+                        name.set("MIT")
+                        url.set("https://github.com/CodeMC/API/blob/master/LICENSE")
+                    }
+                }
+            }
+
+            from(components["java"])
+        }
+    }
+
     repositories {
         maven {
             credentials {
