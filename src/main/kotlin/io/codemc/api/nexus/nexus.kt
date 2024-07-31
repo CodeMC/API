@@ -2,6 +2,8 @@
 
 package io.codemc.api.nexus
 
+import io.codemc.api.json
+import io.codemc.api.req
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -27,11 +29,6 @@ data class NexusConfig(
 // Fields
 
 lateinit var nexusConfig: NexusConfig
-
-private val json = Json {
-    ignoreUnknownKeys = true
-    explicitNulls = true
-}
 
 // Implementation
 
