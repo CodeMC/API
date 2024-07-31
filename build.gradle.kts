@@ -48,6 +48,7 @@ tasks {
 
     withType<ShadowJar> {
         archiveFileName.set("${project.name}-${project.version}.jar")
+        archiveClassifier.set("")
     }
 
     test {
