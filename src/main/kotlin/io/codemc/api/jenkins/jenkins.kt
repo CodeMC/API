@@ -3,10 +3,12 @@
 package io.codemc.api.jenkins
 
 import com.cdancy.jenkins.rest.JenkinsClient
-import io.codemc.api.JOB_FREESTYLE
-import io.codemc.api.JOB_MAVEN
-import io.codemc.api.RESOURCE_CACHE
-import io.codemc.api.USER_CONFIG
+import io.codemc.api.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import org.jetbrains.annotations.VisibleForTesting
 
 var jenkinsConfig: JenkinsConfig = JenkinsConfig("", "", "")
@@ -62,4 +64,32 @@ fun createJenkinsJob(username: String, jobName: String, repoLink: String, isFree
 internal fun getJenkinsJob(username: String, jobName: String): String {
     val job = client.api().jobsApi().config("/", "$username/job/$jobName")
     return job ?: ""
+}
+
+private val freestyleMappings = mapOf(
+    "pom.xml" to false,
+
+    "gradlew" to true,
+    "gradlew.bat" to true,
+    "build.gradle" to true,
+    "build.gradle.kts" to true,
+    "settings.gradle" to true,
+    "settings.gradle.kts" to true,
+)
+
+suspend fun isFreestyle(username: String, jobName: String): Boolean = withContext(Dispatchers.IO) {
+    val github = json.parseToJsonElement(github(username, jobName).body()).jsonObject
+    val defaultBranch = github["default_branch"]?.jsonPrimitive?.contentOrNull ?: "master"
+
+    for ((file, freestyle) in freestyleMappings) {
+        val response = req("https://raw.githubusercontent.com/$username/$jobName/$defaultBranch/$file")
+
+        when (response.statusCode()) {
+            200 -> return@withContext freestyle
+            404 -> continue
+            else -> return@withContext false
+        }
+    }
+
+    return@withContext true
 }
