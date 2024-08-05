@@ -1,42 +1,48 @@
 package io.codemc.api.nexus
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.json.jsonPrimitive
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
 import java.io.File
 import java.util.*
+import kotlin.test.Test
 
-object TestNexus {
+class TestNexus {
 
-    init {
-        val password = File("/tmp/admin.password").readText().trim()
+    companion object {
 
-        nexusConfig = NexusConfig(
-            url = "http://localhost:8081",
-            username = "admin",
-            password = password
-        )
-    }
+        init {
+            val password = File("/tmp/admin.password").readText().trim()
 
-    @JvmStatic
-    @BeforeAll
-    fun testPing() {
-        runBlocking { assert(ping()) }
+            nexusConfig = NexusConfig(
+                url = "http://localhost:8081",
+                username = "admin",
+                password = password
+            )
+        }
+
+        @JvmStatic
+        @BeforeAll
+        fun testPing() = runBlocking(Dispatchers.IO) {
+            assertTrue(ping())
+        }
+
     }
 
     @Test
-    fun testNexus() {
+    fun testNexus() = runBlocking(Dispatchers.IO) {
         val name = "TestUser"
+        val repoName = name.lowercase()
 
-        runBlocking {
-            assert(createNexus(name, UUID.randomUUID().toString()))
-            assert(getRepositories().any {
-                it["name"]?.jsonPrimitive?.content == name.lowercase()
-            })
+        assertTrue(createNexus(name, UUID.randomUUID().toString()))
+        assertFalse(getNexusRepository(repoName).isNullOrEmpty())
+        assertFalse(getNexusRole(repoName).isNullOrEmpty())
 
-            assert(getNexusRole(name.lowercase()).isNotEmpty())
-        }
+        assertTrue(deleteNexus(name))
+        assertTrue(getNexusRepository(repoName).isNullOrEmpty())
+        assertTrue(getNexusRole(repoName).isNullOrEmpty())
     }
 
 }

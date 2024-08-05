@@ -1,11 +1,11 @@
 package io.codemc.api
 
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Test
 import kotlin.system.measureTimeMillis
+import kotlin.test.Test
 import kotlin.test.assertTrue
 
-object TestResources {
+class TestResources {
 
     @Test
     fun testLoadResources() {

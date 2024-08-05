@@ -1,10 +1,10 @@
 package io.codemc.api
 
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-object TestGenerator {
+class TestGenerator {
 
     @Test
     fun testCreatePassword() {

@@ -1,32 +1,43 @@
 package io.codemc.api.jenkins
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
-object TestJenkins {
+class TestJenkins {
 
-    init {
-        jenkinsConfig = JenkinsConfig(
-            url = "http://localhost:8080",
-            username = "",
-            password = ""
-        )
-    }
+    companion object {
 
-    @JvmStatic
-    @BeforeAll
-    fun testPing() {
-        assert(ping())
+        init {
+            jenkinsConfig = JenkinsConfig(
+                url = "http://localhost:8080",
+                username = "",
+                password = ""
+            )
+        }
+
+        @JvmStatic
+        @BeforeAll
+        fun testPing() {
+            assertTrue(ping())
+        }
+
     }
 
     @Test
     fun testCreateJenkinsUser() {
-        assert(createJenkinsUser("test", "test_password"))
-        assert(getJenkinsUser("test").isNotEmpty())
+        assertTrue(createJenkinsUser("test", "test_password"))
+        assertTrue(getJenkinsUser("test").isNotEmpty())
+        assertTrue(deleteUser("test"))
+        assertTrue(getJenkinsUser("test").isEmpty())
 
-        assert(createJenkinsUser("MyPlayer123", "MyPassword456"))
-        assert(getJenkinsUser("MyPlayer123").isNotEmpty())
+        assertTrue(createJenkinsUser("MyPlayer123", "MyPassword456"))
+        assertTrue(getJenkinsUser("MyPlayer123").isNotEmpty())
+        assertTrue(deleteUser("MyPlayer123"))
+        assertTrue(getJenkinsUser("MyPlayer123").isEmpty())
     }
 
     @Test
@@ -34,18 +45,42 @@ object TestJenkins {
         val name = "TestUsername"
         val url = "https://github.com/TestUsername/TestRepo"
 
-        assert(createJenkinsUser(name, "TestPassword"))
-        assert(getJenkinsUser(name).isNotEmpty())
+        assertTrue(createJenkinsUser(name, "TestPassword"))
+        assertTrue(getJenkinsUser(name).isNotEmpty())
 
-        assert(createJenkinsJob(name, "TestJob_Freestyle", url, true))
-        assert(getJenkinsJob(name, "TestJob_Freestyle").isNotEmpty())
-        assert(createJenkinsJob(name, "TestJob2_Freestyle", url, true))
-        assert(getJenkinsJob(name, "TestJob2_Freestyle").isNotEmpty())
+        assertTrue(createJenkinsJob(name, "TestJob_Freestyle", url, true))
+        assertTrue(getJenkinsJob(name, "TestJob_Freestyle").isNotEmpty())
 
-        assert(createJenkinsJob(name, "TestJob_Maven", url, false))
-        assert(getJenkinsJob(name, "TestJob_Maven").isNotEmpty())
-        assert(createJenkinsJob(name, "TestJob2_Maven", url, false))
-        assert(getJenkinsJob(name, "TestJob2_Maven").isNotEmpty())
+        assertTrue(createJenkinsJob(name, "TestJob2_Freestyle", url, true))
+        assertTrue(getJenkinsJob(name, "TestJob2_Freestyle").isNotEmpty())
+        assertTrue(deleteJob(name, "TestJob2_Freestyle"))
+        assertTrue(getJenkinsJob(name, "TestJob2_Freestyle").isEmpty())
+
+        assertTrue(createJenkinsJob(name, "TestJob_Maven", url, false))
+        assertTrue(getJenkinsJob(name, "TestJob_Maven").isNotEmpty())
+
+        assertTrue(createJenkinsJob(name, "TestJob2_Maven", url, false))
+        assertTrue(getJenkinsJob(name, "TestJob2_Maven").isNotEmpty())
+        assertTrue(deleteJob(name, "TestJob2_Maven"))
+        assertTrue(getJenkinsJob(name, "TestJob2_Maven").isEmpty())
+
+        assertTrue(deleteUser(name))
+        assertTrue(getJenkinsUser(name).isEmpty())
+    }
+
+    @Test
+    fun testIsFreestyle() = runBlocking(Dispatchers.IO) {
+        val u1 = "https://github.com/CodeMC/API.git"
+        assertTrue(isFreestyle(u1))
+
+        val u2 = "https://github.com/jenkins-docs/simple-java-maven-app.git"
+        assertFalse(isFreestyle(u2))
+
+        val u3 = "https://bitbucket.org/jeyvison_andrade/gradle_tutorial.git"
+        assertTrue(isFreestyle(u3))
+
+        val u4 = "https://gitlab.com/gitlab-examples/maven/simple-maven-app.git/"
+        assertFalse(isFreestyle(u4))
     }
 
 }
