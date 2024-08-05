@@ -32,8 +32,13 @@ lateinit var nexusConfig: NexusConfig
 
 // Implementation
 
+private suspend fun nexus(url: String, request: HttpRequest.Builder.() -> Unit = { GET() }) = req(url) {
+    header("Authorization", nexusConfig.authorization)
+    request(this)
+}
+
 suspend fun ping(): Boolean {
-    val text = req("$API_URL/status")
+    val text = nexus("$API_URL/status")
     return text.statusCode() == 200
 }
 
@@ -41,7 +46,7 @@ suspend fun ping(): Boolean {
 suspend fun createNexus(name: String, password: String) = withContext(Dispatchers.IO) {
     // Create User Repository
     val repo = createMavenRepository(name)
-    val repoResponse = req("$API_URL/repositories/maven/hosted") {
+    val repoResponse = nexus("$API_URL/repositories/maven/hosted") {
         POST(HttpRequest.BodyPublishers.ofString(repo))
         header("Content-Type", "application/json")
     }
@@ -59,7 +64,7 @@ suspend fun createNexus(name: String, password: String) = withContext(Dispatcher
         }
     }.toString()
 
-    val roleReq = req("$API_URL/security/roles") {
+    val roleReq = nexus("$API_URL/security/roles") {
         POST(HttpRequest.BodyPublishers.ofString(role))
         header("Content-Type", "application/json")
     }
@@ -79,21 +84,52 @@ suspend fun createNexus(name: String, password: String) = withContext(Dispatcher
         }
     }.toString()
 
-    val userRes = req("$API_URL/security/users") {
+    val userRes = nexus("$API_URL/security/users") {
         POST(HttpRequest.BodyPublishers.ofString(user))
         header("Content-Type", "application/json")
     }
     return@withContext userRes.statusCode() == 200
 }
 
+suspend fun deleteNexus(name: String) = withContext(Dispatchers.IO) {
+    val repoName = name.lowercase()
+
+    val repoRes = nexus("$API_URL/repositories/$repoName") { DELETE() }
+    if (repoRes.statusCode() != 204) return@withContext false
+
+    val roleRes = nexus("$API_URL/security/roles/$repoName") { DELETE() }
+    if (roleRes.statusCode() != 204) return@withContext false
+
+    val userRes = nexus("$API_URL/security/users/$name") { DELETE() }
+    return@withContext userRes.statusCode() == 204
+}
+
 @VisibleForTesting
 internal suspend fun getRepositories(): List<JsonObject> {
-    val text = req("$API_URL/repositories").body()
+    val text = nexus("$API_URL/repositories").body()
     return json.decodeFromString(text)
 }
 
 @VisibleForTesting
-internal suspend fun getNexusRole(name: String): JsonObject {
-    val text = req("$API_URL/security/roles/$name").body()
-    return json.decodeFromString(text)
+internal suspend fun getNexusRepository(name: String): JsonObject? {
+    val res = nexus("$API_URL/repositories/$name")
+    if (res.statusCode() == 404) return null
+
+    return json.decodeFromString(res.body())
+}
+
+@VisibleForTesting
+internal suspend fun getNexusRole(name: String): JsonObject? {
+    val res = nexus("$API_URL/security/roles/$name")
+    if (res.statusCode() == 404) return null
+
+    return json.decodeFromString(res.body())
+}
+
+@VisibleForTesting
+internal suspend fun getNexusAssets(repository: String): JsonObject? {
+    val res = nexus("$API_URL/assets?repository=$repository")
+    if (res.statusCode() == 404) return null
+
+    return json.decodeFromString(res.body())
 }

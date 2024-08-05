@@ -6,9 +6,6 @@ import com.cdancy.jenkins.rest.JenkinsClient
 import io.codemc.api.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.contentOrNull
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
 import org.jetbrains.annotations.VisibleForTesting
 
 var jenkinsConfig: JenkinsConfig = JenkinsConfig("", "", "")
@@ -42,6 +39,9 @@ fun createJenkinsUser(username: String, password: String): Boolean {
         .replace("{PASSWORD}", password)
     val status = client.api().jobsApi().create("/", username, config)
 
+    if (status.errors().isNotEmpty())
+        println(status.errors())
+
     return status.value()
 }
 
@@ -57,6 +57,10 @@ fun createJenkinsJob(username: String, jobName: String, repoLink: String, isFree
 
     // Jenkins will automatically add job to the URL
     val status = client.api().jobsApi().create(username, jobName, template)
+
+    if (status.errors().isNotEmpty())
+        println(status.errors())
+
     return status.value()
 }
 
@@ -66,30 +70,45 @@ internal fun getJenkinsJob(username: String, jobName: String): String {
     return job ?: ""
 }
 
-private val freestyleMappings = mapOf(
-    "pom.xml" to false,
-
-    "gradlew" to true,
-    "gradlew.bat" to true,
-    "build.gradle" to true,
-    "build.gradle.kts" to true,
-    "settings.gradle" to true,
-    "settings.gradle.kts" to true,
-)
-
-suspend fun isFreestyle(username: String, jobName: String): Boolean = withContext(Dispatchers.IO) {
-    val github = json.parseToJsonElement(github(username, jobName).body()).jsonObject
-    val defaultBranch = github["default_branch"]?.jsonPrimitive?.contentOrNull ?: "master"
-
-    for ((file, freestyle) in freestyleMappings) {
-        val response = req("https://raw.githubusercontent.com/$username/$jobName/$defaultBranch/$file")
-
-        when (response.statusCode()) {
-            200 -> return@withContext freestyle
-            404 -> continue
-            else -> return@withContext false
-        }
+fun triggerBuild(username: String, jobName: String): Boolean {
+    val status = client.api().jobsApi().build("/", "$username/job/$jobName")
+    if (status.errors().isNotEmpty()) {
+        println(status.errors())
+        return false
     }
 
-    return@withContext true
+    return true
+}
+
+@VisibleForTesting
+internal fun isBuilding(username: String, jobName: String): Boolean {
+    val job = client.api().jobsApi().jobInfo("/", "$username/job/$jobName")
+    return (job.color() ?: "").contains("anime") || job.inQueue() || (job.lastBuild()?.building() ?: false)
+}
+
+fun deleteUser(username: String): Boolean {
+    val status = client.api().jobsApi().delete("/", username)
+
+    if (status.errors().isNotEmpty())
+        println(status.errors())
+
+    return status.value()
+}
+
+fun deleteJob(username: String, jobName: String): Boolean {
+    val status = client.api().jobsApi().delete("/", "$username/job/$jobName")
+
+    if (status.errors().isNotEmpty())
+        println(status.errors())
+
+    return status.value()
+}
+
+private val nonFreestyles = listOf(
+    "pom.xml",
+    "dependency-reduced-pom.xml"
+)
+
+suspend fun isFreestyle(url: String): Boolean = withContext(Dispatchers.IO) {
+    !filesExists(url, nonFreestyles)
 }
