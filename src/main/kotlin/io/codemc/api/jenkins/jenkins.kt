@@ -45,8 +45,7 @@ fun createJenkinsUser(username: String, password: String): Boolean {
     return status.value()
 }
 
-@VisibleForTesting
-internal fun getJenkinsUser(username: String): String {
+fun getJenkinsUser(username: String): String {
     val user = client.api().jobsApi().config("/", username)
     return user ?: ""
 }
