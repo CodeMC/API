@@ -10,15 +10,6 @@
             <assignDescription>false</assignDescription>
             <descriptionTemplate/>
         </jenkins.plugins.maveninfo.config.MavenInfoJobConfig>
-        <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.39.0">
-            <projectUrl>{PROJECT_URL}</projectUrl>
-            <displayName/>
-        </com.coravy.hudson.plugins.github.GithubProjectProperty>
-        <com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty plugin="gitlab-plugin@1.8.1">
-            <gitLabConnection/>
-            <jobCredentialId/>
-            <useAlternativeCredential>false</useAlternativeCredential>
-        </com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty>
     </properties>
     <scm class="hudson.plugins.git.GitSCM" plugin="git@5.2.2">
         <configVersion>2</configVersion>

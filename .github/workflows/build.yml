@@ -25,7 +25,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    needs: setup
+#    needs: setup
 
     name: Test Project
     steps:
