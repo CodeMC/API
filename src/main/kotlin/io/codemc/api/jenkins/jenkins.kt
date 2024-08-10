@@ -50,6 +50,9 @@ fun getJenkinsUser(username: String): String {
     return user ?: ""
 }
 
+fun getAllJenkinsUsers(): List<String>
+    = client.api().jobsApi().jobList("/").jobs().map { it.name() }
+
 fun createJenkinsJob(username: String, jobName: String, repoLink: String, isFreestyle: Boolean): Boolean {
     val template = (if (isFreestyle) RESOURCE_CACHE[JOB_FREESTYLE] else RESOURCE_CACHE[JOB_MAVEN])
         ?.replace("{PROJECT_URL}", repoLink) ?: return false
