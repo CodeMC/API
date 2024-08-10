@@ -69,6 +69,11 @@ internal fun getJenkinsJob(username: String, jobName: String): String {
     return job ?: ""
 }
 
+fun getJobInfo(username: String, jobName: String): JenkinsJob? {
+    val job = client.api().jobsApi().jobInfo("/", "$username/job/$jobName")
+    return if (job == null) null else JenkinsJob(job)
+}
+
 fun triggerBuild(username: String, jobName: String): Boolean {
     val status = client.api().jobsApi().build("/", "$username/job/$jobName")
     if (status.errors().isNotEmpty()) {
