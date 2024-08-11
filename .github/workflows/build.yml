@@ -28,6 +28,7 @@ jobs:
     needs: setup
 
     permissions:
+      statuses: write
       pull-requests: write
 
     name: Test Project
