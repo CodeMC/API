@@ -110,8 +110,7 @@ internal suspend fun getRepositories(): List<JsonObject> {
     return json.decodeFromString(text)
 }
 
-@VisibleForTesting
-internal suspend fun getNexusRepository(name: String): JsonObject? {
+suspend fun getNexusRepository(name: String): JsonObject? {
     val res = nexus("$API_URL/repositories/$name")
     if (res.statusCode() == 404) return null
 

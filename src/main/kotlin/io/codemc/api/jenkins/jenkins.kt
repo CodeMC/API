@@ -50,6 +50,9 @@ fun getJenkinsUser(username: String): String {
     return user ?: ""
 }
 
+fun getAllJenkinsUsers(): List<String>
+    = client.api().jobsApi().jobList("/").jobs().map { it.name() }
+
 fun createJenkinsJob(username: String, jobName: String, repoLink: String, isFreestyle: Boolean): Boolean {
     val template = (if (isFreestyle) RESOURCE_CACHE[JOB_FREESTYLE] else RESOURCE_CACHE[JOB_MAVEN])
         ?.replace("{PROJECT_URL}", repoLink) ?: return false
@@ -67,6 +70,11 @@ fun createJenkinsJob(username: String, jobName: String, repoLink: String, isFree
 internal fun getJenkinsJob(username: String, jobName: String): String {
     val job = client.api().jobsApi().config("/", "$username/job/$jobName")
     return job ?: ""
+}
+
+fun getJobInfo(username: String, jobName: String): JenkinsJob? {
+    val job = client.api().jobsApi().jobInfo("/", "$username/job/$jobName")
+    return if (job == null) null else JenkinsJob(job)
 }
 
 fun triggerBuild(username: String, jobName: String): Boolean {
