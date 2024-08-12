@@ -110,6 +110,8 @@ publishing {
                 password = System.getenv("JENKINS_PASSWORD")
             }
 
+            isAllowInsecureProtocol = true
+
             val releases = "https://repo.codemc.io/repository/maven-releases/"
             val snapshots = "https://repo.codemc.io/repository/maven-snapshots/"
             url = uri(project.findProperty("repositoryURL") ?: if (version.toString().endsWith("SNAPSHOT")) snapshots else releases)
