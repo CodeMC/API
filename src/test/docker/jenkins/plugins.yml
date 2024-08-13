@@ -1,10 +1,21 @@
 plugins:
+  - artifactId: configuration-as-code
+  - artifactId: configuration-as-code-groovy
+  - artifactId: git
+  - artifactId: github
   - artifactId: json-path-api
+  - artifactId: gradle
+  - artifactId: maven-info
   - artifactId: maven-plugin
+  - artifactId: pipeline-maven
   - artifactId: cloudbees-credentials
   - artifactId: cloudbees-folder
-  - artifactId: configuration-as-code
   - artifactId: workflow-aggregator
   - artifactId: badge
   - artifactId: github-oauth
   - artifactId: credentials
+  - artifactId: credentials-binding
+  - artifactId: build-timeout
+  - artifactId: config-file-provider
+  - artifactId: matrix-auth
+  - artifactId: token-macro

@@ -1,6 +1,5 @@
 import hudson.markup.RawHtmlMarkupFormatter
 import hudson.security.HudsonPrivateSecurityRealm
-import hudson.security.FullControlOnceLoggedInAuthorizationStrategy
 import hudson.security.csrf.DefaultCrumbIssuer
 import jenkins.model.Jenkins
 
