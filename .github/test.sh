@@ -2,14 +2,16 @@
 
 # Build Docker
 
+docker network create codemc
+
 docker build -t codemc/mariadb src/test/docker/mariadb
-docker run -d -p 3306:3306 --name mariadb codemc/mariadb
+docker run -d -p 3306:3306 --name mariadb --network codemc codemc/mariadb
 
 docker build -t codemc/jenkins src/test/docker/jenkins
-docker run -d -p 8080:8080 --name jenkins-rest codemc/jenkins
+docker run -d -p 8080:8080 --name jenkins-rest --network codemc codemc/jenkins
 
 docker build -t codemc/nexus src/test/docker/nexus
-docker run -d -p 8081:8081 --name nexus-rest codemc/nexus
+docker run -d -p 8081:8081 --name nexus-rest --network codemc codemc/nexus
 
 # Wait for Services
 

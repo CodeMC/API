@@ -55,6 +55,8 @@ jobs:
           
           docker stop mariadb
           docker rm mariadb
+          
+          docker network rm codemc
       - name: Collect JaCoCo Report
         if: ${{ github.event_name != 'pull_request' }}
         id: jacoco_reporter
