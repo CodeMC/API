@@ -2,8 +2,7 @@ package io.codemc.api.jenkins
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
@@ -14,8 +13,8 @@ class TestJenkins {
         init {
             jenkinsConfig = JenkinsConfig(
                 url = "http://localhost:8080",
-                username = "",
-                password = ""
+                username = "admin",
+                password = "00000000000000000000000000000000"
             )
         }
 
@@ -29,15 +28,40 @@ class TestJenkins {
 
     @Test
     fun testCreateJenkinsUser() {
-        assertTrue(createJenkinsUser("test", "test_password"))
-        assertTrue(getJenkinsUser("test").isNotEmpty())
-        assertTrue(deleteUser("test"))
-        assertTrue(getJenkinsUser("test").isEmpty())
+        val u1 = "test"
+        assertTrue(createJenkinsUser(u1, "test_password"))
+        assertTrue(getJenkinsUser(u1).isNotEmpty())
+        assertTrue(deleteUser(u1))
+        assertTrue(getJenkinsUser(u1).isEmpty())
 
-        assertTrue(createJenkinsUser("MyPlayer123", "MyPassword456"))
-        assertTrue(getJenkinsUser("MyPlayer123").isNotEmpty())
-        assertTrue(deleteUser("MyPlayer123"))
-        assertTrue(getJenkinsUser("MyPlayer123").isEmpty())
+        val u2 = "MyPlayer123"
+        assertTrue(createJenkinsUser(u2, "MyPassword456"))
+        assertTrue(getJenkinsUser(u2).isNotEmpty())
+        assertTrue(deleteUser(u2))
+        assertTrue(getJenkinsUser(u2).isEmpty())
+    }
+
+    @Test
+    fun testCreateMultipleJenkinsUsers() {
+        val users = listOf(
+            "User1",
+            "user2",
+            "Player2",
+            "MyAuthor66_",
+            "XxCrazyDudeXX"
+        )
+
+        users.forEach { user ->
+            assertTrue(createJenkinsUser(user, "${user}_password"))
+            assertTrue(getJenkinsUser(user).isNotEmpty())
+        }
+
+        assertTrue(getAllJenkinsUsers().size >= users.size) // For Concurrent Tests
+
+        users.forEach { user ->
+            assertTrue(deleteUser(user))
+            assertTrue(getJenkinsUser(user).isEmpty())
+        }
     }
 
     @Test
@@ -48,21 +72,33 @@ class TestJenkins {
         assertTrue(createJenkinsUser(name, "TestPassword"))
         assertTrue(getJenkinsUser(name).isNotEmpty())
 
-        assertTrue(createJenkinsJob(name, "TestJob_Freestyle", url, true))
-        assertTrue(getJenkinsJob(name, "TestJob_Freestyle").isNotEmpty())
+        val j1 = "TestJob_Freestyle"
+        assertTrue(createJenkinsJob(name, j1, url, true))
+        assertTrue(getJenkinsJob(name, j1).isNotEmpty())
 
-        assertTrue(createJenkinsJob(name, "TestJob2_Freestyle", url, true))
-        assertTrue(getJenkinsJob(name, "TestJob2_Freestyle").isNotEmpty())
-        assertTrue(deleteJob(name, "TestJob2_Freestyle"))
-        assertTrue(getJenkinsJob(name, "TestJob2_Freestyle").isEmpty())
+        val i1 = getJobInfo(name, j1)
+        assertNotNull(i1)
+        assertNotNull(i1?.url)
 
-        assertTrue(createJenkinsJob(name, "TestJob_Maven", url, false))
-        assertTrue(getJenkinsJob(name, "TestJob_Maven").isNotEmpty())
+        val j2 = "TestJob2_Freestyle"
+        assertTrue(createJenkinsJob(name, j2, url, true))
+        assertTrue(getJenkinsJob(name, j2).isNotEmpty())
+        assertTrue(deleteJob(name, j2))
+        assertTrue(getJenkinsJob(name, j2).isEmpty())
 
-        assertTrue(createJenkinsJob(name, "TestJob2_Maven", url, false))
-        assertTrue(getJenkinsJob(name, "TestJob2_Maven").isNotEmpty())
-        assertTrue(deleteJob(name, "TestJob2_Maven"))
-        assertTrue(getJenkinsJob(name, "TestJob2_Maven").isEmpty())
+        val j3 = "TestJob_Maven"
+        assertTrue(createJenkinsJob(name, j3, url, false))
+        assertTrue(getJenkinsJob(name, j3).isNotEmpty())
+
+        val i3 = getJobInfo(name, j3)
+        assertNotNull(i3)
+        assertNotNull(i3?.url)
+
+        val j4 = "TestJob2_Maven"
+        assertTrue(createJenkinsJob(name, j4, url, false))
+        assertTrue(getJenkinsJob(name, j4).isNotEmpty())
+        assertTrue(deleteJob(name, j4))
+        assertTrue(getJenkinsJob(name, j4).isEmpty())
 
         assertTrue(deleteUser(name))
         assertTrue(getJenkinsUser(name).isEmpty())

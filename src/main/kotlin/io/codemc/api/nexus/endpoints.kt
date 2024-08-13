@@ -34,5 +34,6 @@ internal fun getNexusRoles(name: String): List<String> = listOf(
     "nx-search-read",
     "nx-repository-view-*-*-read",
     "nx-repository-view-*-*-browse",
-    "nx-repository-admin-maven2-$name-edit"
+    "nx-repository-view-maven2-$name-add",
+    "nx-repository-view-maven2-$name-edit",
 )

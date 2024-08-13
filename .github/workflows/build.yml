@@ -28,7 +28,7 @@ jobs:
     needs: setup
 
     permissions:
-      statuses: write
+      checks: write
       pull-requests: write
 
     name: Test Project
@@ -40,34 +40,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: 'gradle'
+      - name: Load Docker Cache
+        uses: jpribyl/action-docker-layer-caching@v0.1.1
+        continue-on-error: true
       - name: Change Permissions
         run: chmod +x ./gradlew
-      - name: Setup Servers
-        run: |
-          docker build -t nexus-rest/nexus src/test/docker/nexus
-          docker run -d -p 8081:8081 --name nexus-rest nexus-rest/nexus
-          
-          docker build -t jenkins-rest/jenkins src/test/docker/jenkins
-          docker run -d -p 8080:8080 --name jenkins-rest jenkins-rest/jenkins
-      - name: Wait for Jenkins
-        run: |
-          echo "Waiting for Jenkins to be ready..."
-          sleep 60
-          until curl -s http://localhost:8080 | grep "Dashboard"; do
-            sleep 10
-          done
-      - name: Wait for Nexus
-        run: |
-          echo "Waiting for Nexus to be ready..."
-          sleep 60
-          until curl -s http://localhost:8081; do
-            sleep 10
-          done
       - name: Gradle Test
-        run: |
-          docker cp nexus-rest:/nexus-data/admin.password /tmp/admin.password
-          ./gradlew test
-          rm -rf /tmp/admin.password
+        run: bash .github/test.sh
       - name: Stop Servers
         if: success() || failure()
         run: |
@@ -76,6 +55,11 @@ jobs:
 
           docker stop nexus-rest
           docker rm nexus-rest
+          
+          docker stop mariadb
+          docker rm mariadb
+          
+          docker network rm codemc
       - name: Collect JaCoCo Report
         if: ${{ github.event_name != 'pull_request' }}
         id: jacoco_reporter

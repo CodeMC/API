@@ -25,6 +25,9 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
     implementation("io.github.cdancy:jenkins-rest:1.0.2")
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.4.1")
+    implementation("org.jetbrains.exposed:exposed-core:0.53.0")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.53.0")
 
     testImplementation(kotlin("test"))
 }
@@ -107,9 +110,11 @@ publishing {
                 password = System.getenv("JENKINS_PASSWORD")
             }
 
+            isAllowInsecureProtocol = true
+
             val releases = "https://repo.codemc.io/repository/maven-releases/"
             val snapshots = "https://repo.codemc.io/repository/maven-snapshots/"
-            url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshots else releases)
+            url = uri(project.findProperty("repositoryURL") ?: if (version.toString().endsWith("SNAPSHOT")) snapshots else releases)
         }
     }
 }

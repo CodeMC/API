@@ -8,7 +8,7 @@ data class JenkinsJob(
     val url: String?,
     val description: String?,
     val lastBuild: JenkinsBuild?,
-    val lastCompleteBuild: JenkinsBuild?,
+    val lastCompletedBuild: JenkinsBuild?,
     val lastFailedBuild: JenkinsBuild?,
     val lastStableBuild: JenkinsBuild?
 ) {
@@ -35,7 +35,7 @@ data class JenkinsBuild(
 
     constructor(info: BuildInfo) : this(
         info.result() ?: "Unknown",
-        info.number(),
+        info.number() + 1,
         info.url(),
         info.timestamp()
     )

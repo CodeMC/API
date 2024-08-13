@@ -7,12 +7,16 @@ import kotlinx.coroutines.withContext
 const val JOB_FREESTYLE = "job-freestyle"
 const val JOB_MAVEN = "job-maven"
 const val USER_CONFIG = "user-config"
+const val CREDENTIALS = "credentials"
+const val CREDENTIALS_DOMAIN = "credentials-domain"
 
 val RESOURCE_CACHE = mutableMapOf<String, String>()
 private val resources = mapOf(
     "/templates/jenkins/job-freestyle.xml" to JOB_FREESTYLE,
     "/templates/jenkins/job-maven.xml" to JOB_MAVEN,
     "/templates/jenkins/user-config.xml" to USER_CONFIG,
+    "/templates/jenkins/credentials.xml" to CREDENTIALS,
+    "/templates/jenkins/credentials-domain.xml" to CREDENTIALS_DOMAIN
 )
 
 suspend fun loadResources() = withContext(Dispatchers.IO) {

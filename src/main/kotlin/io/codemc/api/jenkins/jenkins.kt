@@ -5,8 +5,10 @@ package io.codemc.api.jenkins
 import com.cdancy.jenkins.rest.JenkinsClient
 import io.codemc.api.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import org.jetbrains.annotations.VisibleForTesting
+import java.net.http.HttpRequest
 
 var jenkinsConfig: JenkinsConfig = JenkinsConfig("", "", "")
     set(value) {
@@ -32,17 +34,46 @@ data class JenkinsConfig(
 fun ping(): Boolean =
     client.api().systemApi().systemInfo().jenkinsVersion() != null
 
-fun createJenkinsUser(username: String, password: String): Boolean {
-    val config0 = RESOURCE_CACHE[USER_CONFIG] ?: return false
+internal suspend fun createCredentials(username: String, password: String): Boolean {
+    // Create Credentials Domain
+    val domainConfig = RESOURCE_CACHE[CREDENTIALS_DOMAIN] ?: return false
+    val domain = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/createDomain") {
+        POST(HttpRequest.BodyPublishers.ofString(domainConfig))
+
+        header("Authorization", "Basic ${client.authValue()}")
+        header("Content-Type", "application/xml")
+    }
+
+    if (domain.statusCode() != 200) return false
+
+    // Create Credentials Store
+    val storeConfig = (RESOURCE_CACHE[CREDENTIALS] ?: return false)
+        .replace("{USERNAME}", username.lowercase())
+        .replace("{PASSWORD}", password)
+
+    val store = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/createCredentials") {
+        POST(HttpRequest.BodyPublishers.ofString(storeConfig))
+
+        header("Authorization", "Basic ${client.authValue()}")
+        header("Content-Type", "application/xml")
+    }
+
+    return store.statusCode() == 200
+}
+
+fun createJenkinsUser(username: String, password: String): Boolean = runBlocking(Dispatchers.IO) {
+    val config0 = RESOURCE_CACHE[USER_CONFIG] ?: return@runBlocking false
+
     val config = config0
         .replace("{USERNAME}", username)
-        .replace("{PASSWORD}", password)
     val status = client.api().jobsApi().create("/", username, config)
 
     if (status.errors().isNotEmpty())
         println(status.errors())
 
-    return status.value()
+    if (!status.value()) return@runBlocking false
+
+    return@runBlocking createCredentials(username, password)
 }
 
 fun getJenkinsUser(username: String): String {
@@ -53,12 +84,19 @@ fun getJenkinsUser(username: String): String {
 fun getAllJenkinsUsers(): List<String>
     = client.api().jobsApi().jobList("/").jobs().map { it.name() }
 
-fun createJenkinsJob(username: String, jobName: String, repoLink: String, isFreestyle: Boolean): Boolean {
+@JvmOverloads
+fun createJenkinsJob(
+    username: String,
+    jobName: String,
+    repoLink: String,
+    isFreestyle: Boolean,
+    config: (String) -> String = { it }
+): Boolean {
     val template = (if (isFreestyle) RESOURCE_CACHE[JOB_FREESTYLE] else RESOURCE_CACHE[JOB_MAVEN])
         ?.replace("{PROJECT_URL}", repoLink) ?: return false
 
     // Jenkins will automatically add job to the URL
-    val status = client.api().jobsApi().create(username, jobName, template)
+    val status = client.api().jobsApi().create(username, jobName, config(template))
 
     if (status.errors().isNotEmpty())
         println(status.errors())

@@ -45,6 +45,7 @@ suspend fun ping(): Boolean {
 @OptIn(ExperimentalSerializationApi::class)
 suspend fun createNexus(name: String, password: String) = withContext(Dispatchers.IO) {
     // Create User Repository
+    val id = name.lowercase()
     val repo = createMavenRepository(name)
     val repoResponse = nexus("$API_URL/repositories/maven/hosted") {
         POST(HttpRequest.BodyPublishers.ofString(repo))
@@ -54,13 +55,12 @@ suspend fun createNexus(name: String, password: String) = withContext(Dispatcher
     if (repoResponse.statusCode() != 201) return@withContext false
 
     // Add Role
-    val roleId = name.lowercase()
     val role = buildJsonObject {
-        put("id", roleId)
+        put("id", id)
         put("name", name)
         put("description", "Role for $name")
         putJsonArray("privileges") {
-            addAll(getNexusRoles(roleId))
+            addAll(getNexusRoles(id))
         }
     }.toString()
 
@@ -73,14 +73,14 @@ suspend fun createNexus(name: String, password: String) = withContext(Dispatcher
 
     // Add User with Role
     val user = buildJsonObject {
-        put("userId", name)
+        put("userId", id)
         put("firstName", name)
         put("lastName", "User")
         put("emailAddress", "$name@users.noreply.github.com") // Can't actually receive mail
         put("status", "active")
         put("password", password)
         putJsonArray("roles") {
-            add(roleId)
+            add(id)
         }
     }.toString()
 
@@ -100,7 +100,7 @@ suspend fun deleteNexus(name: String) = withContext(Dispatchers.IO) {
     val roleRes = nexus("$API_URL/security/roles/$repoName") { DELETE() }
     if (roleRes.statusCode() != 204) return@withContext false
 
-    val userRes = nexus("$API_URL/security/users/$name") { DELETE() }
+    val userRes = nexus("$API_URL/security/users/$repoName") { DELETE() }
     return@withContext userRes.statusCode() == 204
 }
 
@@ -115,6 +115,13 @@ suspend fun getNexusRepository(name: String): JsonObject? {
     if (res.statusCode() == 404) return null
 
     return json.decodeFromString(res.body())
+}
+
+suspend fun getNexusUser(name: String): JsonObject? {
+    val res = nexus("$API_URL/security/users?userId=$name")
+    if (res.statusCode() == 404) return null
+
+    return (json.decodeFromString(res.body()) as? JsonArray)?.firstOrNull() as? JsonObject
 }
 
 @VisibleForTesting

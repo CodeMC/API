@@ -37,10 +37,14 @@ class TestNexus {
         val repoName = name.lowercase()
 
         assertTrue(createNexus(name, UUID.randomUUID().toString()))
+        assertFalse(getNexusUser(name).isNullOrEmpty())
+        assertTrue(getNexusUser("OtherName").isNullOrEmpty())
+        assertTrue(getRepositories().isNotEmpty())
         assertFalse(getNexusRepository(repoName).isNullOrEmpty())
         assertFalse(getNexusRole(repoName).isNullOrEmpty())
 
         assertTrue(deleteNexus(name))
+        assertTrue(getNexusUser(name).isNullOrEmpty())
         assertTrue(getNexusRepository(repoName).isNullOrEmpty())
         assertTrue(getNexusRole(repoName).isNullOrEmpty())
     }
