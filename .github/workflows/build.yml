@@ -40,6 +40,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: 'gradle'
+      - name: Load Docker Cache
+        uses: jpribyl/action-docker-layer-caching@v0.1.1
+        continue-on-error: true
       - name: Change Permissions
         run: chmod +x ./gradlew
       - name: Gradle Test
