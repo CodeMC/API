@@ -4,10 +4,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import java.net.http.HttpRequest
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 
 class TestNetwork {
 
@@ -26,6 +26,15 @@ class TestNetwork {
 
         val json = json.parseToJsonElement(data).jsonObject
         assertEquals(json["data"]?.jsonPrimitive?.content, "Hello World!")
+
+        val r3 = req("https://httpbin.org/delete") { DELETE() }
+        assertEquals(r3.statusCode(), 200)
+
+        val statuses = listOf(200, 201, 202, 204, 400, 401, 403, 404, 500, 503)
+        for (status in statuses) {
+            val r = req("https://httpbin.org/status/$status")
+            assertEquals(r.statusCode(), status)
+        }
     }
 
 }
