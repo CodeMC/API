@@ -84,6 +84,7 @@ fun getJenkinsUser(username: String): String {
 fun getAllJenkinsUsers(): List<String>
     = client.api().jobsApi().jobList("/").jobs().map { it.name() }
 
+@JvmOverloads
 fun createJenkinsJob(
     username: String,
     jobName: String,
