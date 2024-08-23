@@ -8,6 +8,11 @@ import kotlinx.serialization.json.putJsonObject
 
 // Fields
 
+/**
+ * The Root API URl for the Nexus instance.
+ *
+ * Usually `https://<nexus-url>/service/rest/v1`.
+ */
 val API_URL
     get() = "${nexusConfig.url}/service/rest/v1"
 

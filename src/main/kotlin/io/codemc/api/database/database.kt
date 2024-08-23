@@ -10,17 +10,33 @@ private val config: DatabaseConfig = DatabaseConfig {
     defaultMaxAttempts = 5
 }
 
+/**
+ * The [DBConfig] instance.
+ */
 var dbConfig: DBConfig = DBConfig("", "", "")
 
+/**
+ * The MariaDB configuration.
+ * @param url The URl to the database.
+ * @param username The username into the database.
+ * @param password The password into the database.
+ */
 data class DBConfig(
     val url: String,
     val username: String,
     val password: String
 )
 
+/**
+ * Represents the database connection.
+ */
 lateinit var database: Database
     private set
 
+/**
+ * Attempts to connect to the database.
+ * @return The new [database] value
+ */
 fun connect(): Database {
     database = Database.connect(
         url = dbConfig.url,
@@ -32,6 +48,12 @@ fun connect(): Database {
     return database
 }
 
+/**
+ * Adds a user to the database.
+ * @param username The username of the jenkins user
+ * @param discord The Discord ID of the jenkins user
+ * @return The result of the `INSERT` statement.
+ */
 fun addUser(
     username: String,
     discord: Long
@@ -44,6 +66,11 @@ fun addUser(
     }
 }
 
+/**
+ * Gets a [User] by its jenkins username.
+ * @param username The username to lookup
+ * @return The user mapped to the jenkins username, or `null` if not found
+ */
 fun getUser(
     username: String
 ): User? = transaction(database) {
@@ -52,11 +79,21 @@ fun getUser(
         .firstOrNull()
 }
 
+/**
+ * Gets all users currently linked in the database.
+ * @return All users in the database
+ */
 fun getAllUsers(): List<User> = transaction(database) {
     Users.selectAll()
         .map { row -> User(row[Users.username], row[Users.discord]) }
 }
 
+/**
+ * Updates the user linked in the database.
+ * @param username The jenkins user to update
+ * @param discord The new Discord ID mapped to the user
+ * @return `1` if updated, else `0`
+ */
 fun updateUser(
     username: String,
     discord: Long
@@ -66,12 +103,21 @@ fun updateUser(
     }
 }
 
+/**
+ * Removes a user from the database.
+ * @param username The jenkins user to remove
+ * @return `1` if removed, else `0`
+ */
 fun removeUser(
     username: String
 ) = transaction(database) {
     Users.deleteWhere { Users.username eq username }
 }
 
+/**
+ * Removes all users from the database.
+ * @return The count of deleted members
+ */
 fun removeAllUsers() = transaction(database) {
     Users.deleteAll()
 }

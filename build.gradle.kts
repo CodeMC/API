@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "2.0.20"
+    id("org.jetbrains.dokka") version "1.9.20"
     id("io.github.goooler.shadow") version "8.1.8"
 
     java
@@ -40,6 +41,10 @@ java {
 }
 
 tasks {
+    clean {
+        delete("bin")
+    }
+
     withType<KotlinCompile> {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
