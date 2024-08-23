@@ -23,7 +23,7 @@ class TestOverall {
             val jenkins = JenkinsConfig(
                 url = "http://localhost:8080",
                 username = "admin",
-                password = "00000000000000000000000000000000"
+                token = "00000000000000000000000000000000"
             )
 
             val nexus = NexusConfig(

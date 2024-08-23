@@ -14,7 +14,7 @@ class TestJenkins {
             jenkinsConfig = JenkinsConfig(
                 url = "http://localhost:8080",
                 username = "admin",
-                password = "00000000000000000000000000000000"
+                token = "00000000000000000000000000000000"
             )
         }
 
@@ -117,6 +117,22 @@ class TestJenkins {
 
         val u4 = "https://gitlab.com/gitlab-examples/maven/simple-maven-app.git/"
         assertFalse(isFreestyle(u4))
+    }
+
+    @Test
+    fun testChangePassword() = runBlocking(Dispatchers.IO) {
+        val name = "OldUser788"
+
+        val p1 = "OldPassword123"
+        assertTrue(createJenkinsUser(name, p1))
+        assertTrue(getJenkinsUser(name).isNotEmpty())
+
+        val p2 = "NewPassword456"
+        assertTrue(changeJenkinsPassword(name, p2))
+        assertTrue(getJenkinsUser(name).isNotEmpty())
+
+        assertTrue(deleteUser(name))
+        assertTrue(getJenkinsUser(name).isEmpty())
     }
 
 }

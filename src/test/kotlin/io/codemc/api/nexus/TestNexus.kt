@@ -49,4 +49,20 @@ class TestNexus {
         assertTrue(getNexusRole(repoName).isNullOrEmpty())
     }
 
+    @Test
+    fun testChangePassword() = runBlocking(Dispatchers.IO) {
+        val name = "OldUser123"
+
+        val p1 = "OldPass987"
+        assertTrue(createNexus(name, p1))
+        assertFalse(getNexusUser(name).isNullOrEmpty())
+
+        val p2 = "NewPass654"
+        assertTrue(changeNexusPassword(name, p2))
+        assertFalse(getNexusUser(name).isNullOrEmpty())
+
+        assertTrue(deleteNexus(name))
+        assertTrue(getNexusUser(name).isNullOrEmpty())
+    }
+
 }
