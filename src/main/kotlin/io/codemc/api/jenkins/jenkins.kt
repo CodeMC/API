@@ -29,9 +29,9 @@ private lateinit var client: JenkinsClient
 
 /**
  * The Jenkins configuration.
- * @param url The URL to the Jenkins Instance.
- * @param username The Jenkins username.
- * @param token The Jenkins API token.
+ * @property url The URL to the Jenkins Instance.
+ * @property username The Jenkins username.
+ * @property token The Jenkins API token.
  */
 data class JenkinsConfig(
     val url: String,

@@ -16,9 +16,9 @@ import java.util.*
 
 /**
  * The Nexus configuration.
- * @param url The URL to the Nexus Instance.
- * @param username The username of the admin user.
- * @parma password The password of the admin user.
+ * @property url The URL to the Nexus Instance.
+ * @property username The username of the admin user.
+ * @property password The password of the admin user.
  */
 data class NexusConfig(
     val url: String,

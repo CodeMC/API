@@ -17,9 +17,9 @@ var dbConfig: DBConfig = DBConfig("", "", "")
 
 /**
  * The MariaDB configuration.
- * @param url The URl to the database.
- * @param username The username into the database.
- * @param password The password into the database.
+ * @property url The URl to the database.
+ * @property username The username into the database.
+ * @property password The password into the database.
  */
 data class DBConfig(
     val url: String,
