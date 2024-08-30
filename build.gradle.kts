@@ -27,7 +27,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.2")
     implementation("io.github.cdancy:jenkins-rest:1.0.2")
     implementation("org.mariadb.jdbc:mariadb-java-client:3.4.1")
-    implementation("org.jetbrains.exposed:exposed-core:0.53.0")
+    implementation("org.jetbrains.exposed:exposed-core:0.54.0")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.53.0")
 
     testImplementation(kotlin("test"))
