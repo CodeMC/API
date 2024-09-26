@@ -28,7 +28,7 @@ dependencies {
     implementation("io.github.cdancy:jenkins-rest:1.0.2")
     implementation("org.mariadb.jdbc:mariadb-java-client:3.4.1")
     implementation("org.jetbrains.exposed:exposed-core:0.55.0")
-    implementation("org.jetbrains.exposed:exposed-jdbc:0.54.0")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.55.0")
 
     testImplementation(kotlin("test"))
 }
