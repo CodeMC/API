@@ -3,11 +3,15 @@
 package io.codemc.api
 
 import io.codemc.api.database.DBConfig
+import io.codemc.api.database.connect
 import io.codemc.api.database.dbConfig
 import io.codemc.api.jenkins.JenkinsConfig
 import io.codemc.api.jenkins.jenkinsConfig
 import io.codemc.api.nexus.NexusConfig
 import io.codemc.api.nexus.nexusConfig
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 /**
  * Initializes the CodeMC API.
@@ -15,14 +19,20 @@ import io.codemc.api.nexus.nexusConfig
  * @param nexus The Nexus configuration.
  * @param db The database configuration.
  */
-suspend fun initialize(
+fun initialize(
     jenkins: JenkinsConfig,
     nexus: NexusConfig,
     db: DBConfig
-) {
-    loadResources()
+) = runBlocking {
+    launch {
+        loadResources()
+    }
 
     jenkinsConfig = jenkins
     nexusConfig = nexus
-    dbConfig = db
+
+    launch {
+        dbConfig = db
+        connect()
+    }
 }

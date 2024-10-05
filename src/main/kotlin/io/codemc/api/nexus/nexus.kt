@@ -5,6 +5,7 @@ package io.codemc.api.nexus
 import io.codemc.api.json
 import io.codemc.api.req
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.*
@@ -63,9 +64,9 @@ suspend fun nexus(url: String, request: HttpRequest.Builder.() -> Unit = { GET()
  * Pings the Nexus Instance.
  * @return `true` if currently available, `false` otherwise
  */
-suspend fun ping(): Boolean {
+fun ping(): Boolean = runBlocking {
     val text = nexus("$API_URL/status")
-    return text.statusCode() == 200
+    return@runBlocking text.statusCode() == 200
 }
 
 /**
@@ -77,7 +78,7 @@ suspend fun ping(): Boolean {
  * @return `true` if successfully created, `false` otherwise.
  */
 @OptIn(ExperimentalSerializationApi::class)
-suspend fun createNexus(name: String, password: String) = withContext(Dispatchers.IO) {
+fun createNexus(name: String, password: String) = runBlocking(Dispatchers.IO) {
     // Create User Repository
     val id = name.lowercase()
     val repo = createMavenRepository(name)
@@ -86,7 +87,7 @@ suspend fun createNexus(name: String, password: String) = withContext(Dispatcher
         header("Content-Type", "application/json")
     }
 
-    if (repoResponse.statusCode() != 201) return@withContext false
+    if (repoResponse.statusCode() != 201) return@runBlocking false
 
     // Add Role
     val role = buildJsonObject {
@@ -103,7 +104,7 @@ suspend fun createNexus(name: String, password: String) = withContext(Dispatcher
         header("Content-Type", "application/json")
     }
 
-    if (roleReq.statusCode() != 200) return@withContext false
+    if (roleReq.statusCode() != 200) return@runBlocking false
 
     // Add User with Role
     val user = buildJsonObject {
@@ -122,7 +123,7 @@ suspend fun createNexus(name: String, password: String) = withContext(Dispatcher
         POST(HttpRequest.BodyPublishers.ofString(user))
         header("Content-Type", "application/json")
     }
-    return@withContext userRes.statusCode() == 200
+    return@runBlocking userRes.statusCode() == 200
 }
 
 /**
@@ -131,7 +132,7 @@ suspend fun createNexus(name: String, password: String) = withContext(Dispatcher
  * @param newPassword The new password for the user
  * @return `true` if the change was successful, `false` otherwise
  */
-suspend fun changeNexusPassword(name: String, newPassword: String) = withContext(Dispatchers.IO) {
+fun changeNexusPassword(name: String, newPassword: String) = runBlocking(Dispatchers.IO) {
     val id = name.lowercase()
     val res = nexus("$API_URL/security/users/$id/change-password") {
         PUT(HttpRequest.BodyPublishers.ofString(newPassword))
@@ -139,7 +140,7 @@ suspend fun changeNexusPassword(name: String, newPassword: String) = withContext
         header("Content-Type", "text/plain")
     }
 
-    return@withContext res.statusCode() == 204
+    return@runBlocking res.statusCode() == 204
 }
 
 /**

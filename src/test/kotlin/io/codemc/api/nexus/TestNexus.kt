@@ -25,7 +25,7 @@ class TestNexus {
 
         @JvmStatic
         @BeforeAll
-        fun testPing() = runBlocking(Dispatchers.IO) {
+        fun testPing() {
             assertTrue(ping())
         }
 

@@ -1,7 +1,5 @@
 package io.codemc.api.jenkins
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -105,7 +103,7 @@ class TestJenkins {
     }
 
     @Test
-    fun testIsFreestyle() = runBlocking(Dispatchers.IO) {
+    fun testIsFreestyle() {
         val u1 = "https://github.com/CodeMC/API.git"
         assertTrue(isFreestyle(u1))
 
@@ -120,7 +118,7 @@ class TestJenkins {
     }
 
     @Test
-    fun testChangePassword() = runBlocking(Dispatchers.IO) {
+    fun testChangePassword() {
         val name = "OldUser788"
 
         val p1 = "OldPassword123"

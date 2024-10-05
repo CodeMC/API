@@ -94,8 +94,8 @@ internal suspend fun createCredentials(username: String, password: String): Bool
  * @param newPassword The new password.
  * @return `true` if the password was changed, `false` otherwise.
  */
-suspend fun changeJenkinsPassword(username: String, newPassword: String): Boolean {
-    val config = (RESOURCE_CACHE[CREDENTIALS] ?: return false)
+fun changeJenkinsPassword(username: String, newPassword: String): Boolean = runBlocking(Dispatchers.IO) {
+    val config = (RESOURCE_CACHE[CREDENTIALS] ?: return@runBlocking false)
         .replace("{ID}", NEXUS_CREDENTIALS_ID)
         .replace("{DESCRIPTION}", NEXUS_CREDENTIALS_DESCRIPTION)
         .replace("{USERNAME}", username.lowercase())
@@ -108,7 +108,7 @@ suspend fun changeJenkinsPassword(username: String, newPassword: String): Boolea
         header("Content-Type", "application/xml")
     }
 
-    return res.statusCode() == 200
+    return@runBlocking res.statusCode() == 200
 }
 
 /**
@@ -254,4 +254,4 @@ private val nonFreestyles = listOf(
  * @param url The URL to the Git repository.
  * @return `true` if the project is a freestyle project, `false` otherwise.
  */
-suspend fun isFreestyle(url: String): Boolean = !filesExists(url, nonFreestyles)
+fun isFreestyle(url: String): Boolean = runBlocking { !filesExists(url, nonFreestyles) }
