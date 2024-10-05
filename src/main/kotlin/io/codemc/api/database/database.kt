@@ -45,6 +45,12 @@ fun connect(): Database {
         databaseConfig = config
     )
 
+    transaction(database) {
+        val name = database.name
+        if (!SchemaUtils.listDatabases().contains(name))
+            SchemaUtils.createDatabase(name)
+    }
+
     return database
 }
 
