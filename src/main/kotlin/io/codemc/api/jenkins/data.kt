@@ -61,8 +61,8 @@ data class JenkinsBuild(
      * @see BuildInfo
      */
     constructor(info: BuildInfo) : this(
-        info.result() ?: "Unknown",
-        info.number() + 1,
+        info.result() ?: "UNKNOWN",
+        info.number(),
         info.url(),
         info.timestamp()
     )
