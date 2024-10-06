@@ -148,17 +148,17 @@ fun changeNexusPassword(name: String, newPassword: String) = runBlocking(Dispatc
  * @param name The name of the user to delete.
  * @return `true` if the deletion was successful, `false` otherwise
  */
-suspend fun deleteNexus(name: String) = withContext(Dispatchers.IO) {
+fun deleteNexus(name: String) = runBlocking(Dispatchers.IO) {
     val id = name.lowercase()
 
     val repoRes = nexus("$API_URL/repositories/$id") { DELETE() }
-    if (repoRes.statusCode() != 204) return@withContext false
+    if (repoRes.statusCode() != 204) return@runBlocking false
 
     val roleRes = nexus("$API_URL/security/roles/$id") { DELETE() }
-    if (roleRes.statusCode() != 204) return@withContext false
+    if (roleRes.statusCode() != 204) return@runBlocking false
 
     val userRes = nexus("$API_URL/security/users/$id") { DELETE() }
-    return@withContext userRes.statusCode() == 204
+    return@runBlocking userRes.statusCode() == 204
 }
 
 @VisibleForTesting
@@ -172,11 +172,11 @@ internal suspend fun getRepositories(): List<JsonObject> {
  * @param name The name of the nexus repository
  * @return The repository data in JSON format, or `null` if not found
  */
-suspend fun getNexusRepository(name: String): JsonObject? {
+fun getNexusRepository(name: String): JsonObject? = runBlocking {
     val res = nexus("$API_URL/repositories/$name")
-    if (res.statusCode() == 404) return null
+    if (res.statusCode() == 404) return@runBlocking null
 
-    return json.decodeFromString(res.body())
+    return@runBlocking json.decodeFromString(res.body())
 }
 
 /**
@@ -184,11 +184,11 @@ suspend fun getNexusRepository(name: String): JsonObject? {
  * @param name The name of the nexus user.
  * @return The User data in JSON format, or `null` if not found
  */
-suspend fun getNexusUser(name: String): JsonObject? {
+fun getNexusUser(name: String): JsonObject? = runBlocking {
     val res = nexus("$API_URL/security/users?userId=$name")
-    if (res.statusCode() == 404) return null
+    if (res.statusCode() == 404) return@runBlocking null
 
-    return (json.decodeFromString(res.body()) as? JsonArray)?.firstOrNull() as? JsonObject
+    return@runBlocking (json.decodeFromString(res.body()) as? JsonArray)?.firstOrNull() as? JsonObject
 }
 
 @VisibleForTesting
