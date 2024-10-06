@@ -95,6 +95,25 @@ internal suspend fun createCredentials(username: String, password: String): Bool
  * @return `true` if the password was changed, `false` otherwise.
  */
 fun changeJenkinsPassword(username: String, newPassword: String): Boolean = runBlocking(Dispatchers.IO) {
+    // Create Credentials Domain
+    val checkDomain = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/config.xml") {
+        GET()
+
+        header("Authorization", "Basic ${client.authValue()}")
+    }
+
+    if (checkDomain.statusCode() == 404) {
+        val domainConfig = RESOURCE_CACHE[CREDENTIALS_DOMAIN] ?: return@runBlocking false
+        val domain = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/createDomain") {
+            POST(HttpRequest.BodyPublishers.ofString(domainConfig))
+
+            header("Authorization", "Basic ${client.authValue()}")
+            header("Content-Type", "application/xml")
+        }
+
+        if (domain.statusCode() != 200) return@runBlocking false
+    }
+
     val config = (RESOURCE_CACHE[CREDENTIALS] ?: return@runBlocking false)
         .replace("{ID}", NEXUS_CREDENTIALS_ID)
         .replace("{DESCRIPTION}", NEXUS_CREDENTIALS_DESCRIPTION)
