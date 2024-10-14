@@ -80,6 +80,8 @@ fun addUser(
 fun getUser(
     username: String
 ): User? = transaction(database) {
+    if (!Users.exists()) return@transaction null
+
     Users.selectAll().where { Users.username eq username }
         .map { row -> User(row[Users.username], row[Users.discord]) }
         .firstOrNull()
@@ -90,6 +92,8 @@ fun getUser(
  * @return All users in the database
  */
 fun getAllUsers(): List<User> = transaction(database) {
+    if (!Users.exists()) return@transaction emptyList()
+
     Users.selectAll()
         .map { row -> User(row[Users.username], row[Users.discord]) }
 }
@@ -104,6 +108,8 @@ fun updateUser(
     username: String,
     discord: Long
 ) = transaction(database) {
+    if (!Users.exists()) return@transaction 0
+
     Users.update({ Users.username eq username }) { row ->
         row[Users.discord] = discord
     }
@@ -117,6 +123,7 @@ fun updateUser(
 fun removeUser(
     username: String
 ) = transaction(database) {
+    if (!Users.exists()) return@transaction 1
     Users.deleteWhere { Users.username eq username }
 }
 
@@ -125,5 +132,6 @@ fun removeUser(
  * @return The count of deleted members
  */
 fun removeAllUsers() = transaction(database) {
+    if (!Users.exists()) return@transaction 0
     Users.deleteAll()
 }
