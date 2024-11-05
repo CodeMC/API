@@ -46,6 +46,13 @@ data class NexusConfig(
  */
 lateinit var nexusConfig: NexusConfig
 
+/**
+ * Whether this HTTP Response is a success.
+ * @receiver The HTTP Response Code.
+ */
+val Int.isSuccess
+    get() = this in 200..299
+
 // Implementation
 
 /**
@@ -66,7 +73,7 @@ suspend fun nexus(url: String, request: HttpRequest.Builder.() -> Unit = { GET()
  */
 fun ping(): Boolean = runBlocking {
     val text = nexus("$API_URL/status")
-    return@runBlocking text.statusCode() == 200
+    return@runBlocking text.statusCode().isSuccess
 }
 
 /**
@@ -81,7 +88,6 @@ fun ping(): Boolean = runBlocking {
 fun createNexus(name: String, password: String) = runBlocking(Dispatchers.IO) {
     // Create User Repository
     val id = name.lowercase()
-
     if (getNexusRepository(id) == null) {
         val repo = createMavenRepository(name)
         val repoResponse = nexus("$API_URL/repositories/maven/hosted") {
@@ -89,7 +95,7 @@ fun createNexus(name: String, password: String) = runBlocking(Dispatchers.IO) {
             header("Content-Type", "application/json")
         }
 
-        if (repoResponse.statusCode() != 201) return@runBlocking false
+        if (!repoResponse.statusCode().isSuccess) return@runBlocking false
     }
 
     // Add Role
@@ -108,7 +114,7 @@ fun createNexus(name: String, password: String) = runBlocking(Dispatchers.IO) {
             header("Content-Type", "application/json")
         }
 
-        if (roleReq.statusCode() != 200) return@runBlocking false
+        if (!roleReq.statusCode().isSuccess) return@runBlocking false
     }
 
     // Add User with Role
@@ -130,8 +136,9 @@ fun createNexus(name: String, password: String) = runBlocking(Dispatchers.IO) {
             header("Content-Type", "application/json")
         }
 
-        if (userRes.statusCode() != 201) return@runBlocking false
+        if (!userRes.statusCode().isSuccess) return@runBlocking false
     }
+
     return@runBlocking true
 }
 
@@ -154,7 +161,7 @@ fun changeNexusPassword(name: String, newPassword: String) = runBlocking(Dispatc
         header("Content-Type", "text/plain")
     }
 
-    return@runBlocking res.statusCode() == 204
+    return@runBlocking res.statusCode().isSuccess
 }
 
 /**
@@ -172,7 +179,7 @@ fun deleteNexus(name: String) = runBlocking(Dispatchers.IO) {
     if (roleRes.statusCode() != 204) return@runBlocking false
 
     val userRes = nexus("$API_URL/security/users/$id") { DELETE() }
-    return@runBlocking userRes.statusCode() == 204
+    return@runBlocking userRes.statusCode().isSuccess
 }
 
 @VisibleForTesting
