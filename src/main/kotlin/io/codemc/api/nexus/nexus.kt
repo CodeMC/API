@@ -81,49 +81,58 @@ fun ping(): Boolean = runBlocking {
 fun createNexus(name: String, password: String) = runBlocking(Dispatchers.IO) {
     // Create User Repository
     val id = name.lowercase()
-    val repo = createMavenRepository(name)
-    val repoResponse = nexus("$API_URL/repositories/maven/hosted") {
-        POST(HttpRequest.BodyPublishers.ofString(repo))
-        header("Content-Type", "application/json")
-    }
 
-    if (repoResponse.statusCode() != 201) return@runBlocking false
+    if (getNexusRepository(id) == null) {
+        val repo = createMavenRepository(name)
+        val repoResponse = nexus("$API_URL/repositories/maven/hosted") {
+            POST(HttpRequest.BodyPublishers.ofString(repo))
+            header("Content-Type", "application/json")
+        }
+
+        if (repoResponse.statusCode() != 201) return@runBlocking false
+    }
 
     // Add Role
-    val role = buildJsonObject {
-        put("id", id)
-        put("name", name)
-        put("description", "Role for $name")
-        putJsonArray("privileges") {
-            addAll(getNexusRoles(id))
+    if (getNexusRole(id) == null) {
+        val role = buildJsonObject {
+            put("id", id)
+            put("name", name)
+            put("description", "Role for $name")
+            putJsonArray("privileges") {
+                addAll(getNexusRoles(id))
+            }
+        }.toString()
+
+        val roleReq = nexus("$API_URL/security/roles") {
+            POST(HttpRequest.BodyPublishers.ofString(role))
+            header("Content-Type", "application/json")
         }
-    }.toString()
 
-    val roleReq = nexus("$API_URL/security/roles") {
-        POST(HttpRequest.BodyPublishers.ofString(role))
-        header("Content-Type", "application/json")
+        if (roleReq.statusCode() != 200) return@runBlocking false
     }
-
-    if (roleReq.statusCode() != 200) return@runBlocking false
 
     // Add User with Role
-    val user = buildJsonObject {
-        put("userId", id)
-        put("firstName", name)
-        put("lastName", "User")
-        put("emailAddress", "$name@users.noreply.github.com") // Can't actually receive mail
-        put("status", "active")
-        put("password", password)
-        putJsonArray("roles") {
-            add(id)
-        }
-    }.toString()
+    if (getNexusUser(id) == null) {
+        val user = buildJsonObject {
+            put("userId", id)
+            put("firstName", name)
+            put("lastName", "User")
+            put("emailAddress", "$name@users.noreply.github.com") // Can't actually receive mail
+            put("status", "active")
+            put("password", password)
+            putJsonArray("roles") {
+                add(id)
+            }
+        }.toString()
 
-    val userRes = nexus("$API_URL/security/users") {
-        POST(HttpRequest.BodyPublishers.ofString(user))
-        header("Content-Type", "application/json")
+        val userRes = nexus("$API_URL/security/users") {
+            POST(HttpRequest.BodyPublishers.ofString(user))
+            header("Content-Type", "application/json")
+        }
+
+        if (userRes.statusCode() != 201) return@runBlocking false
     }
-    return@runBlocking userRes.statusCode() == 200
+    return@runBlocking true
 }
 
 /**
@@ -133,6 +142,11 @@ fun createNexus(name: String, password: String) = runBlocking(Dispatchers.IO) {
  * @return `true` if the change was successful, `false` otherwise
  */
 fun changeNexusPassword(name: String, newPassword: String) = runBlocking(Dispatchers.IO) {
+    if (getNexusUser(name) == null) {
+        createNexus(name, newPassword)
+        return@runBlocking true
+    }
+
     val id = name.lowercase()
     val res = nexus("$API_URL/security/users/$id/change-password") {
         PUT(HttpRequest.BodyPublishers.ofString(newPassword))

@@ -61,15 +61,23 @@ const val NEXUS_CREDENTIALS_DESCRIPTION = "Your Nexus Login Details"
 
 internal suspend fun createCredentials(username: String, password: String): Boolean {
     // Create Credentials Domain
-    val domainConfig = RESOURCE_CACHE[CREDENTIALS_DOMAIN] ?: return false
-    val domain = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/createDomain") {
-        POST(HttpRequest.BodyPublishers.ofString(domainConfig))
+    val checkDomain = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/config.xml") {
+        GET()
 
         header("Authorization", "Basic ${client.authValue()}")
-        header("Content-Type", "application/xml")
     }
 
-    if (domain.statusCode() != 200) return false
+    if (checkDomain.statusCode() == 404) {
+        val domainConfig = RESOURCE_CACHE[CREDENTIALS_DOMAIN] ?: return false
+        val domain = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/createDomain") {
+            POST(HttpRequest.BodyPublishers.ofString(domainConfig))
+
+            header("Authorization", "Basic ${client.authValue()}")
+            header("Content-Type", "application/xml")
+        }
+
+        if (domain.statusCode() != 200) return false
+    }
 
     // Create Credentials Store
     val storeConfig = (RESOURCE_CACHE[CREDENTIALS] ?: return false)
@@ -85,7 +93,33 @@ internal suspend fun createCredentials(username: String, password: String): Bool
         header("Content-Type", "application/xml")
     }
 
-    return store.statusCode() == 200
+    // Either successful or already exists
+    return store.statusCode() == 200 || store.statusCode() == 409
+}
+
+/**
+ * Checks if the Jenkins credentials exist, and creates them if they don't.
+ * @param username The username of the user.
+ * @param password The password of the user.
+ */
+fun checkCredentials(username: String, password: String) = runBlocking(Dispatchers.IO) {
+    // Check Domain
+    val checkDomain = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/config.xml") {
+        GET()
+
+        header("Authorization", "Basic ${client.authValue()}")
+    }
+
+    // Check Credential Store
+    val checkStore = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/credential/$NEXUS_CREDENTIALS_ID/config.xml") {
+        GET()
+
+        header("Authorization", "Basic ${client.authValue()}")
+    }
+
+    if (checkDomain.statusCode() == 404 || checkStore.statusCode() == 404) {
+        createCredentials(username, password)
+    }
 }
 
 /**
@@ -95,39 +129,7 @@ internal suspend fun createCredentials(username: String, password: String): Bool
  * @return `true` if the password was changed, `false` otherwise.
  */
 fun changeJenkinsPassword(username: String, newPassword: String): Boolean = runBlocking(Dispatchers.IO) {
-    // Create Credentials Domain
-    val checkDomain = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/config.xml") {
-        GET()
-
-        header("Authorization", "Basic ${client.authValue()}")
-    }
-
-    if (checkDomain.statusCode() == 404) {
-        val domainConfig = RESOURCE_CACHE[CREDENTIALS_DOMAIN] ?: return@runBlocking false
-        val domain = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/createDomain") {
-            POST(HttpRequest.BodyPublishers.ofString(domainConfig))
-
-            header("Authorization", "Basic ${client.authValue()}")
-            header("Content-Type", "application/xml")
-        }
-
-        if (domain.statusCode() != 200) return@runBlocking false
-    }
-
-    val config = (RESOURCE_CACHE[CREDENTIALS] ?: return@runBlocking false)
-        .replace("{ID}", NEXUS_CREDENTIALS_ID)
-        .replace("{DESCRIPTION}", NEXUS_CREDENTIALS_DESCRIPTION)
-        .replace("{USERNAME}", username.lowercase())
-        .replace("{PASSWORD}", newPassword)
-
-    val res = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/credential/$NEXUS_CREDENTIALS_ID/config.xml") {
-        POST(HttpRequest.BodyPublishers.ofString(config))
-
-        header("Authorization", "Basic ${client.authValue()}")
-        header("Content-Type", "application/xml")
-    }
-
-    return@runBlocking res.statusCode() == 200
+    return@runBlocking createCredentials(username, newPassword)
 }
 
 /**
@@ -137,6 +139,8 @@ fun changeJenkinsPassword(username: String, newPassword: String): Boolean = runB
  * @return `true` if the user was created, `false` otherwise.
  */
 fun createJenkinsUser(username: String, password: String): Boolean = runBlocking(Dispatchers.IO) {
+    if (getJenkinsUser(username).isNotEmpty()) return@runBlocking false
+
     val config0 = RESOURCE_CACHE[USER_CONFIG] ?: return@runBlocking false
 
     val config = config0
@@ -184,6 +188,8 @@ fun createJenkinsJob(
     isFreestyle: Boolean,
     config: (String) -> String = { it }
 ): Boolean {
+    if (getJenkinsJob(username, jobName).isNotEmpty()) return false
+
     val template = (if (isFreestyle) RESOURCE_CACHE[JOB_FREESTYLE] else RESOURCE_CACHE[JOB_MAVEN])
         ?.replace("{PROJECT_URL}", repoLink) ?: return false
 
