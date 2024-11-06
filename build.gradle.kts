@@ -117,9 +117,7 @@ publishing {
 
             isAllowInsecureProtocol = true
 
-            val releases = "https://repo.codemc.io/repository/maven-releases/"
-            val snapshots = "https://repo.codemc.io/repository/maven-snapshots/"
-            url = uri(project.findProperty("repositoryURL") ?: if (version.toString().endsWith("SNAPSHOT")) snapshots else releases)
+            url = uri(project.findProperty("repositoryURL") ?: "https://repo.codemc.io/repository/codemc/")
         }
     }
 }
