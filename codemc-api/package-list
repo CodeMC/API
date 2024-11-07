@@ -28,6 +28,7 @@ $dokka.location:io.codemc.api.jenkins//NEXUS_CREDENTIALS_DESCRIPTION/#/PointingT
 $dokka.location:io.codemc.api.jenkins//NEXUS_CREDENTIALS_ID/#/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-n-e-x-u-s_-c-r-e-d-e-n-t-i-a-l-s_-i-d.html
 $dokka.location:io.codemc.api.jenkins//changeJenkinsPassword/#kotlin.String#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/change-jenkins-password.html
 $dokka.location:io.codemc.api.jenkins//checkCredentials/#kotlin.String#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/check-credentials.html
+$dokka.location:io.codemc.api.jenkins//checkUserConfig/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/check-user-config.html
 $dokka.location:io.codemc.api.jenkins//createJenkinsJob/#kotlin.String#kotlin.String#kotlin.String#kotlin.Boolean#kotlin.Function1[kotlin.String,kotlin.String]/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/create-jenkins-job.html
 $dokka.location:io.codemc.api.jenkins//createJenkinsUser/#kotlin.String#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/create-jenkins-user.html
 $dokka.location:io.codemc.api.jenkins//deleteJob/#kotlin.String#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/delete-job.html
@@ -84,6 +85,7 @@ $dokka.location:io.codemc.api//CREDENTIALS/#/PointingToDeclaration/codemc-api/i
 $dokka.location:io.codemc.api//CREDENTIALS_DOMAIN/#/PointingToDeclaration/codemc-api/io.codemc.api/-c-r-e-d-e-n-t-i-a-l-s_-d-o-m-a-i-n.html
 $dokka.location:io.codemc.api//JOB_FREESTYLE/#/PointingToDeclaration/codemc-api/io.codemc.api/-j-o-b_-f-r-e-e-s-t-y-l-e.html
 $dokka.location:io.codemc.api//JOB_MAVEN/#/PointingToDeclaration/codemc-api/io.codemc.api/-j-o-b_-m-a-v-e-n.html
+$dokka.location:io.codemc.api//MAVEN_SETTINGS_XML/#/PointingToDeclaration/codemc-api/io.codemc.api/-m-a-v-e-n_-s-e-t-t-i-n-g-s_-x-m-l.html
 $dokka.location:io.codemc.api//RESOURCE_CACHE/#/PointingToDeclaration/codemc-api/io.codemc.api/-r-e-s-o-u-r-c-e_-c-a-c-h-e.html
 $dokka.location:io.codemc.api//USER_CONFIG/#/PointingToDeclaration/codemc-api/io.codemc.api/-u-s-e-r_-c-o-n-f-i-g.html
 $dokka.location:io.codemc.api//createPassword/#kotlin.Int/PointingToDeclaration/codemc-api/io.codemc.api/create-password.html
