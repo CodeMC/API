@@ -2,32 +2,13 @@
 
 package io.codemc.api.jenkins
 
-import com.cdancy.jenkins.rest.JenkinsClient
 import io.codemc.api.*
-import io.codemc.api.nexus.isSuccess
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
+import kotlinx.serialization.json.*
 import org.jetbrains.annotations.VisibleForTesting
 import java.net.http.HttpRequest
+import java.util.*
 import javax.xml.parsers.DocumentBuilderFactory
-
-/**
- * The [JenkinsConfig] instance.
- */
-var jenkinsConfig: JenkinsConfig = JenkinsConfig("", "", "")
-    set(value) {
-        field = value
-
-        val client0 = JenkinsClient.builder()
-            .endPoint(value.url)
-
-        if (value.username.isNotEmpty() && value.token.isNotEmpty())
-            client0.credentials("${value.username}:${value.token}")
-
-        client = client0.build()
-    }
-
-private lateinit var client: JenkinsClient
 
 /**
  * The Jenkins configuration.
@@ -39,14 +20,45 @@ data class JenkinsConfig(
     val url: String,
     val username: String,
     val token: String
-)
+) {
+    /**
+     * The Base64-Encoded value of `$username:$token`
+     */
+    private val auth: String
+        get() = Base64.getEncoder().encodeToString("$username:$token".toByteArray())
+
+    /**
+     * The authorization header based on the [username] and [token].
+     */
+    val authorization
+        get() = "Basic $auth"
+}
+
+/**
+ * The [JenkinsConfig] instance.
+ */
+lateinit var jenkinsConfig: JenkinsConfig
+
+/**
+ * Sends an HTTP request using the [JenkinsConfig.authorization] header.
+ * @param url The URL to send the request to.
+ * @param request The builder modifier on the HTTP Request.
+ * @return An HTTP Response.
+ * @see [req]
+ */
+suspend fun jenkins(url: String, request: HttpRequest.Builder.() -> Unit = { GET() }) = req(url) {
+    header("Authorization", jenkinsConfig.authorization)
+    request(this)
+}
 
 /**
  * Pings the Jenkins server.
  * @return `true` if the server is reachable, `false` otherwise.
  */
-fun ping(): Boolean =
-    client.api().systemApi().systemInfo().jenkinsVersion() != null
+fun ping(): Boolean = runBlocking(Dispatchers.IO) {
+    val res = jenkins("${jenkinsConfig.url}/api/")
+    return@runBlocking res.statusCode().isSuccess
+}
 
 // Credentials API Documentation:
 // https://github.com/jenkinsci/credentials-plugin/blob/master/docs/user.adoc
@@ -63,18 +75,13 @@ const val NEXUS_CREDENTIALS_DESCRIPTION = "Your Nexus Login Details"
 
 internal suspend fun setCredentials(username: String, password: String): Boolean {
     // Create Credentials Domain
-    val checkDomain = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/config.xml") {
-        GET()
-
-        header("Authorization", "Basic ${client.authValue()}")
-    }
+    val checkDomain = jenkins("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/config.xml")
 
     if (checkDomain.statusCode() == 404) {
         val domainConfig = RESOURCE_CACHE[CREDENTIALS_DOMAIN] ?: return false
-        val domain = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/createDomain") {
+        val domain = jenkins("${jenkinsConfig.url}/job/$username/credentials/store/folder/createDomain") {
             POST(HttpRequest.BodyPublishers.ofString(domainConfig))
 
-            header("Authorization", "Basic ${client.authValue()}")
             header("Content-Type", "application/xml")
         }
 
@@ -88,19 +95,17 @@ internal suspend fun setCredentials(username: String, password: String): Boolean
         .replace("{USERNAME}", username.lowercase())
         .replace("{PASSWORD}", password)
 
-    val store = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/createCredentials") {
+    val store = jenkins("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/createCredentials") {
         POST(HttpRequest.BodyPublishers.ofString(storeConfig))
 
-        header("Authorization", "Basic ${client.authValue()}")
         header("Content-Type", "application/xml")
     }
 
     // Update if Already Exists
     if (store.statusCode() == 409) {
-        val update = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/credential/$NEXUS_CREDENTIALS_ID/config.xml") {
+        val update = jenkins("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/credential/$NEXUS_CREDENTIALS_ID/config.xml") {
             POST(HttpRequest.BodyPublishers.ofString(storeConfig))
 
-            header("Authorization", "Basic ${client.authValue()}")
             header("Content-Type", "application/xml")
         }
 
@@ -115,19 +120,8 @@ internal suspend fun setCredentials(username: String, password: String): Boolean
  * @param password The password of the user.
  */
 fun checkCredentials(username: String, password: String) = runBlocking(Dispatchers.IO) {
-    // Check Domain
-    val checkDomain = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/config.xml") {
-        GET()
-
-        header("Authorization", "Basic ${client.authValue()}")
-    }
-
-    // Check Credential Store
-    val checkStore = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/credential/$NEXUS_CREDENTIALS_ID/config.xml") {
-        GET()
-
-        header("Authorization", "Basic ${client.authValue()}")
-    }
+    val checkDomain = jenkins("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/config.xml")
+    val checkStore = jenkins("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/credential/$NEXUS_CREDENTIALS_ID/config.xml")
 
     if (checkDomain.statusCode() == 404 || checkStore.statusCode() == 404) {
         setCredentials(username, password)
@@ -139,8 +133,8 @@ fun checkCredentials(username: String, password: String) = runBlocking(Dispatche
  * @param username The username of the user.
  * @return `true` if the user configuration was changed, `false` otherwise.
  */
-fun checkUserConfig(username: String) = runBlocking(Dispatchers.IO) {
-    val xml = client.api().jobsApi().config("/", username)
+fun checkUserConfig(username: String): Boolean = runBlocking(Dispatchers.IO) {
+    val xml = jenkins("${jenkinsConfig.url}/job/$username/config.xml").body()
     var changed = false
 
     val factory = DocumentBuilderFactory.newInstance()
@@ -149,15 +143,24 @@ fun checkUserConfig(username: String) = runBlocking(Dispatchers.IO) {
 
     // Check Maven Settings/
     if (!xml.contains("<id>nexus-login</id>")) {
-        val settings = RESOURCE_CACHE[MAVEN_SETTINGS_XML] ?: return@runBlocking
+        val settings = RESOURCE_CACHE[MAVEN_SETTINGS_XML] ?: return@runBlocking false
         val configs = doc.getElementsByTagName("configs").item(0)
 
         configs.appendChild(builder.parse(settings.byteInputStream()).documentElement)
         changed = true
     }
 
-    if (changed)
-        client.api().jobsApi().config("/", username, doc.textContent)
+    if (changed) {
+        val res = jenkins("${jenkinsConfig.url}/job/$username/config.xml") {
+            POST(HttpRequest.BodyPublishers.ofString(doc.textContent))
+
+            header("Content-Type", "text/xml")
+        }
+
+        return@runBlocking res.statusCode().isSuccess
+    }
+
+    return@runBlocking true
 }
 
 /**
@@ -183,13 +186,14 @@ fun createJenkinsUser(username: String, password: String): Boolean = runBlocking
 
     val config = config0
         .replace("{USERNAME}", username)
-    val status = client.api().jobsApi().create("/", username, config)
 
-    if (status.errors().isNotEmpty())
-        println(status.errors())
+    val res = jenkins("${jenkinsConfig.url}/createItem?name=$username") {
+        POST(HttpRequest.BodyPublishers.ofString(config))
 
-    if (!status.value()) return@runBlocking false
+        header("Content-Type", "application/xml")
+    }
 
+    if (!res.statusCode().isSuccess) return@runBlocking false
     return@runBlocking setCredentials(username, password)
 }
 
@@ -198,17 +202,23 @@ fun createJenkinsUser(username: String, password: String): Boolean = runBlocking
  * @param username The username of the user.
  * @return The user's configuration in XML format.
  */
-fun getJenkinsUser(username: String): String {
-    val user = client.api().jobsApi().config("/", username)
-    return user ?: ""
+fun getJenkinsUser(username: String): String = runBlocking(Dispatchers.IO) {
+    val res = jenkins("${jenkinsConfig.url}/job/$username/config.xml")
+    if (res.statusCode() == 404) return@runBlocking ""
+
+    return@runBlocking res.body() ?: ""
 }
 
 /**
  * Gets all Jenkins users.
  * @return A list of all Jenkins users mapped by their username.
  */
-fun getAllJenkinsUsers(): List<String>
-    = client.api().jobsApi().jobList("/").jobs().map { it.name() }
+fun getAllJenkinsUsers(): List<String> = runBlocking(Dispatchers.IO) {
+    val users = jenkins("${jenkinsConfig.url}/api/json?tree=jobs[name]").body()
+    val obj = json.decodeFromString<JsonObject>(users)
+
+    return@runBlocking obj["jobs"]?.jsonArray?.mapNotNull { it.jsonObject["name"]?.jsonPrimitive?.content } ?: emptyList()
+}
 
 /**
  * Creates a Jenkins job.
@@ -225,25 +235,28 @@ fun createJenkinsJob(
     repoLink: String,
     isFreestyle: Boolean,
     config: (String) -> String = { it }
-): Boolean {
-    if (getJenkinsJob(username, jobName).isNotEmpty()) return false
+): Boolean = runBlocking(Dispatchers.IO) {
+    if (getJenkinsJob(username, jobName).isNotEmpty()) return@runBlocking false
 
     val template = (if (isFreestyle) RESOURCE_CACHE[JOB_FREESTYLE] else RESOURCE_CACHE[JOB_MAVEN])
-        ?.replace("{PROJECT_URL}", repoLink) ?: return false
+        ?.replace("{PROJECT_URL}", repoLink) ?: return@runBlocking false
 
-    // Jenkins will automatically add job to the URL
-    val status = client.api().jobsApi().create(username, jobName, config(template))
+    val job = config(template)
+    val res = jenkins("${jenkinsConfig.url}/job/$username/createItem?name=$jobName") {
+        POST(HttpRequest.BodyPublishers.ofString(job))
 
-    if (status.errors().isNotEmpty())
-        println(status.errors())
+        header("Content-Type", "application/xml")
+    }
 
-    return status.value()
+    return@runBlocking res.statusCode().isSuccess
 }
 
 @VisibleForTesting
-internal fun getJenkinsJob(username: String, jobName: String): String {
-    val job = client.api().jobsApi().config("/", "$username/job/$jobName")
-    return job ?: ""
+internal fun getJenkinsJob(username: String, jobName: String): String = runBlocking(Dispatchers.IO) {
+    val res = jenkins("${jenkinsConfig.url}/job/$username/job/$jobName/config.xml")
+    if (res.statusCode() == 404) return@runBlocking ""
+
+    return@runBlocking res.body() ?: ""
 }
 
 /**
@@ -252,9 +265,44 @@ internal fun getJenkinsJob(username: String, jobName: String): String {
  * @param jobName The name of the job.
  * @return The job information, or `null` if the job doesn't exist.
  */
-fun getJobInfo(username: String, jobName: String): JenkinsJob? {
-    val job = client.api().jobsApi().jobInfo("/", "$username/job/$jobName")
-    return if (job == null) null else JenkinsJob(job)
+fun getJobInfo(username: String, jobName: String): JenkinsJob? = runBlocking(Dispatchers.IO) {
+    val res = jenkins("${jenkinsConfig.url}/job/$username/job/$jobName/api/json")
+    if (res.statusCode() == 404) return@runBlocking null
+
+    val job = res.body() ?: return@runBlocking null
+    val obj = json.decodeFromString<JsonObject>(job)
+
+    val name = obj["name"]?.jsonPrimitive?.content ?: return@runBlocking null
+    val url = obj["url"]?.jsonPrimitive?.content
+    val description = obj["description"]?.jsonPrimitive?.content
+
+    val getBuild: suspend (String) -> Deferred<JenkinsBuild?> = {
+        async {
+            val build = (obj[it] as? JsonObject)?.get("url")?.jsonPrimitive?.content ?: return@async null
+            val buildInfo = jenkins("$build/api/json").body() ?: return@async null
+            if (buildInfo.isEmpty()) return@async null
+
+            val buildObj = json.decodeFromString<JsonElement>(buildInfo)
+            if (buildObj !is JsonObject) return@async null
+
+            JenkinsBuild(buildObj)
+        }
+    }
+
+    val lastBuild = getBuild("lastBuild")
+    val lastCompletedBuild = getBuild("lastCompletedBuild")
+    val lastFailedBuild = getBuild("lastFailedBuild")
+    val lastStableBuild = getBuild("lastStableBuild")
+
+    return@runBlocking JenkinsJob(
+        name,
+        url,
+        description,
+        lastBuild.await(),
+        lastCompletedBuild.await(),
+        lastFailedBuild.await(),
+        lastStableBuild.await()
+    )
 }
 
 /**
@@ -263,20 +311,23 @@ fun getJobInfo(username: String, jobName: String): JenkinsJob? {
  * @param jobName The name of the job.
  * @return `true` if the build was triggered, `false` otherwise.
  */
-fun triggerBuild(username: String, jobName: String): Boolean {
-    val status = client.api().jobsApi().build("/", "$username/job/$jobName")
-    if (status.errors().isNotEmpty()) {
-        println(status.errors())
-        return false
+fun triggerBuild(username: String, jobName: String): Boolean = runBlocking(Dispatchers.IO) {
+    val res = jenkins("${jenkinsConfig.url}/job/$username/job/$jobName/build") {
+        POST(HttpRequest.BodyPublishers.noBody())
     }
 
-    return true
+    return@runBlocking res.statusCode().isSuccess
 }
 
 @VisibleForTesting
-internal fun isBuilding(username: String, jobName: String): Boolean {
-    val job = client.api().jobsApi().jobInfo("/", "$username/job/$jobName")
-    return (job.color() ?: "").contains("anime") || job.inQueue() || (job.lastBuild()?.building() ?: false)
+internal fun isBuilding(username: String, jobName: String): Boolean = runBlocking(Dispatchers.IO) {
+    val job = jenkins("${jenkinsConfig.url}/job/$username/job/$jobName/api/json").body()
+    val obj = json.decodeFromString<JsonObject>(job)
+
+    val isAnimated = obj["color"]?.jsonPrimitive?.content?.lowercase()?.contains("anime") ?: false
+    val isInQueue = obj["inQueue"]?.jsonPrimitive?.boolean ?: false
+
+    return@runBlocking isAnimated || isInQueue
 }
 
 /**
@@ -284,13 +335,9 @@ internal fun isBuilding(username: String, jobName: String): Boolean {
  * @param username The username of the user.
  * @return `true` if the user was deleted, `false` otherwise.
  */
-fun deleteUser(username: String): Boolean {
-    val status = client.api().jobsApi().delete("/", username)
-
-    if (status.errors().isNotEmpty())
-        println(status.errors())
-
-    return status.value()
+fun deleteUser(username: String): Boolean = runBlocking(Dispatchers.IO) {
+    val res = jenkins("${jenkinsConfig.url}/job/$username/") { DELETE() }
+    return@runBlocking res.statusCode().isSuccess
 }
 
 /**
@@ -298,13 +345,9 @@ fun deleteUser(username: String): Boolean {
  * @param username The username of the user.
  * @param jobName The name of the job.
  */
-fun deleteJob(username: String, jobName: String): Boolean {
-    val status = client.api().jobsApi().delete("/", "$username/job/$jobName")
-
-    if (status.errors().isNotEmpty())
-        println(status.errors())
-
-    return status.value()
+fun deleteJob(username: String, jobName: String): Boolean = runBlocking(Dispatchers.IO) {
+    val res = jenkins("${jenkinsConfig.url}/job/$username/job/$jobName/") { DELETE() }
+    return@runBlocking res.statusCode().isSuccess
 }
 
 private val nonFreestyles = listOf(

@@ -1,5 +1,6 @@
 package io.codemc.api.nexus
 
+import io.codemc.api.loadResources
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -21,6 +22,10 @@ class TestNexus {
                 username = "admin",
                 password = password
             )
+
+            runBlocking(Dispatchers.IO) {
+                loadResources()
+            }
         }
 
         @JvmStatic

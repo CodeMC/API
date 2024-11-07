@@ -56,6 +56,8 @@ private val resources = mapOf(
  * @throws [IllegalStateException] if a resource is not found.
  */
 suspend fun loadResources() = withContext(Dispatchers.IO) {
+    if (RESOURCE_CACHE.isNotEmpty()) return@withContext
+
     for ((path, id) in resources) {
         launch {
             val file = object {}.javaClass.getResourceAsStream(path) ?: error("Resource not found: $path")

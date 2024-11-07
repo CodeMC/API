@@ -2,11 +2,11 @@
 
 package io.codemc.api.nexus
 
+import io.codemc.api.isSuccess
 import io.codemc.api.json
 import io.codemc.api.req
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.*
 import org.jetbrains.annotations.VisibleForTesting
@@ -45,13 +45,6 @@ data class NexusConfig(
  * The [NexusConfig] instance.
  */
 lateinit var nexusConfig: NexusConfig
-
-/**
- * Whether this HTTP Response is a success.
- * @receiver The HTTP Response Code.
- */
-val Int.isSuccess
-    get() = this in 200..299
 
 // Implementation
 

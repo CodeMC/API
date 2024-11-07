@@ -1,5 +1,8 @@
 package io.codemc.api.jenkins
 
+import io.codemc.api.loadResources
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -14,6 +17,10 @@ class TestJenkins {
                 username = "admin",
                 token = "00000000000000000000000000000000"
             )
+
+            runBlocking(Dispatchers.IO) {
+                loadResources()
+            }
         }
 
         @JvmStatic

@@ -1,7 +1,9 @@
 package io.codemc.api.jenkins
 
-import com.cdancy.jenkins.rest.domain.job.BuildInfo
-import com.cdancy.jenkins.rest.domain.job.JobInfo
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.int
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.long
 
 /**
  * Represents a Jenkins job.
@@ -21,25 +23,7 @@ data class JenkinsJob(
     val lastCompletedBuild: JenkinsBuild?,
     val lastFailedBuild: JenkinsBuild?,
     val lastStableBuild: JenkinsBuild?
-) {
-
-    /**
-     * Creates a Jenkins job from a [JobInfo] object.
-     * @param info The job info.
-     */
-    constructor(info: JobInfo) : this(
-        info.displayNameOrNull() ?: info.name(),
-        info.url(),
-        info.description(),
-        tryBuild(info.lastBuild()),
-        tryBuild(info.lastCompleteBuild()),
-        tryBuild(info.lastFailedBuild()),
-        tryBuild(info.lastStableBuild())
-    )
-
-}
-
-private fun tryBuild(info: BuildInfo?) = info?.let { JenkinsBuild(it) }
+)
 
 /**
  * Represents a Jenkins build.
@@ -55,16 +39,11 @@ data class JenkinsBuild(
     val timestamp: Long
 ) {
 
-    /**
-     * Creates a Jenkins build from a [BuildInfo] object.
-     * @param info The build info.
-     * @see BuildInfo
-     */
-    constructor(info: BuildInfo) : this(
-        info.result() ?: "UNKNOWN",
-        info.number(),
-        info.url(),
-        info.timestamp()
+    constructor(json: JsonObject) : this(
+        json["result"]!!.jsonPrimitive.content,
+        json["number"]!!.jsonPrimitive.int,
+        json["url"]?.jsonPrimitive?.content,
+        json["timestamp"]!!.jsonPrimitive.long
     )
 
     /**

@@ -24,13 +24,19 @@ internal val json = Json {
 }
 
 /**
+ * Whether this HTTP Response is a success.
+ * @receiver The HTTP Response Code.
+ */
+val Int.isSuccess
+    get() = this in 200..299
+
+/**
  * Sends an HTTP request using the HTTP Client.
  * @param url The URL to send the request to.
  * @param request The builder modifier on the HTTP Request.
  * @return An HTTP Response.
  */
-suspend fun req(url: String, request: HttpRequest.Builder.() -> Unit = { GET() }): HttpResponse<String>
-    = withContext(Dispatchers.IO) {
+suspend fun req(url: String, request: HttpRequest.Builder.() -> Unit = { GET() }): HttpResponse<String> = withContext(Dispatchers.IO) {
     val req = HttpRequest.newBuilder()
         .uri(URI.create(url))
         .header("User-Agent", USER_AGENT)

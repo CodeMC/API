@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "io.codemc.api"
-version = "1.0.3"
+version = "1.1.0"
 description = "Official API for CodeMC Jenkins & Nexus Services"
 
 repositories {
@@ -25,7 +25,6 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-    implementation("io.github.cdancy:jenkins-rest:1.0.2")
     implementation("org.mariadb.jdbc:mariadb-java-client:3.5.0")
     implementation("org.jetbrains.exposed:exposed-core:0.56.0")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.56.0")
