@@ -31,6 +31,11 @@ const val CREDENTIALS = "credentials"
  */
 const val CREDENTIALS_DOMAIN = "credentials-domain"
 
+/**
+ * The ID of the maven settings template for jenkins credentials.
+ */
+const val MAVEN_SETTINGS_XML = "maven-settings"
+
 // Fields
 
 /**
@@ -42,7 +47,8 @@ private val resources = mapOf(
     "/templates/jenkins/job-maven.xml" to JOB_MAVEN,
     "/templates/jenkins/user-config.xml" to USER_CONFIG,
     "/templates/jenkins/credentials.xml" to CREDENTIALS,
-    "/templates/jenkins/credentials-domain.xml" to CREDENTIALS_DOMAIN
+    "/templates/jenkins/credentials-domain.xml" to CREDENTIALS_DOMAIN,
+    "/templates/jenkins/maven/settings.xml" to MAVEN_SETTINGS_XML
 )
 
 /**

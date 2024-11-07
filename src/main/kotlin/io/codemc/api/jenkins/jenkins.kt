@@ -4,10 +4,12 @@ package io.codemc.api.jenkins
 
 import com.cdancy.jenkins.rest.JenkinsClient
 import io.codemc.api.*
+import io.codemc.api.nexus.isSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.annotations.VisibleForTesting
 import java.net.http.HttpRequest
+import javax.xml.parsers.DocumentBuilderFactory
 
 /**
  * The [JenkinsConfig] instance.
@@ -59,7 +61,7 @@ const val NEXUS_CREDENTIALS_ID = "nexus-repository"
  */
 const val NEXUS_CREDENTIALS_DESCRIPTION = "Your Nexus Login Details"
 
-internal suspend fun createCredentials(username: String, password: String): Boolean {
+internal suspend fun setCredentials(username: String, password: String): Boolean {
     // Create Credentials Domain
     val checkDomain = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/config.xml") {
         GET()
@@ -76,7 +78,7 @@ internal suspend fun createCredentials(username: String, password: String): Bool
             header("Content-Type", "application/xml")
         }
 
-        if (domain.statusCode() != 200) return false
+        if (!domain.statusCode().isSuccess) return false
     }
 
     // Create Credentials Store
@@ -93,8 +95,18 @@ internal suspend fun createCredentials(username: String, password: String): Bool
         header("Content-Type", "application/xml")
     }
 
-    // Either successful or already exists
-    return store.statusCode() == 200 || store.statusCode() == 409
+    // Update if Already Exists
+    if (store.statusCode() == 409) {
+        val update = req("${jenkinsConfig.url}/job/$username/credentials/store/folder/domain/Services/credential/$NEXUS_CREDENTIALS_ID/config.xml") {
+            POST(HttpRequest.BodyPublishers.ofString(storeConfig))
+
+            header("Authorization", "Basic ${client.authValue()}")
+            header("Content-Type", "application/xml")
+        }
+
+        return update.statusCode().isSuccess
+    } else
+        return store.statusCode().isSuccess
 }
 
 /**
@@ -118,8 +130,34 @@ fun checkCredentials(username: String, password: String) = runBlocking(Dispatche
     }
 
     if (checkDomain.statusCode() == 404 || checkStore.statusCode() == 404) {
-        createCredentials(username, password)
+        setCredentials(username, password)
     }
+}
+
+/**
+ * Checks the user `config.xml` present on the Jenkins CI.
+ * @param username The username of the user.
+ * @return `true` if the user configuration was changed, `false` otherwise.
+ */
+fun checkUserConfig(username: String) = runBlocking(Dispatchers.IO) {
+    val xml = client.api().jobsApi().config("/", username)
+    var changed = false
+
+    val factory = DocumentBuilderFactory.newInstance()
+    val builder = factory.newDocumentBuilder()
+    val doc = builder.parse(xml.byteInputStream())
+
+    // Check Maven Settings/
+    if (!xml.contains("<id>nexus-login</id>")) {
+        val settings = RESOURCE_CACHE[MAVEN_SETTINGS_XML] ?: return@runBlocking
+        val configs = doc.getElementsByTagName("configs").item(0)
+
+        configs.appendChild(builder.parse(settings.byteInputStream()).documentElement)
+        changed = true
+    }
+
+    if (changed)
+        client.api().jobsApi().config("/", username, doc.textContent)
 }
 
 /**
@@ -129,7 +167,7 @@ fun checkCredentials(username: String, password: String) = runBlocking(Dispatche
  * @return `true` if the password was changed, `false` otherwise.
  */
 fun changeJenkinsPassword(username: String, newPassword: String): Boolean = runBlocking(Dispatchers.IO) {
-    return@runBlocking createCredentials(username, newPassword)
+    return@runBlocking setCredentials(username, newPassword)
 }
 
 /**
@@ -152,7 +190,7 @@ fun createJenkinsUser(username: String, password: String): Boolean = runBlocking
 
     if (!status.value()) return@runBlocking false
 
-    return@runBlocking createCredentials(username, password)
+    return@runBlocking setCredentials(username, password)
 }
 
 /**

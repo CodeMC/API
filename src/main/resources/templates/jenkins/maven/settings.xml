@@ -1,0 +1,17 @@
+<org.jenkinsci.plugins.configfiles.maven.MavenSettingsConfig>
+    <id>nexus-login</id>
+    <name>Nexus Login Details</name>
+    <comment>Maven Credentials for your Nexus Repository</comment>
+    <content>&lt;settings&gt;
+  &lt;servers&gt;
+    &lt;server&gt;
+      &lt;id&gt;${env.JENKINS_USERNAME}&lt;/id&gt;
+      &lt;username&gt;${env.JENKINS_USERNAME}&lt;/username&gt;
+      &lt;password&gt;${env.JENKINS_PASSWORD}&lt;/password&gt;
+    &lt;/server&gt;
+  &lt;/servers&gt;
+&lt;/settings&gt;</content>
+    <providerId>org.jenkinsci.plugins.configfiles.maven.MavenSettingsConfig</providerId>
+    <serverCredentialMappings/>
+    <isReplaceAll>true</isReplaceAll>
+</org.jenkinsci.plugins.configfiles.maven.MavenSettingsConfig>

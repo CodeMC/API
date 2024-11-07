@@ -28,12 +28,16 @@ class TestJenkins {
     fun testCreateJenkinsUser() {
         val u1 = "test"
         assertTrue(createJenkinsUser(u1, "test_password"))
+        checkUserConfig(u1)
+
         assertTrue(getJenkinsUser(u1).isNotEmpty())
         assertTrue(deleteUser(u1))
         assertTrue(getJenkinsUser(u1).isEmpty())
 
         val u2 = "MyPlayer123"
         assertTrue(createJenkinsUser(u2, "MyPassword456"))
+        checkUserConfig(u2)
+
         assertTrue(getJenkinsUser(u2).isNotEmpty())
         assertTrue(deleteUser(u2))
         assertTrue(getJenkinsUser(u2).isEmpty())
