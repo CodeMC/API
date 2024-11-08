@@ -45,7 +45,7 @@
                     </a>
             </div>
             <div class="library-version">
-1.0.3            </div>
+1.1.0            </div>
         </div>
         <div class="filter-section" id="filter-section">
                 <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":dokkaHtml/main">jvm</button>
@@ -130,7 +130,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">var </span><a href="jenkins-config.html">jenkinsConfig</a><span class="token operator">: </span><a href="-jenkins-config/index.html">JenkinsConfig</a></div><div class="brief "><p class="paragraph">The <a href="-jenkins-config/index.html">JenkinsConfig</a> instance.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">lateinit </span><span class="token keyword">var </span><a href="jenkins-config.html">jenkinsConfig</a><span class="token operator">: </span><a href="-jenkins-config/index.html">JenkinsConfig</a></div><div class="brief "><p class="paragraph">The <a href="-jenkins-config/index.html">JenkinsConfig</a> instance.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -209,7 +209,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="check-user-config.html"><span class="token function">checkUserConfig</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">username<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Checks the user <code class="lang-kotlin">config.xml</code> present on the Jenkins CI.</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="check-user-config.html"><span class="token function">checkUserConfig</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">username<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Checks the user <code class="lang-kotlin">config.xml</code> present on the Jenkins CI.</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -330,6 +330,21 @@
               <div>
                 <div class="title">
                   <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="is-freestyle.html"><span class="token function">isFreestyle</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">url<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Checks if a Git repository is a freestyle project.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="688819461%2FFunctions%2F769193423" anchor-label="jenkins" id="688819461%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="jenkins.html"><span><span>jenkins</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="688819461%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="jenkins.html"><span class="token function">jenkins</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">url<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">request<span class="token operator">: </span><span data-unresolved-link="java.net.http/HttpRequest.Builder///PointingToDeclaration/">HttpRequest.Builder</span><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{ GET() }</span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="java.net.http/HttpResponse///PointingToDeclaration/">HttpResponse</span><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Sends an HTTP request using the <a href="-jenkins-config/authorization.html">JenkinsConfig.authorization</a> header.</p></div></div></div>
                 </div>
               </div>
             </div>

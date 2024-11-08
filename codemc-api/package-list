@@ -37,12 +37,13 @@ $dokka.location:io.codemc.api.jenkins//getAllJenkinsUsers/#/PointingToDeclaratio
 $dokka.location:io.codemc.api.jenkins//getJenkinsUser/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/get-jenkins-user.html
 $dokka.location:io.codemc.api.jenkins//getJobInfo/#kotlin.String#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/get-job-info.html
 $dokka.location:io.codemc.api.jenkins//isFreestyle/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/is-freestyle.html
+$dokka.location:io.codemc.api.jenkins//jenkins/#kotlin.String#kotlin.Function1[java.net.http.HttpRequest.Builder,kotlin.Unit]/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/jenkins.html
 $dokka.location:io.codemc.api.jenkins//jenkinsConfig/#/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/jenkins-config.html
 $dokka.location:io.codemc.api.jenkins//ping/#/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/ping.html
 $dokka.location:io.codemc.api.jenkins//triggerBuild/#kotlin.String#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/trigger-build.html
 $dokka.location:io.codemc.api.jenkins/JenkinsBuild///PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-build/index.html
-$dokka.location:io.codemc.api.jenkins/JenkinsBuild/JenkinsBuild/#com.cdancy.jenkins.rest.domain.job.BuildInfo/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-build/-jenkins-build.html
 $dokka.location:io.codemc.api.jenkins/JenkinsBuild/JenkinsBuild/#kotlin.String#kotlin.Int#kotlin.String?#kotlin.Long/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-build/-jenkins-build.html
+$dokka.location:io.codemc.api.jenkins/JenkinsBuild/JenkinsBuild/#kotlinx.serialization.json.JsonObject/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-build/-jenkins-build.html
 $dokka.location:io.codemc.api.jenkins/JenkinsBuild/number/#/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-build/number.html
 $dokka.location:io.codemc.api.jenkins/JenkinsBuild/result/#/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-build/result.html
 $dokka.location:io.codemc.api.jenkins/JenkinsBuild/timestamp/#/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-build/timestamp.html
@@ -50,11 +51,11 @@ $dokka.location:io.codemc.api.jenkins/JenkinsBuild/toString/#/PointingToDeclarat
 $dokka.location:io.codemc.api.jenkins/JenkinsBuild/url/#/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-build/url.html
 $dokka.location:io.codemc.api.jenkins/JenkinsConfig///PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-config/index.html
 $dokka.location:io.codemc.api.jenkins/JenkinsConfig/JenkinsConfig/#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-config/-jenkins-config.html
+$dokka.location:io.codemc.api.jenkins/JenkinsConfig/authorization/#/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-config/authorization.html
 $dokka.location:io.codemc.api.jenkins/JenkinsConfig/token/#/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-config/token.html
 $dokka.location:io.codemc.api.jenkins/JenkinsConfig/url/#/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-config/url.html
 $dokka.location:io.codemc.api.jenkins/JenkinsConfig/username/#/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-config/username.html
 $dokka.location:io.codemc.api.jenkins/JenkinsJob///PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-job/index.html
-$dokka.location:io.codemc.api.jenkins/JenkinsJob/JenkinsJob/#com.cdancy.jenkins.rest.domain.job.JobInfo/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-job/-jenkins-job.html
 $dokka.location:io.codemc.api.jenkins/JenkinsJob/JenkinsJob/#kotlin.String#kotlin.String?#kotlin.String?#io.codemc.api.jenkins.JenkinsBuild?#io.codemc.api.jenkins.JenkinsBuild?#io.codemc.api.jenkins.JenkinsBuild?#io.codemc.api.jenkins.JenkinsBuild?/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-job/-jenkins-job.html
 $dokka.location:io.codemc.api.jenkins/JenkinsJob/description/#/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-job/description.html
 $dokka.location:io.codemc.api.jenkins/JenkinsJob/lastBuild/#/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/-jenkins-job/last-build.html
@@ -70,7 +71,6 @@ $dokka.location:io.codemc.api.nexus//createNexus/#kotlin.String#kotlin.String/Po
 $dokka.location:io.codemc.api.nexus//deleteNexus/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.nexus/delete-nexus.html
 $dokka.location:io.codemc.api.nexus//getNexusRepository/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.nexus/get-nexus-repository.html
 $dokka.location:io.codemc.api.nexus//getNexusUser/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.nexus/get-nexus-user.html
-$dokka.location:io.codemc.api.nexus//isSuccess/kotlin.Int#/PointingToDeclaration/codemc-api/io.codemc.api.nexus/is-success.html
 $dokka.location:io.codemc.api.nexus//nexus/#kotlin.String#kotlin.Function1[java.net.http.HttpRequest.Builder,kotlin.Unit]/PointingToDeclaration/codemc-api/io.codemc.api.nexus/nexus.html
 $dokka.location:io.codemc.api.nexus//nexusConfig/#/PointingToDeclaration/codemc-api/io.codemc.api.nexus/nexus-config.html
 $dokka.location:io.codemc.api.nexus//ping/#/PointingToDeclaration/codemc-api/io.codemc.api.nexus/ping.html
@@ -91,6 +91,7 @@ $dokka.location:io.codemc.api//USER_CONFIG/#/PointingToDeclaration/codemc-api/i
 $dokka.location:io.codemc.api//createPassword/#kotlin.Int/PointingToDeclaration/codemc-api/io.codemc.api/create-password.html
 $dokka.location:io.codemc.api//filesExists/#kotlin.String#kotlin.collections.Iterable[kotlin.String]/PointingToDeclaration/codemc-api/io.codemc.api/files-exists.html
 $dokka.location:io.codemc.api//initialize/#io.codemc.api.jenkins.JenkinsConfig#io.codemc.api.nexus.NexusConfig#io.codemc.api.database.DBConfig/PointingToDeclaration/codemc-api/io.codemc.api/initialize.html
+$dokka.location:io.codemc.api//isSuccess/kotlin.Int#/PointingToDeclaration/codemc-api/io.codemc.api/is-success.html
 $dokka.location:io.codemc.api//loadResources/#/PointingToDeclaration/codemc-api/io.codemc.api/load-resources.html
 $dokka.location:io.codemc.api//req/#kotlin.String#kotlin.Function1[java.net.http.HttpRequest.Builder,kotlin.Unit]/PointingToDeclaration/codemc-api/io.codemc.api/req.html
 io.codemc.api
