@@ -177,15 +177,18 @@ fun changeJenkinsPassword(username: String, newPassword: String): Boolean = runB
  * Creates a Jenkins user.
  * @param username The username of the user.
  * @param password The password of the user.
+ * @param group `true` if the user is an organization, `false` otherwise.
  * @return `true` if the user was created, `false` otherwise.
  */
-fun createJenkinsUser(username: String, password: String): Boolean = runBlocking(Dispatchers.IO) {
+@JvmOverloads
+fun createJenkinsUser(username: String, password: String, group: Boolean = false): Boolean = runBlocking(Dispatchers.IO) {
     if (getJenkinsUser(username).isNotEmpty()) return@runBlocking false
 
     val config0 = RESOURCE_CACHE[USER_CONFIG] ?: return@runBlocking false
 
     val config = config0
         .replace("{USERNAME}", username)
+        .replace("{TYPE}", if (group) "GROUP" else "USER")
 
     val res = jenkins("${jenkinsConfig.url}/createItem?name=$username") {
         POST(HttpRequest.BodyPublishers.ofString(config))

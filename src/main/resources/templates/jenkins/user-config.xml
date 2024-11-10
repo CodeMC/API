@@ -27,30 +27,30 @@
         </org.jenkinsci.plugins.configfiles.folder.FolderConfigFileProperty>
         <com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty>
             <inheritanceStrategy class="org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy"/>
-            <permission>USER:com.cloudbees.plugins.credentials.CredentialsProvider.Create:{USERNAME}</permission>
-            <permission>USER:com.cloudbees.plugins.credentials.CredentialsProvider.Delete:{USERNAME}</permission>
-            <permission>USER:com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:{USERNAME}</permission>
-            <permission>USER:com.cloudbees.plugins.credentials.CredentialsProvider.Update:{USERNAME}</permission>
-            <permission>USER:com.cloudbees.plugins.credentials.CredentialsProvider.View:{USERNAME}</permission>
-            <permission>USER:hudson.model.Item.Build:{USERNAME}</permission>
-            <permission>USER:hudson.model.Item.Cancel:{USERNAME}</permission>
-            <permission>USER:hudson.model.Item.Configure:{USERNAME}</permission>
-            <permission>USER:hudson.model.Item.Create:{USERNAME}</permission>
-            <permission>USER:hudson.model.Item.Delete:{USERNAME}</permission>
-            <permission>USER:hudson.model.Item.Discover:{USERNAME}</permission>
-            <permission>USER:hudson.model.Item.Move:{USERNAME}</permission>
-            <permission>USER:hudson.model.Item.Read:{USERNAME}</permission>
-            <permission>USER:hudson.model.Item.ViewStatus:{USERNAME}</permission>
-            <permission>USER:hudson.model.Item.Workspace:{USERNAME}</permission>
-            <permission>USER:hudson.model.Run.Delete:{USERNAME}</permission>
-            <permission>USER:hudson.model.Run.Replay:{USERNAME}</permission>
-            <permission>USER:hudson.model.Run.Update:{USERNAME}</permission>
-            <permission>USER:hudson.model.View.Configure:{USERNAME}</permission>
-            <permission>USER:hudson.model.View.Create:{USERNAME}</permission>
-            <permission>USER:hudson.model.View.Delete:{USERNAME}</permission>
-            <permission>USER:hudson.model.View.Read:{USERNAME}</permission>
-            <permission>USER:hudson.plugins.promoted_builds.Promotion.Promote:{USERNAME}</permission>
-            <permission>USER:hudson.scm.SCM.Tag:{USERNAME}</permission>
+            <permission>{TYPE}:com.cloudbees.plugins.credentials.CredentialsProvider.Create:{USERNAME}</permission>
+            <permission>{TYPE}:com.cloudbees.plugins.credentials.CredentialsProvider.Delete:{USERNAME}</permission>
+            <permission>{TYPE}:com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:{USERNAME}</permission>
+            <permission>{TYPE}:com.cloudbees.plugins.credentials.CredentialsProvider.Update:{USERNAME}</permission>
+            <permission>{TYPE}:com.cloudbees.plugins.credentials.CredentialsProvider.View:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.model.Item.Build:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.model.Item.Cancel:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.model.Item.Configure:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.model.Item.Create:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.model.Item.Delete:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.model.Item.Discover:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.model.Item.Move:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.model.Item.Read:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.model.Item.ViewStatus:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.model.Item.Workspace:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.model.Run.Delete:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.model.Run.Replay:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.model.Run.Update:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.model.View.Configure:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.model.View.Create:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.model.View.Delete:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.model.View.Read:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.plugins.promoted_builds.Promotion.Promote:{USERNAME}</permission>
+            <permission>{TYPE}:hudson.scm.SCM.Tag:{USERNAME}</permission>
         </com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty>
         <org.jenkinsci.plugins.docker.workflow.declarative.FolderConfig>
             <dockerLabel/>
@@ -60,7 +60,7 @@
             <settings class="jenkins.mvn.DefaultSettingsProvider"/>
             <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
             <override>false</override>
-        </org.jenkinsci.plugins.pipeline.maven.MavenConfigFolderOverrideProperty>
+        </org.jenkinsci.plugins.pipeline.maven.MavenConfigFolderOverridePro`perty>
     </properties>
     <folderViews class="com.cloudbees.hudson.plugins.folder.views.DefaultFolderViewHolder">
         <views>
