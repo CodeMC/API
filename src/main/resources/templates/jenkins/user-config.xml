@@ -60,7 +60,7 @@
             <settings class="jenkins.mvn.DefaultSettingsProvider"/>
             <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
             <override>false</override>
-        </org.jenkinsci.plugins.pipeline.maven.MavenConfigFolderOverridePro`perty>
+        </org.jenkinsci.plugins.pipeline.maven.MavenConfigFolderOverrideProperty>
     </properties>
     <folderViews class="com.cloudbees.hudson.plugins.folder.views.DefaultFolderViewHolder">
         <views>
