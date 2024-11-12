@@ -30,7 +30,7 @@ $dokka.location:io.codemc.api.jenkins//changeJenkinsPassword/#kotlin.String#kotl
 $dokka.location:io.codemc.api.jenkins//checkCredentials/#kotlin.String#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/check-credentials.html
 $dokka.location:io.codemc.api.jenkins//checkUserConfig/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/check-user-config.html
 $dokka.location:io.codemc.api.jenkins//createJenkinsJob/#kotlin.String#kotlin.String#kotlin.String#kotlin.Boolean#kotlin.Function1[kotlin.String,kotlin.String]/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/create-jenkins-job.html
-$dokka.location:io.codemc.api.jenkins//createJenkinsUser/#kotlin.String#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/create-jenkins-user.html
+$dokka.location:io.codemc.api.jenkins//createJenkinsUser/#kotlin.String#kotlin.String#kotlin.Boolean/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/create-jenkins-user.html
 $dokka.location:io.codemc.api.jenkins//deleteJob/#kotlin.String#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/delete-job.html
 $dokka.location:io.codemc.api.jenkins//deleteUser/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/delete-user.html
 $dokka.location:io.codemc.api.jenkins//getAllJenkinsUsers/#/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/get-all-jenkins-users.html
