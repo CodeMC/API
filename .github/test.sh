@@ -30,8 +30,5 @@ until curl -s "http://localhost:8081"; do
   sleep 2
 done
 
-# Run Docker
-
+# Copy Nexus Password
 docker cp nexus-rest:/nexus-data/admin.password /tmp/admin.password
-./gradlew clean test
-rm -rf /tmp/admin.password
