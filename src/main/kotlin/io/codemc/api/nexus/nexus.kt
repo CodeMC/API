@@ -205,6 +205,13 @@ fun getNexusUser(name: String): JsonObject? = runBlocking {
     return@runBlocking (json.decodeFromString(res.body()) as? JsonArray)?.firstOrNull() as? JsonObject
 }
 
+/**
+ * Checks if a Nexus User exists by its case-sensitive name.
+ * @param name The name of the nexus user.
+ * @return `true` if the user exists, `false` otherwise
+ */
+fun exists(name: String) = getNexusUser(name) != null
+
 @VisibleForTesting
 internal suspend fun getNexusRole(name: String): JsonObject? {
     val res = nexus("$API_URL/security/roles/$name")

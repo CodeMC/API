@@ -43,6 +43,7 @@ class TestNexus {
 
         assertTrue(createNexus(name, UUID.randomUUID().toString()))
         assertFalse(getNexusUser(name).isNullOrEmpty())
+        assertTrue(exists(name))
         assertTrue(getNexusUser("OtherName").isNullOrEmpty())
         assertTrue(getRepositories().isNotEmpty())
         assertFalse(getNexusRepository(repoName).isNullOrEmpty())
