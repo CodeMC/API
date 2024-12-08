@@ -62,6 +62,26 @@ class TestDatabase {
     }
 
     @Test
+    fun testMultipleUsers() {
+        val users = listOf(
+            "TestUser",
+            "TestUser2",
+        )
+
+        users.forEach { s -> addUser(s, 4567L) }
+
+        val retrieved = getAllUsers()
+        assertEquals(users.size, retrieved.size)
+        for (i in retrieved.indices) {
+            assertEquals(retrieved[i].username, users[i])
+            assertEquals(retrieved[i].discord, 4567L)
+        }
+
+        removeAllUsers()
+        assertTrue(getAllUsers().isEmpty())
+    }
+
+    @Test
     fun testRemoveUser() {
         val name = "MyAuthor"
         addUser(name, 0L)

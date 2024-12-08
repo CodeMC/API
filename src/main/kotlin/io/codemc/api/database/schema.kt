@@ -17,7 +17,7 @@ object Users : Table() {
     /**
      * The `discord` column, representing their Discord ID.
      */
-    val discord: Column<Long> = long("discord").uniqueIndex()
+    val discord: Column<Long> = long("discord")
 
     override val primaryKey = PrimaryKey(username)
 }
