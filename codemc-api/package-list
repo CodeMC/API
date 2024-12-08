@@ -33,6 +33,8 @@ $dokka.location:io.codemc.api.jenkins//createJenkinsJob/#kotlin.String#kotlin.St
 $dokka.location:io.codemc.api.jenkins//createJenkinsUser/#kotlin.String#kotlin.String#kotlin.Boolean/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/create-jenkins-user.html
 $dokka.location:io.codemc.api.jenkins//deleteJob/#kotlin.String#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/delete-job.html
 $dokka.location:io.codemc.api.jenkins//deleteUser/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/delete-user.html
+$dokka.location:io.codemc.api.jenkins//existsJob/#kotlin.String#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/exists-job.html
+$dokka.location:io.codemc.api.jenkins//existsUser/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/exists-user.html
 $dokka.location:io.codemc.api.jenkins//getAllJenkinsUsers/#/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/get-all-jenkins-users.html
 $dokka.location:io.codemc.api.jenkins//getJenkinsUser/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/get-jenkins-user.html
 $dokka.location:io.codemc.api.jenkins//getJobInfo/#kotlin.String#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.jenkins/get-job-info.html
@@ -69,6 +71,7 @@ $dokka.location:io.codemc.api.nexus//API_URL/#/PointingToDeclaration/codemc-api
 $dokka.location:io.codemc.api.nexus//changeNexusPassword/#kotlin.String#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.nexus/change-nexus-password.html
 $dokka.location:io.codemc.api.nexus//createNexus/#kotlin.String#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.nexus/create-nexus.html
 $dokka.location:io.codemc.api.nexus//deleteNexus/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.nexus/delete-nexus.html
+$dokka.location:io.codemc.api.nexus//exists/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.nexus/exists.html
 $dokka.location:io.codemc.api.nexus//getNexusRepository/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.nexus/get-nexus-repository.html
 $dokka.location:io.codemc.api.nexus//getNexusUser/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.nexus/get-nexus-user.html
 $dokka.location:io.codemc.api.nexus//nexus/#kotlin.String#kotlin.Function1[java.net.http.HttpRequest.Builder,kotlin.Unit]/PointingToDeclaration/codemc-api/io.codemc.api.nexus/nexus.html
