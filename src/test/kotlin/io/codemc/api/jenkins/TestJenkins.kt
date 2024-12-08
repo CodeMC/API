@@ -38,8 +38,10 @@ class TestJenkins {
         checkUserConfig(u1)
 
         assertTrue(getJenkinsUser(u1).isNotEmpty())
+        assertTrue(existsUser(u1))
         assertTrue(deleteUser(u1))
         assertTrue(getJenkinsUser(u1).isEmpty())
+        assertFalse(existsUser(u1))
 
         val u2 = "MyPlayer123"
         assertTrue(createJenkinsUser(u2, "MyPassword456"))
@@ -84,6 +86,7 @@ class TestJenkins {
         val j1 = "TestJob_Freestyle"
         assertTrue(createJenkinsJob(name, j1, url, true))
         assertTrue(getJenkinsJob(name, j1).isNotEmpty())
+        assertTrue(existsJob(name, j1))
 
         val i1 = getJobInfo(name, j1)
         assertNotNull(i1)
@@ -92,8 +95,10 @@ class TestJenkins {
         val j2 = "TestJob2_Freestyle"
         assertTrue(createJenkinsJob(name, j2, url, true))
         assertTrue(getJenkinsJob(name, j2).isNotEmpty())
+        assertTrue(existsJob(name, j2))
         assertTrue(deleteJob(name, j2))
         assertTrue(getJenkinsJob(name, j2).isEmpty())
+        assertFalse(existsJob(name, j2))
 
         val j3 = "TestJob_Maven"
         assertTrue(createJenkinsJob(name, j3, url, false))

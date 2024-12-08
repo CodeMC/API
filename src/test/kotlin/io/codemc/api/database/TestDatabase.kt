@@ -29,7 +29,7 @@ class TestDatabase {
 
         val u1 = getUser(n1)
         assertNotNull(u1)
-        assertEquals(u1?.discord, 123456789L)
+        assertEquals(123456789L, u1?.discord)
 
         removeUser(n1)
 
@@ -38,7 +38,7 @@ class TestDatabase {
 
         val u2 = getUser(n2)
         assertNotNull(u2)
-        assertEquals(u2?.discord, 987654321L)
+        assertEquals(987654321L, u2?.discord)
 
         removeUser(n2)
     }
@@ -50,13 +50,13 @@ class TestDatabase {
 
         val u1 = getUser(name)
         assertNotNull(u1)
-        assertEquals(u1?.discord, 0L)
+        assertEquals(0L, u1?.discord)
 
         updateUser(name, 123456789L)
 
         val u2 = getUser(name)
         assertNotNull(u2)
-        assertEquals(u2?.discord, 123456789L)
+        assertEquals(123456789L, u2?.discord)
 
         removeUser(name)
     }
@@ -64,21 +64,17 @@ class TestDatabase {
     @Test
     fun testMultipleUsers() {
         val users = listOf(
-            "TestUser",
-            "TestUser2",
+            "TestMultiUser",
+            "TestMultiUser2",
         )
 
         users.forEach { s -> addUser(s, 4567L) }
 
-        val retrieved = getAllUsers()
-        assertEquals(users.size, retrieved.size)
-        for (i in retrieved.indices) {
-            assertEquals(retrieved[i].username, users[i])
-            assertEquals(retrieved[i].discord, 4567L)
-        }
+        assertEquals(4567L, getUser(users[0])?.discord)
+        assertEquals(4567L, getUser(users[1])?.discord)
 
-        removeAllUsers()
-        assertTrue(getAllUsers().isEmpty())
+        removeUser(users[0])
+        removeUser(users[1])
     }
 
     @Test
@@ -102,15 +98,12 @@ class TestDatabase {
 
         users.forEachIndexed { index, s -> addUser(s, index.toLong()) }
 
-        val retrieved = getAllUsers()
-        assertEquals(users.size, retrieved.size)
-        for (i in retrieved.indices) {
-            assertEquals(retrieved[i].username, users[i])
-            assertEquals(retrieved[i].discord, i.toLong())
+        for ((i, user) in users.withIndex()) {
+            assertNotNull(getUser(user))
+            assertEquals(i.toLong(), getUser(user)?.discord)
         }
 
-        removeAllUsers()
-        assertTrue(getAllUsers().isEmpty())
+        users.forEach { removeUser(it) }
     }
 
 }

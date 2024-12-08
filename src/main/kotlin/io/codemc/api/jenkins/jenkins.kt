@@ -213,6 +213,21 @@ fun getJenkinsUser(username: String): String = runBlocking(Dispatchers.IO) {
 }
 
 /**
+ * Checks if a Jenkins user exists.
+ * @param username The username of the user.
+ * @return `true` if the user exists, `false` otherwise.
+ */
+fun existsUser(username: String): Boolean = getJenkinsUser(username).isNotEmpty()
+
+/**
+ * Checks if a Jenkins job exists.
+ * @param username The username of the user.
+ * @param jobName The name of the job.
+ * @return `true` if the job exists, `false` otherwise.
+ */
+fun existsJob(username: String, jobName: String): Boolean = getJenkinsJob(username, jobName).isNotEmpty()
+
+/**
  * Gets all Jenkins users.
  * @return A list of all Jenkins users mapped by their username.
  */
