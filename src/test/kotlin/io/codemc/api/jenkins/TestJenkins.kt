@@ -29,7 +29,7 @@ class TestJenkins {
         @JvmStatic
         @BeforeAll
         fun testPing() {
-//            assertTrue(ping())
+            assertTrue(ping())
         }
 
     }
