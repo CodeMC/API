@@ -184,6 +184,6 @@ jobs:
       - name: Change Permissions
         run: chmod +x ./gradlew
       - name: Build Dokka
-        run: ./gradlew clean dokkaHtml
+        run: ./gradlew clean dokkaGeneratePublicationHtml
       - name: Deploy Dokka
         run: bash dokka.sh ${GITHUB_SHA::7}
