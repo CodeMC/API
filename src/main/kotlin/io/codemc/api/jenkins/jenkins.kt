@@ -1,4 +1,5 @@
 @file:JvmName("JenkinsAPI")
+@file:Suppress("unused")
 
 package io.codemc.api.jenkins
 
@@ -6,9 +7,15 @@ import io.codemc.api.*
 import kotlinx.coroutines.*
 import kotlinx.serialization.json.*
 import org.jetbrains.annotations.VisibleForTesting
+import java.io.StringWriter
 import java.net.http.HttpRequest
 import java.util.*
 import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.transform.OutputKeys
+import javax.xml.transform.TransformerFactory
+import javax.xml.transform.dom.DOMSource
+import javax.xml.transform.stream.StreamResult
+
 
 /**
  * The Jenkins configuration.
@@ -128,6 +135,42 @@ fun checkCredentials(username: String, password: String) = runBlocking(Dispatche
     }
 }
 
+private const val FOLDER_CONFIG_PROPERTY = "org.jenkinsci.plugins.configfiles.folder.FolderConfigFileProperty"
+
+internal suspend fun checkMavenSettings(xml: String): String = withContext(Dispatchers.IO) {
+    val factory = DocumentBuilderFactory.newInstance()
+    val builder = factory.newDocumentBuilder()
+    val doc = builder.parse(xml.byteInputStream())
+
+    if (!xml.contains("<id>nexus-login</id>")) {
+        val settings = RESOURCE_CACHE[MAVEN_SETTINGS_XML] ?: return@withContext xml
+
+        var configs = doc.getElementsByTagName("configs").item(0)
+        if (configs == null) {
+            var folderProperty = doc.getElementsByTagName(FOLDER_CONFIG_PROPERTY).item(0)
+            if (folderProperty == null) {
+                folderProperty = doc.createElement(FOLDER_CONFIG_PROPERTY)
+                doc.getElementsByTagName("properties").item(0).appendChild(folderProperty)
+            }
+
+            configs = doc.createElement("configs")
+            configs.setAttribute("class", "sorted-set")
+            folderProperty.appendChild(configs)
+        }
+
+        val node = doc.importNode(builder.parse(settings.byteInputStream()).documentElement, true)
+        configs.appendChild(node)
+    }
+
+    val tf = TransformerFactory.newInstance()
+    val transformer = tf.newTransformer()
+    val writer = StringWriter()
+    transformer.transform(DOMSource(doc), StreamResult(writer))
+
+    return@withContext writer.buffer.toString()
+}
+
+
 /**
  * Checks the user `config.xml` present on the Jenkins CI.
  * @param username The username of the user.
@@ -137,22 +180,13 @@ fun checkUserConfig(username: String): Boolean = runBlocking(Dispatchers.IO) {
     val xml = jenkins("${jenkinsConfig.url}/job/$username/config.xml").body()
     var changed = false
 
-    val factory = DocumentBuilderFactory.newInstance()
-    val builder = factory.newDocumentBuilder()
-    val doc = builder.parse(xml.byteInputStream())
-
-    // Check Maven Settings/
-    if (!xml.contains("<id>nexus-login</id>")) {
-        val settings = RESOURCE_CACHE[MAVEN_SETTINGS_XML] ?: return@runBlocking false
-        val configs = doc.getElementsByTagName("configs").item(0)
-
-        configs.appendChild(builder.parse(settings.byteInputStream()).documentElement)
-        changed = true
-    }
+    // Check Maven Settings
+    val newXml = checkMavenSettings(xml)
+    if (!xml.equals(newXml)) changed = true
 
     if (changed) {
         val res = jenkins("${jenkinsConfig.url}/job/$username/config.xml") {
-            POST(HttpRequest.BodyPublishers.ofString(doc.textContent))
+            POST(HttpRequest.BodyPublishers.ofString(newXml))
 
             header("Content-Type", "text/xml")
         }
@@ -160,7 +194,7 @@ fun checkUserConfig(username: String): Boolean = runBlocking(Dispatchers.IO) {
         return@runBlocking res.statusCode().isSuccess
     }
 
-    return@runBlocking true
+    return@runBlocking false
 }
 
 /**

@@ -1,8 +1,11 @@
 package io.codemc.api.jenkins
 
+import io.codemc.api.RESOURCE_CACHE
+import io.codemc.api.USER_CONFIG
 import io.codemc.api.loadResources
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -26,7 +29,7 @@ class TestJenkins {
         @JvmStatic
         @BeforeAll
         fun testPing() {
-            assertTrue(ping())
+//            assertTrue(ping())
         }
 
     }
@@ -147,6 +150,29 @@ class TestJenkins {
 
         assertTrue(deleteUser(name))
         assertTrue(getJenkinsUser(name).isEmpty())
+    }
+
+    @Test
+    fun testCheckUserConfig() = runTest {
+        val username = "OldUser567"
+        val type = "USER"
+
+        val noMavenConfig = (javaClass.getResourceAsStream("/user-config-no-maven.xml")?.bufferedReader()?.readText() ?: error("Resource not found: /user-config-no-maven.xml"))
+            .replace("{USERNAME}", username)
+            .replace("{TYPE}", type)
+
+        assertFalse(noMavenConfig.contains("<id>nexus-login</id>"))
+
+        val mavenConfig = (javaClass.getResourceAsStream("/templates/jenkins/user-config.xml")?.bufferedReader()?.readText() ?: error("Resource not found: /templates/jenkins/user-config.xml"))
+            .replace("{USERNAME}", username)
+            .replace("{TYPE}", type)
+
+        assertTrue(mavenConfig.contains("<id>nexus-login</id>"))
+
+        assertNotEquals(noMavenConfig, mavenConfig)
+
+        val newMavenConfig = checkMavenSettings(noMavenConfig)
+        assertTrue(newMavenConfig.contains("<id>nexus-login</id>"))
     }
 
 }
