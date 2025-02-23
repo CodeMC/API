@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "io.codemc.api"
-version = "1.2.1"
+version = "1.2.2"
 description = "Official API for CodeMC Jenkins & Nexus Services"
 
 repositories {
