@@ -54,6 +54,8 @@ fun connect(): Database {
     return database
 }
 
+// Users
+
 /**
  * Adds a user to the database.
  * @param username The username of the jenkins user
@@ -134,4 +136,90 @@ fun removeUser(
 fun removeAllUsers() = transaction(database) {
     if (!Users.exists()) return@transaction 0
     Users.deleteAll()
+}
+
+// Requests
+
+/**
+ * Adds a request to the database.
+ * @param messageId The unique ID of the request according to Discord
+ * @param userId The unique ID of the Discord user
+ * @param githubName The GitHub username of the user
+ * @param repoName The name of the repository
+ * @return The result of the `INSERT` statement
+ */
+fun createRequest(
+    messageId: Long,
+    userId: Long,
+    githubName: String,
+    repoName: String
+) = transaction(database) {
+    SchemaUtils.create(Requests)
+
+    return@transaction Requests.insert { row ->
+        row[Requests.messageId] = messageId
+        row[Requests.userId] = userId
+        row[Requests.githubName] = githubName
+        row[Requests.repoName] = repoName
+    }
+}
+
+/**
+ * Gets a [Request] by its unique ID.
+ * @param messageId The unique ID to lookup
+ * @return The request mapped to the unique ID, or `null` if not found
+ */
+fun getRequest(
+    messageId: Long
+): Request? = transaction(database) {
+    if (!Requests.exists()) return@transaction null
+
+    return@transaction Requests.selectAll().where { Requests.messageId eq messageId }
+        .map { row -> Request(row[Requests.messageId], row[Requests.userId], row[Requests.githubName], row[Requests.repoName]) }
+        .firstOrNull()
+}
+
+/**
+ * Checks if a request exists by its unique ID.
+ * @param messageId The unique ID to lookup
+ * @return `true` if the request exists, `false` otherwise
+ */
+fun requestExists(
+    messageId: Long
+): Boolean = transaction(database) {
+    if (!Requests.exists()) return@transaction false
+
+    return@transaction Requests.selectAll().where { Requests.messageId eq messageId }.count() > 0
+}
+
+/**
+ * Gets all requests currently linked in the database.
+ * @return All requests in the database
+ */
+fun getAllRequests(): List<Request> = transaction(database) {
+    if (!Requests.exists()) return@transaction emptyList()
+
+    return@transaction Requests.selectAll()
+        .map { row -> Request(row[Requests.messageId], row[Requests.userId], row[Requests.githubName], row[Requests.repoName]) }
+}
+
+/**
+ * Removes a request from the database.
+ * @param messageId The unique ID of the request to remove
+ * @return `1` if removed, else `0`
+ */
+fun removeRequest(
+    messageId: Long
+) = transaction(database) {
+    if (!Requests.exists()) return@transaction 0
+    return@transaction Requests.deleteWhere { Requests.messageId eq messageId }
+}
+
+/**
+ * Removes all requests from the database.
+ * @return The count of deleted requests
+ */
+fun removeAllRequests() = transaction(database) {
+    if (!Requests.exists()) return@transaction 0
+    return@transaction Requests.deleteAll()
 }

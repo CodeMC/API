@@ -88,7 +88,7 @@ class TestDatabase {
     }
 
     @Test
-    fun testAll() {
+    fun testAllUsers() {
         val users = listOf(
             "TestUser",
             "TestUser2",
@@ -104,6 +104,76 @@ class TestDatabase {
         }
 
         users.forEach { removeUser(it) }
+    }
+
+    @Test
+    fun testCreateRequest() {
+        val messageId = 123456789L
+        val userId = 987654321L
+        val githubName = "MyAuthor"
+        val repoName = "MyRepo"
+
+        createRequest(messageId, userId, githubName, repoName)
+
+        val r = getRequest(messageId)
+        assertNotNull(r)
+        assertEquals(userId, r?.userId)
+        assertEquals(githubName, r?.githubName)
+        assertEquals(repoName, r?.repoName)
+
+        removeRequest(messageId)
+    }
+
+    @Test
+    fun testRemoveRequest() {
+        val messageId = 123456789L
+        val userId = 987654321L
+        val githubName = "MyAuthor"
+        val repoName = "MyRepo"
+
+        createRequest(messageId, userId, githubName, repoName)
+        assertNotNull(getRequest(messageId))
+
+        removeRequest(messageId)
+        assertNull(getRequest(messageId))
+    }
+
+    @Test
+    fun testRemoveAllRequests() {
+        val requests = listOf(
+            123456789L,
+            987654321L,
+            123L,
+            456L
+        )
+
+        requests.forEach { createRequest(it, 0L, "Test", "Test") }
+        requests.forEach { assertNotNull(getRequest(it)) }
+
+        removeAllRequests()
+
+        requests.forEach { assertNull(getRequest(it)) }
+    }
+
+    @Test
+    fun testMultipleRequests() {
+        val requests = listOf(
+            123456789L,
+            987654321L,
+            123L,
+            456L
+        )
+
+        requests.forEachIndexed { index, l -> createRequest(l, index.toLong(), "Test", "Test") }
+        requests.forEachIndexed { index, l ->
+            val r = getRequest(l)
+            assertNotNull(r)
+            assertEquals(index.toLong(), r?.userId)
+            assertEquals("Test", r?.githubName)
+            assertEquals("Test", r?.repoName)
+        }
+
+        requests.forEach { removeRequest(it) }
     }
 
 }
