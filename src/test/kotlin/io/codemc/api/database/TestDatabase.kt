@@ -113,7 +113,7 @@ class TestDatabase {
         val githubName = "MyAuthor"
         val repoName = "MyRepo"
 
-        createRequest(messageId, userId, githubName, repoName)
+        createRequest(messageId, 0L, userId, githubName, repoName)
 
         val r = getRequest(messageId)
         assertNotNull(r)
@@ -131,7 +131,7 @@ class TestDatabase {
         val githubName = "MyAuthor"
         val repoName = "MyRepo"
 
-        createRequest(messageId, userId, githubName, repoName)
+        createRequest(messageId, 0L, userId, githubName, repoName)
         assertNotNull(getRequest(messageId))
 
         removeRequest(messageId)
@@ -147,7 +147,7 @@ class TestDatabase {
             456L
         )
 
-        requests.forEach { createRequest(it, 0L, "Test", "Test") }
+        requests.forEach { createRequest(it, 0L,0L, "Test", "Test") }
         requests.forEach { assertNotNull(getRequest(it)) }
 
         removeAllRequests()
@@ -164,11 +164,12 @@ class TestDatabase {
             456L
         )
 
-        requests.forEachIndexed { index, l -> createRequest(l, index.toLong(), "Test", "Test") }
+        requests.forEachIndexed { index, l -> createRequest(l, 0L, index.toLong(), "Test", "Test") }
         requests.forEachIndexed { index, l ->
             val r = getRequest(l)
             assertNotNull(r)
             assertEquals(index.toLong(), r?.userId)
+            assertEquals(0L, r?.threadId)
             assertEquals("Test", r?.githubName)
             assertEquals("Test", r?.repoName)
         }
