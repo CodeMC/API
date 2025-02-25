@@ -41,10 +41,6 @@ object Requests : Table() {
      */
     val messageId: Column<Long> = long("message_id").uniqueIndex()
     /**
-     * The `thread_id` column, representing the unique ID of the thread according to Discord.
-     */
-    val threadId: Column<Long> = long("thread_id")
-    /**
      * The `user_id` column, representing the unique ID of the Discord user.
      */
     val userId: Column<Long> = long("user_id")
@@ -63,14 +59,12 @@ object Requests : Table() {
 /**
  * Represents a request in the database.
  * @property messageId The unique ID of the request according to Discord.
- * @property threadId The unique ID of the thread according to Discord.
  * @property userId The unique ID of the Discord user.
  * @property githubName The GitHub username of the user.
  * @property repoName The name of the repository.
  */
 data class Request(
     val messageId: Long,
-    val threadId: Long,
     val userId: Long,
     val githubName: String,
     val repoName: String

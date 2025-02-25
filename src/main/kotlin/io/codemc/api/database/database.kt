@@ -143,7 +143,6 @@ fun removeAllUsers() = transaction(database) {
 /**
  * Adds a request to the database.
  * @param messageId The unique ID of the request according to Discord
- * @param threadId The unique ID of the thread according to Discord
  * @param userId The unique ID of the Discord user
  * @param githubName The GitHub username of the user
  * @param repoName The name of the repository
@@ -151,7 +150,6 @@ fun removeAllUsers() = transaction(database) {
  */
 fun createRequest(
     messageId: Long,
-    threadId: Long,
     userId: Long,
     githubName: String,
     repoName: String
@@ -160,7 +158,6 @@ fun createRequest(
 
     return@transaction Requests.insert { row ->
         row[Requests.messageId] = messageId
-        row[Requests.threadId] = threadId
         row[Requests.userId] = userId
         row[Requests.githubName] = githubName
         row[Requests.repoName] = repoName
@@ -178,7 +175,7 @@ fun getRequest(
     if (!Requests.exists()) return@transaction null
 
     return@transaction Requests.selectAll().where { Requests.messageId eq messageId }
-        .map { row -> Request(row[Requests.messageId], row[Requests.threadId], row[Requests.userId], row[Requests.githubName], row[Requests.repoName]) }
+        .map { row -> Request(row[Requests.messageId], row[Requests.userId], row[Requests.githubName], row[Requests.repoName]) }
         .firstOrNull()
 }
 
@@ -203,7 +200,7 @@ fun getAllRequests(): List<Request> = transaction(database) {
     if (!Requests.exists()) return@transaction emptyList()
 
     return@transaction Requests.selectAll()
-        .map { row -> Request(row[Requests.messageId], row[Requests.threadId], row[Requests.userId], row[Requests.githubName], row[Requests.repoName]) }
+        .map { row -> Request(row[Requests.messageId], row[Requests.userId], row[Requests.githubName], row[Requests.repoName]) }
 }
 
 /**
