@@ -25,7 +25,7 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
-    implementation("org.mariadb.jdbc:mariadb-java-client:3.5.2")
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.5.3")
     implementation("org.jetbrains.exposed:exposed-core:0.60.0")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.60.0")
 
