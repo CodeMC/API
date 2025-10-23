@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm") version "2.2.20"
-    id("org.jetbrains.dokka") version "2.0.0"
+    id("org.jetbrains.dokka") version "2.1.0"
     id("io.github.goooler.shadow") version "8.1.8"
 
     java
@@ -25,7 +25,7 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
-    implementation("org.mariadb.jdbc:mariadb-java-client:3.5.5")
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.5.6")
     implementation("org.jetbrains.exposed:exposed-core:0.61.0")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.61.0")
 
