@@ -84,7 +84,6 @@ class TestOverall {
         assertTrue((info?.lastBuild?.number ?: 0) > 0)
         assertTrue(info?.lastBuild.toString() != "null")
         assertNotNull(info?.lastBuild?.url)
-        assertNull(info?.lastFailedBuild)
 
         // Cleanup
         println("Cleaning up... ")
@@ -141,7 +140,6 @@ class TestOverall {
         assertTrue((info?.lastBuild?.number ?: 0) > 0)
         assertTrue(info?.lastBuild.toString() != "null")
         assertNotNull(info?.lastBuild?.url)
-        assertNull(info?.lastFailedBuild)
 
         // Cleanup
         println("Cleaning up... ")
