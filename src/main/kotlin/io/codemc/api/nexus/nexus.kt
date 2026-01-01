@@ -136,6 +136,31 @@ fun createNexus(name: String, password: String) = runBlocking(Dispatchers.IO) {
 }
 
 /**
+ * Validates that the Nexus Role for the user has the correct privileges.
+ * @param name The name of the user
+ * @return `true` if the role has the correct privileges, `false` otherwise
+ */
+@OptIn(ExperimentalSerializationApi::class)
+fun validatePrivileges(name: String): Boolean = runBlocking(Dispatchers.IO) {
+    val id = name.lowercase()
+    val newRole = buildJsonObject {
+        put("id", id)
+        put("name", name)
+        put("description", "Role for $name")
+        putJsonArray("privileges") {
+            addAll(getNexusRoles(id))
+        }
+    }
+
+    val roleReq = nexus("$API_URL/security/roles/$id") {
+        PUT(HttpRequest.BodyPublishers.ofString(newRole.toString()))
+        header("Content-Type", "application/json")
+    }
+
+    return@runBlocking roleReq.statusCode().isSuccess
+}
+
+/**
  * Changes the password linked to the Nexus User.
  * @param name The name of the user to change
  * @param newPassword The new password for the user
@@ -175,10 +200,13 @@ fun deleteNexus(name: String) = runBlocking(Dispatchers.IO) {
     return@runBlocking userRes.statusCode().isSuccess
 }
 
-@VisibleForTesting
-internal suspend fun getRepositories(): List<JsonObject> {
+/**
+ * Gets all Nexus Repositories.
+ * @return A list of repositories in JSON format
+ */
+fun getRepositories(): List<JsonObject> = runBlocking {
     val text = nexus("$API_URL/repositories").body()
-    return json.decodeFromString(text)
+    return@runBlocking json.decodeFromString(text)
 }
 
 /**
@@ -212,12 +240,16 @@ fun getNexusUser(name: String): JsonObject? = runBlocking {
  */
 fun exists(name: String) = getNexusUser(name) != null
 
-@VisibleForTesting
-internal suspend fun getNexusRole(name: String): JsonObject? {
+/**
+ * Gets a Nexus Role by its case-sensitive name.
+ * @param name The name of the nexus role.
+ * @return The Role data in JSON format, or `null` if not found
+ */
+fun getNexusRole(name: String): JsonObject? = runBlocking(Dispatchers.IO) {
     val res = nexus("$API_URL/security/roles/$name")
-    if (res.statusCode() == 404) return null
+    if (res.statusCode() == 404) return@runBlocking null
 
-    return json.decodeFromString(res.body())
+    return@runBlocking json.decodeFromString(res.body())
 }
 
 @VisibleForTesting

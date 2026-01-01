@@ -9,11 +9,15 @@ import io.codemc.api.nexus.getNexusRole
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import org.junit.jupiter.api.Assertions.*
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonPrimitive
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
 import java.io.File
 import kotlin.test.Test
+import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 @Execution(ExecutionMode.CONCURRENT)
 class TestOverall {
@@ -67,7 +71,17 @@ class TestOverall {
         // Nexus
         assertTrue(createNexus(name, password))
         assertFalse(getNexusRepository(repoName).isNullOrEmpty())
-        assertFalse(getNexusRole(repoName).isNullOrEmpty())
+
+        val role = getNexusRole(repoName)
+        assertFalse(role.isNullOrEmpty())
+
+        val privileges = role["privileges"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList()
+        assertNotNull(privileges)
+        assertFalse(privileges.isEmpty())
+
+        for (priv in getNexusRoles(repoName)) {
+            assertTrue(privileges.contains(priv), "Missing Privilege: $priv [${privileges.joinToString(", ")}]")
+        }
 
         // Await Job
         println("Waiting for Jenkins to finish building...")
@@ -79,11 +93,11 @@ class TestOverall {
         // Jenkins 2
         val info = getJobInfo(name, jobName)
         assertNotNull(info)
-        assertNotNull(info?.url)
-        assertNotNull(info?.lastBuild)
-        assertTrue((info?.lastBuild?.number ?: 0) > 0)
-        assertTrue(info?.lastBuild.toString() != "null")
-        assertNotNull(info?.lastBuild?.url)
+        assertNotNull(info.url)
+        assertNotNull(info.lastBuild)
+        assertTrue((info.lastBuild.number) > 0)
+        assertTrue(info.lastBuild.toString() != "null")
+        assertNotNull(info.lastBuild.url)
 
         // Cleanup
         println("Cleaning up... ")
@@ -123,7 +137,16 @@ class TestOverall {
         // Nexus
         assertTrue(createNexus(name, password))
         assertFalse(getNexusRepository(repoName).isNullOrEmpty())
-        assertFalse(getNexusRole(repoName).isNullOrEmpty())
+        val role = getNexusRole(repoName)
+        assertFalse(role.isNullOrEmpty())
+
+        val privileges = role["privileges"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList()
+        assertNotNull(privileges)
+        assertFalse(privileges.isEmpty())
+
+        for (priv in getNexusRoles(repoName)) {
+            assertTrue(privileges.contains(priv), "Missing Privilege: $priv [${privileges.joinToString(", ")}]")
+        }
 
         // Await Job
         println("Waiting for Jenkins to finish building...")
@@ -135,11 +158,11 @@ class TestOverall {
         // Jenkins 2
         val info = getJobInfo(name, jobName)
         assertNotNull(info)
-        assertNotNull(info?.url)
-        assertNotNull(info?.lastBuild)
-        assertTrue((info?.lastBuild?.number ?: 0) > 0)
-        assertTrue(info?.lastBuild.toString() != "null")
-        assertNotNull(info?.lastBuild?.url)
+        assertNotNull(info.url)
+        assertNotNull(info.lastBuild)
+        assertTrue((info.lastBuild.number) > 0)
+        assertTrue(info.lastBuild.toString() != "null")
+        assertNotNull(info.lastBuild.url)
 
         // Cleanup
         println("Cleaning up... ")
