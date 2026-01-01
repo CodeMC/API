@@ -91,10 +91,13 @@ $dokka.location:io.codemc.api.nexus//createNexus/#kotlin.String#kotlin.String/Po
 $dokka.location:io.codemc.api.nexus//deleteNexus/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.nexus/delete-nexus.html
 $dokka.location:io.codemc.api.nexus//exists/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.nexus/exists.html
 $dokka.location:io.codemc.api.nexus//getNexusRepository/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.nexus/get-nexus-repository.html
+$dokka.location:io.codemc.api.nexus//getNexusRole/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.nexus/get-nexus-role.html
 $dokka.location:io.codemc.api.nexus//getNexusUser/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.nexus/get-nexus-user.html
+$dokka.location:io.codemc.api.nexus//getRepositories/#/PointingToDeclaration/codemc-api/io.codemc.api.nexus/get-repositories.html
 $dokka.location:io.codemc.api.nexus//nexus/#kotlin.String#kotlin.Function1[java.net.http.HttpRequest.Builder,kotlin.Unit]/PointingToDeclaration/codemc-api/io.codemc.api.nexus/nexus.html
 $dokka.location:io.codemc.api.nexus//nexusConfig/#/PointingToDeclaration/codemc-api/io.codemc.api.nexus/nexus-config.html
 $dokka.location:io.codemc.api.nexus//ping/#/PointingToDeclaration/codemc-api/io.codemc.api.nexus/ping.html
+$dokka.location:io.codemc.api.nexus//validatePrivileges/#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.nexus/validate-privileges.html
 $dokka.location:io.codemc.api.nexus/NexusConfig///PointingToDeclaration/codemc-api/io.codemc.api.nexus/-nexus-config/index.html
 $dokka.location:io.codemc.api.nexus/NexusConfig/NexusConfig/#kotlin.String#kotlin.String#kotlin.String/PointingToDeclaration/codemc-api/io.codemc.api.nexus/-nexus-config/-nexus-config.html
 $dokka.location:io.codemc.api.nexus/NexusConfig/authorization/#/PointingToDeclaration/codemc-api/io.codemc.api.nexus/-nexus-config/authorization.html

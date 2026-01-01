@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html class="no-js" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>Users</title>
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
-    <script>var pathToRoot = "../../../";</script>
-    <script>document.documentElement.classList.replace("no-js","js");</script>
+        <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-    if (storage == null) {
+      if (storage == null) {
         const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
         if (osDarkSchemePreferred === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    } else {
+      } else {
         const savedDarkMode = JSON.parse(storage)
-        if(savedDarkMode === true) {
-            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
         }
-    }
+      }
     </script>
 <script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
 <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
@@ -25,20 +25,18 @@
 <link href="../../../styles/main.css" rel="Stylesheet">
 <link href="../../../styles/prism.css" rel="Stylesheet">
 <link href="../../../styles/logo-styles.css" rel="Stylesheet">
-<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
 <link href="../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
-<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/safe-local-storage_blocking.js"></script>
 <script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
 <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
 <script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
 <script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
 <script type="text/javascript" src="../../../ui-kit/ui-kit.min.js" defer="defer"></script>
-<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
 </head>
 <body>
-    <div class="root">
-    <nav class="navigation theme-dark" id="navigation-wrapper">
-            <a class="library-name--link" href="../../../index.html">
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+            <a class="library-name--link" href="../../../index.html" tabindex="1">
                     codemc-api
             </a>
         <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle"
@@ -46,10 +44,10 @@
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
         <div class="library-version" id="library-version">
-1.2.2        </div>
+1.2.3        </div>
         <div class="navigation-controls">
-        <div class="filter-section filter-section_loading" id="filter-section">
-                <button class="platform-tag platform-selector jvm-like" data-active=""
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true"
                         data-filter=":/main">jvm</button>
             <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
                 <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox"
@@ -59,9 +57,9 @@
                         aria-expanded="false"
                         aria-label="Toggle source sets"
                 ></button>
-                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox">
-                    <div class="dropdown--header"><span>Platform filter</span>
-                        <button class="button" data-role="dropdown-toggle" aria-label="Close platform filter">
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
                             <i class="ui-kit-icon ui-kit-icon_cross"></i>
                         </button>
                     </div>
@@ -76,7 +74,7 @@
                 </ul>
                 <div class="dropdown--overlay"></div>
             </div>
-        </div>
+        </ul>
             <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button"
                     type="button">Switch theme
             </button>
@@ -84,26 +82,28 @@
                 API
             </div>
         </div>
-    </nav>
-        <div id="container">
-            <div class="sidebar" id="leftColumn">
-                <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
-                    <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
-                        data-role="dropdown-listbox">
-                        <div class="dropdown--header">
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config='{"defaultSize": 280, "minSize": 200, "maxSize": 400}'>
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
+                    data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
                             <span>
                                     codemc-api
                             </span>
-                            <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
-                                <i class="ui-kit-icon ui-kit-icon_cross"></i>
-                            </button>
-                        </div>
-                        <div class="sidebar--inner" id="sideMenu"></div>
-                    </ul>
-                    <div class="dropdown--overlay"></div>
-                </div>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
             </div>
-            <div id="main">
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
 <div class="main-content" data-page-type="classlike" id="content" pageIds="codemc-api::io.codemc.api.database/Users///PointingToDeclaration//-251573632">
   <div class="breadcrumbs"><a href="../../../index.html">codemc-api</a><span class="delimiter">/</span><a href="../index.html">io.codemc.api.database</a><span class="delimiter">/</span><span class="current">Users</span></div>
   <div class="cover ">
@@ -114,9 +114,9 @@
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION,EXTENSION_PROPERTY,EXTENSION_FUNCTION">Members &amp; Extensions</button></div>
     <div class="tabs-section-body">
       <div data-togglable="PROPERTY">
-        <h2 class="">Properties</h2>
+        <h2 class="tableheader">Properties</h2>
         <div class="table"><a data-name="-119017270%2FProperties%2F-251573632" anchor-label="autoIncColumn" id="-119017270%2FProperties%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-119017270%2FProperties%2F-251573632"><span>auto</span><wbr></wbr><span>Inc</span><wbr></wbr><span><span>Column</span></span></a></div>
@@ -131,7 +131,7 @@
             </div>
           </div>
 <a data-name="-527477422%2FProperties%2F-251573632" anchor-label="columns" id="-527477422%2FProperties%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-527477422%2FProperties%2F-251573632"><span><span>columns</span></span></a></div>
@@ -146,7 +146,7 @@
             </div>
           </div>
 <a data-name="436067741%2FProperties%2F-251573632" anchor-label="ddl" id="436067741%2FProperties%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#436067741%2FProperties%2F-251573632"><span><span>ddl</span></span></a></div>
@@ -161,7 +161,7 @@
             </div>
           </div>
 <a data-name="-1254577611%2FProperties%2F-251573632" anchor-label="discord" id="-1254577611%2FProperties%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="discord.html"><span><span>discord</span></span></a></div>
@@ -176,7 +176,7 @@
             </div>
           </div>
 <a data-name="1767535600%2FProperties%2F-251573632" anchor-label="fields" id="1767535600%2FProperties%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#1767535600%2FProperties%2F-251573632"><span><span>fields</span></span></a></div>
@@ -191,7 +191,7 @@
             </div>
           </div>
 <a data-name="-1277801049%2FProperties%2F-251573632" anchor-label="foreignKeys" id="-1277801049%2FProperties%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-1277801049%2FProperties%2F-251573632"><span>foreign</span><wbr></wbr><span><span>Keys</span></span></a></div>
@@ -206,7 +206,7 @@
             </div>
           </div>
 <a data-name="-1684006712%2FProperties%2F-251573632" anchor-label="indices" id="-1684006712%2FProperties%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-1684006712%2FProperties%2F-251573632"><span><span>indices</span></span></a></div>
@@ -221,7 +221,7 @@
             </div>
           </div>
 <a data-name="-230208324%2FProperties%2F-251573632" anchor-label="primaryKey" id="-230208324%2FProperties%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="primary-key.html"><span>primary</span><wbr></wbr><span><span>Key</span></span></a></div>
@@ -236,7 +236,7 @@
             </div>
           </div>
 <a data-name="-1960918000%2FProperties%2F-251573632" anchor-label="realFields" id="-1960918000%2FProperties%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-1960918000%2FProperties%2F-251573632"><span>real</span><wbr></wbr><span><span>Fields</span></span></a></div>
@@ -251,7 +251,7 @@
             </div>
           </div>
 <a data-name="441115999%2FProperties%2F-251573632" anchor-label="schemaName" id="441115999%2FProperties%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#441115999%2FProperties%2F-251573632"><span>schema</span><wbr></wbr><span><span>Name</span></span></a></div>
@@ -266,7 +266,7 @@
             </div>
           </div>
 <a data-name="17796477%2FProperties%2F-251573632" anchor-label="sequences" id="17796477%2FProperties%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#17796477%2FProperties%2F-251573632"><span><span>sequences</span></span></a></div>
@@ -281,7 +281,7 @@
             </div>
           </div>
 <a data-name="1676246222%2FProperties%2F-251573632" anchor-label="source" id="1676246222%2FProperties%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#1676246222%2FProperties%2F-251573632"><span><span>source</span></span></a></div>
@@ -296,7 +296,7 @@
             </div>
           </div>
 <a data-name="886371510%2FProperties%2F-251573632" anchor-label="tableName" id="886371510%2FProperties%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#886371510%2FProperties%2F-251573632"><span>table</span><wbr></wbr><span><span>Name</span></span></a></div>
@@ -311,7 +311,7 @@
             </div>
           </div>
 <a data-name="-1533640189%2FProperties%2F-251573632" anchor-label="username" id="-1533640189%2FProperties%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="username.html"><span><span>username</span></span></a></div>
@@ -328,9 +328,9 @@
         </div>
       </div>
       <div data-togglable="FUNCTION">
-        <h2 class="">Functions</h2>
+        <h2 class="tableheader">Functions</h2>
         <div class="table"><a data-name="-1889876668%2FFunctions%2F-251573632" anchor-label="array" id="-1889876668%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-972684780%2FFunctions%2F-251573632"><span><span>array</span></span></a></div>
@@ -345,7 +345,7 @@
             </div>
           </div>
 <a data-name="-560953355%2FFunctions%2F-251573632" anchor-label="array" id="-560953355%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#2013751705%2FFunctions%2F-251573632"><span><span>array</span></span></a></div>
@@ -360,7 +360,7 @@
             </div>
           </div>
 <a data-name="1908081876%2FFunctions%2F-251573632" anchor-label="autoGenerate" id="1908081876%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#1908081876%2FFunctions%2F-251573632"><span>auto</span><wbr></wbr><span><span>Generate</span></span></a></div>
@@ -375,7 +375,7 @@
             </div>
           </div>
 <a data-name="59505337%2FFunctions%2F-251573632" anchor-label="autoinc" id="59505337%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#59505337%2FFunctions%2F-251573632"><span><span>autoinc</span></span></a></div>
@@ -390,7 +390,7 @@
             </div>
           </div>
 <a data-name="1595968970%2FFunctions%2F-251573632" anchor-label="autoIncrement" id="1595968970%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#1732389443%2FFunctions%2F-251573632"><span>auto</span><wbr></wbr><span><span>Increment</span></span></a></div>
@@ -405,7 +405,7 @@
             </div>
           </div>
 <a data-name="-668191919%2FFunctions%2F-251573632" anchor-label="binary" id="-668191919%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#1058154362%2FFunctions%2F-251573632"><span><span>binary</span></span></a></div>
@@ -420,7 +420,7 @@
             </div>
           </div>
 <a data-name="1172361774%2FFunctions%2F-251573632" anchor-label="blob" id="1172361774%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#1172361774%2FFunctions%2F-251573632"><span><span>blob</span></span></a></div>
@@ -435,7 +435,7 @@
             </div>
           </div>
 <a data-name="-2086032349%2FFunctions%2F-251573632" anchor-label="bool" id="-2086032349%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-2086032349%2FFunctions%2F-251573632"><span><span>bool</span></span></a></div>
@@ -450,7 +450,7 @@
             </div>
           </div>
 <a data-name="1486777533%2FFunctions%2F-251573632" anchor-label="byte" id="1486777533%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#1486777533%2FFunctions%2F-251573632"><span><span>byte</span></span></a></div>
@@ -465,7 +465,7 @@
             </div>
           </div>
 <a data-name="1771433587%2FFunctions%2F-251573632" anchor-label="char" id="1771433587%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-1525656689%2FFunctions%2F-251573632"><span><span>char</span></span></a></div>
@@ -480,7 +480,7 @@
             </div>
           </div>
 <a data-name="120240253%2FFunctions%2F-251573632" anchor-label="check" id="120240253%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#1203492787%2FFunctions%2F-251573632"><span><span>check</span></span></a></div>
@@ -495,7 +495,7 @@
             </div>
           </div>
 <a data-name="-1066262307%2FFunctions%2F-251573632" anchor-label="checkConstraints" id="-1066262307%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-1066262307%2FFunctions%2F-251573632"><span>check</span><wbr></wbr><span><span>Constraints</span></span></a></div>
@@ -510,7 +510,7 @@
             </div>
           </div>
 <a data-name="1445495208%2FFunctions%2F-251573632" anchor-label="clientDefault" id="1445495208%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#1445495208%2FFunctions%2F-251573632"><span>client</span><wbr></wbr><span><span>Default</span></span></a></div>
@@ -525,7 +525,7 @@
             </div>
           </div>
 <a data-name="1499019292%2FFunctions%2F-251573632" anchor-label="createStatement" id="1499019292%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#1499019292%2FFunctions%2F-251573632"><span>create</span><wbr></wbr><span><span>Statement</span></span></a></div>
@@ -540,7 +540,7 @@
             </div>
           </div>
 <a data-name="-134578527%2FFunctions%2F-251573632" anchor-label="crossJoin" id="-134578527%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-134578527%2FFunctions%2F-251573632"><span>cross</span><wbr></wbr><span><span>Join</span></span></a></div>
@@ -555,7 +555,7 @@
             </div>
           </div>
 <a data-name="67934265%2FFunctions%2F-251573632" anchor-label="customEnumeration" id="67934265%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#67934265%2FFunctions%2F-251573632"><span>custom</span><wbr></wbr><span><span>Enumeration</span></span></a></div>
@@ -570,7 +570,7 @@
             </div>
           </div>
 <a data-name="-1946041873%2FFunctions%2F-251573632" anchor-label="databaseGenerated" id="-1946041873%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-1946041873%2FFunctions%2F-251573632"><span>database</span><wbr></wbr><span><span>Generated</span></span></a></div>
@@ -585,7 +585,7 @@
             </div>
           </div>
 <a data-name="650705094%2FFunctions%2F-251573632" anchor-label="decimal" id="650705094%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#650705094%2FFunctions%2F-251573632"><span><span>decimal</span></span></a></div>
@@ -600,7 +600,7 @@
             </div>
           </div>
 <a data-name="737285523%2FFunctions%2F-251573632" anchor-label="default" id="737285523%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-1554466462%2FFunctions%2F-251573632"><span><span>default</span></span></a></div>
@@ -615,7 +615,7 @@
             </div>
           </div>
 <a data-name="-1090095358%2FFunctions%2F-251573632" anchor-label="defaultExpression" id="-1090095358%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-1090095358%2FFunctions%2F-251573632"><span>default</span><wbr></wbr><span><span>Expression</span></span></a></div>
@@ -630,7 +630,7 @@
             </div>
           </div>
 <a data-name="304080744%2FFunctions%2F-251573632" anchor-label="describe" id="304080744%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#304080744%2FFunctions%2F-251573632"><span><span>describe</span></span></a></div>
@@ -645,7 +645,7 @@
             </div>
           </div>
 <a data-name="638663498%2FFunctions%2F-251573632" anchor-label="double" id="638663498%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#638663498%2FFunctions%2F-251573632"><span><span>double</span></span></a></div>
@@ -660,7 +660,7 @@
             </div>
           </div>
 <a data-name="-1545038385%2FFunctions%2F-251573632" anchor-label="dropStatement" id="-1545038385%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-1545038385%2FFunctions%2F-251573632"><span>drop</span><wbr></wbr><span><span>Statement</span></span></a></div>
@@ -675,7 +675,7 @@
             </div>
           </div>
 <a data-name="1915403516%2FFunctions%2F-251573632" anchor-label="entityId" id="1915403516%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#8674530%2FFunctions%2F-251573632"><span>entity</span><wbr></wbr><span><span>Id</span></span></a></div>
@@ -690,7 +690,7 @@
             </div>
           </div>
 <a data-name="744426230%2FFunctions%2F-251573632" anchor-label="enumeration" id="744426230%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-1375150884%2FFunctions%2F-251573632"><span><span>enumeration</span></span></a></div>
@@ -705,7 +705,7 @@
             </div>
           </div>
 <a data-name="-677841976%2FFunctions%2F-251573632" anchor-label="enumerationByName" id="-677841976%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-2069184673%2FFunctions%2F-251573632"><span>enumeration</span><wbr></wbr><span>By</span><wbr></wbr><span><span>Name</span></span></a></div>
@@ -720,7 +720,7 @@
             </div>
           </div>
 <a data-name="-1257999178%2FFunctions%2F-251573632" anchor-label="equals" id="-1257999178%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-1257999178%2FFunctions%2F-251573632"><span><span>equals</span></span></a></div>
@@ -735,7 +735,7 @@
             </div>
           </div>
 <a data-name="-1280710735%2FFunctions%2F-251573632" anchor-label="float" id="-1280710735%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-1280710735%2FFunctions%2F-251573632"><span><span>float</span></span></a></div>
@@ -749,23 +749,23 @@
               </div>
             </div>
           </div>
-<a data-name="-900728323%2FFunctions%2F-251573632" anchor-label="foreignKey" id="-900728323%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+<a data-name="-1217238235%2FFunctions%2F-251573632" anchor-label="foreignKey" id="-1217238235%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="../-requests/index.html#753676639%2FFunctions%2F-251573632"><span>foreign</span><wbr></wbr><span><span>Key</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-900728323%2FFunctions%2F-251573632"></span>
+                  <div><a href="../-requests/index.html#142701675%2FFunctions%2F-251573632"><span>foreign</span><wbr></wbr><span><span>Key</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1217238235%2FFunctions%2F-251573632"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="../-requests/index.html#753676639%2FFunctions%2F-251573632"><span class="token function">foreignKey</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>references<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-pair/index.html">Pair</a><span class="token operator">&lt;</span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token punctuation">, </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="../-requests/index.html#-1550008214%2FFunctions%2F-251573632"><span class="token function">foreignKey</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>from<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">target<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Table.PrimaryKey///PointingToDeclaration/">Table.PrimaryKey</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="../-requests/index.html#142701675%2FFunctions%2F-251573632"><span class="token function">foreignKey</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>references<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-pair/index.html">Pair</a><span class="token operator">&lt;</span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token punctuation">, </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="../-requests/index.html#1052226886%2FFunctions%2F-251573632"><span class="token function">foreignKey</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>from<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">target<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Table.PrimaryKey///PointingToDeclaration/">Table.PrimaryKey</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
 <a data-name="-1482579372%2FFunctions%2F-251573632" anchor-label="fullJoin" id="-1482579372%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-1482579372%2FFunctions%2F-251573632"><span>full</span><wbr></wbr><span><span>Join</span></span></a></div>
@@ -780,7 +780,7 @@
             </div>
           </div>
 <a data-name="-822775952%2FFunctions%2F-251573632" anchor-label="hashCode" id="-822775952%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-822775952%2FFunctions%2F-251573632"><span>hash</span><wbr></wbr><span><span>Code</span></span></a></div>
@@ -794,23 +794,23 @@
               </div>
             </div>
           </div>
-<a data-name="1723126293%2FFunctions%2F-251573632" anchor-label="index" id="1723126293%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+<a data-name="-1822935211%2FFunctions%2F-251573632" anchor-label="index" id="-1822935211%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="../-requests/index.html#977532225%2FFunctions%2F-251573632"><span><span>index</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1723126293%2FFunctions%2F-251573632"></span>
+                  <div><a href="../-requests/index.html#1720783709%2FFunctions%2F-251573632"><span><span>index</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1822935211%2FFunctions%2F-251573632"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="../-requests/index.html#977532225%2FFunctions%2F-251573632"><span class="token function">index</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">isUnique<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>columns<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1206961544%2FFunctions%2F-251573632">T</a><span class="token operator">&gt; </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1206961544%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../-requests/index.html#-1206961544%2FFunctions%2F-251573632"><span class="token function">index</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">customIndexName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">isUnique<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1206961544%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="../-requests/index.html#-89973378%2FFunctions%2F-251573632"><span class="token function">index</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">customIndexName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">isUnique<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>columns<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">functions<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span data-unresolved-link="org.jetbrains.exposed.sql/ExpressionWithColumnType///PointingToDeclaration/">ExpressionWithColumnType</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">indexType<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">filterCondition<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/FilterCondition///PointingToDeclaration/">FilterCondition</span></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="../-requests/index.html#1720783709%2FFunctions%2F-251573632"><span class="token function">index</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">isUnique<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>columns<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1206961544%2FFunctions%2F-251573632">T</a><span class="token operator">&gt; </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1206961544%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../-requests/index.html#-1206961544%2FFunctions%2F-251573632"><span class="token function">index</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">customIndexName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">isUnique<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1206961544%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="../-requests/index.html#-1831656166%2FFunctions%2F-251573632"><span class="token function">index</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">customIndexName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">isUnique<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>columns<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">functions<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span data-unresolved-link="org.jetbrains.exposed.sql/ExpressionWithColumnType///PointingToDeclaration/">ExpressionWithColumnType</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">indexType<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">filterCondition<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/FilterCondition///PointingToDeclaration/">FilterCondition</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
 <a data-name="907117751%2FFunctions%2F-251573632" anchor-label="innerJoin" id="907117751%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#907117751%2FFunctions%2F-251573632"><span>inner</span><wbr></wbr><span><span>Join</span></span></a></div>
@@ -825,7 +825,7 @@
             </div>
           </div>
 <a data-name="-1652764501%2FFunctions%2F-251573632" anchor-label="integer" id="-1652764501%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-1652764501%2FFunctions%2F-251573632"><span><span>integer</span></span></a></div>
@@ -840,7 +840,7 @@
             </div>
           </div>
 <a data-name="-669825009%2FFunctions%2F-251573632" anchor-label="join" id="-669825009%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-669825009%2FFunctions%2F-251573632"><span><span>join</span></span></a></div>
@@ -855,7 +855,7 @@
             </div>
           </div>
 <a data-name="-831337277%2FFunctions%2F-251573632" anchor-label="largeText" id="-831337277%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-831337277%2FFunctions%2F-251573632"><span>large</span><wbr></wbr><span><span>Text</span></span></a></div>
@@ -870,7 +870,7 @@
             </div>
           </div>
 <a data-name="-2030280756%2FFunctions%2F-251573632" anchor-label="leftJoin" id="-2030280756%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-2030280756%2FFunctions%2F-251573632"><span>left</span><wbr></wbr><span><span>Join</span></span></a></div>
@@ -885,7 +885,7 @@
             </div>
           </div>
 <a data-name="8685513%2FFunctions%2F-251573632" anchor-label="long" id="8685513%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#8685513%2FFunctions%2F-251573632"><span><span>long</span></span></a></div>
@@ -900,7 +900,7 @@
             </div>
           </div>
 <a data-name="-326748191%2FFunctions%2F-251573632" anchor-label="mediumText" id="-326748191%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-326748191%2FFunctions%2F-251573632"><span>medium</span><wbr></wbr><span><span>Text</span></span></a></div>
@@ -915,7 +915,7 @@
             </div>
           </div>
 <a data-name="1323802714%2FFunctions%2F-251573632" anchor-label="modifyStatement" id="1323802714%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#1323802714%2FFunctions%2F-251573632"><span>modify</span><wbr></wbr><span><span>Statement</span></span></a></div>
@@ -930,7 +930,7 @@
             </div>
           </div>
 <a data-name="496714128%2FFunctions%2F-251573632" anchor-label="nameInDatabaseCase" id="496714128%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#496714128%2FFunctions%2F-251573632"><span>name</span><wbr></wbr><span>In</span><wbr></wbr><span>Database</span><wbr></wbr><span><span>Case</span></span></a></div>
@@ -945,7 +945,7 @@
             </div>
           </div>
 <a data-name="207155279%2FFunctions%2F-251573632" anchor-label="nameInDatabaseCaseUnquoted" id="207155279%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#207155279%2FFunctions%2F-251573632"><span>name</span><wbr></wbr><span>In</span><wbr></wbr><span>Database</span><wbr></wbr><span>Case</span><wbr></wbr><span><span>Unquoted</span></span></a></div>
@@ -960,7 +960,7 @@
             </div>
           </div>
 <a data-name="-400159367%2FFunctions%2F-251573632" anchor-label="nullable" id="-400159367%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#1935788434%2FFunctions%2F-251573632"><span><span>nullable</span></span></a></div>
@@ -975,7 +975,7 @@
             </div>
           </div>
 <a data-name="1439041965%2FFunctions%2F-251573632" anchor-label="nullTransform" id="1439041965%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#1539819329%2FFunctions%2F-251573632"><span>null</span><wbr></wbr><span><span>Transform</span></span></a></div>
@@ -984,13 +984,13 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#1539819329%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#1539819329%2FFunctions%2F-251573632">Wrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#1539819329%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../-requests/index.html#1539819329%2FFunctions%2F-251573632"><span class="token function">nullTransform</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">transformer<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ColumnTransformer///PointingToDeclaration/">ColumnTransformer</span><span class="token operator">&lt;</span><a href="../-requests/index.html#1539819329%2FFunctions%2F-251573632">Unwrapped</a><span class="token punctuation">, </span><a href="../-requests/index.html#1539819329%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#1539819329%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#2091760288%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#2091760288%2FFunctions%2F-251573632">Wrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#2091760288%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../-requests/index.html#2091760288%2FFunctions%2F-251573632"><span class="token function">nullTransform</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">wrap<span class="token operator">: </span><span class="token punctuation">(</span><a href="../-requests/index.html#2091760288%2FFunctions%2F-251573632">Unwrapped</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../-requests/index.html#2091760288%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">unwrap<span class="token operator">: </span><span class="token punctuation">(</span><a href="../-requests/index.html#2091760288%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../-requests/index.html#2091760288%2FFunctions%2F-251573632">Unwrapped</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#2091760288%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token operator">&gt;</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-name/index.html"><span class="token annotation builtin">JvmName</span></a><span class="token punctuation">(</span><span>name<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;nullTransform&quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#1539819329%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#1539819329%2FFunctions%2F-251573632">Wrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#1539819329%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../-requests/index.html#1539819329%2FFunctions%2F-251573632"><span class="token function">nullTransform</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">transformer<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ColumnTransformer///PointingToDeclaration/">ColumnTransformer</span><span class="token operator">&lt;</span><a href="../-requests/index.html#1539819329%2FFunctions%2F-251573632">Unwrapped</a><span class="token punctuation">, </span><a href="../-requests/index.html#1539819329%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#1539819329%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-name/index.html"><span class="token annotation builtin">JvmName</span></a><span class="token punctuation">(</span><span>name<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;nullTransform&quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#2091760288%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#2091760288%2FFunctions%2F-251573632">Wrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#2091760288%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../-requests/index.html#2091760288%2FFunctions%2F-251573632"><span class="token function">nullTransform</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">wrap<span class="token operator">: </span><span class="token punctuation">(</span><a href="../-requests/index.html#2091760288%2FFunctions%2F-251573632">Unwrapped</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../-requests/index.html#2091760288%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">unwrap<span class="token operator">: </span><span class="token punctuation">(</span><a href="../-requests/index.html#2091760288%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../-requests/index.html#2091760288%2FFunctions%2F-251573632">Unwrapped</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#2091760288%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token operator">&gt;</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
 <a data-name="-2049652724%2FFunctions%2F-251573632" anchor-label="optReference" id="-2049652724%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-776073109%2FFunctions%2F-251573632"><span>opt</span><wbr></wbr><span><span>Reference</span></span></a></div>
@@ -999,13 +999,13 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-776073109%2FFunctions%2F-251573632">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="../-requests/index.html#-776073109%2FFunctions%2F-251573632"><span class="token function">optReference</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">foreign<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.dao.id/IdTable///PointingToDeclaration/">IdTable</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-776073109%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">fkName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span data-unresolved-link="org.jetbrains.exposed.dao.id/EntityID///PointingToDeclaration/">EntityID</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-776073109%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#1673366821%2FFunctions%2F-251573632">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="../-requests/index.html#1673366821%2FFunctions%2F-251573632"><span class="token function">optReference</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">refColumn<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#1673366821%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">fkName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#1673366821%2FFunctions%2F-251573632">T</a><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#326261444%2FFunctions%2F-251573632">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#326261444%2FFunctions%2F-251573632">E</a><span class="token operator"> : </span><span data-unresolved-link="org.jetbrains.exposed.dao.id/EntityID///PointingToDeclaration/">EntityID</span><span class="token operator">&lt;</span><a href="../-requests/index.html#326261444%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="../-requests/index.html#326261444%2FFunctions%2F-251573632"><span class="token function">optReference</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">refColumn<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#326261444%2FFunctions%2F-251573632">E</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">fkName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#326261444%2FFunctions%2F-251573632">E</a><span class="token operator">?</span><span class="token operator">&gt;</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-776073109%2FFunctions%2F-251573632">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="../-requests/index.html#-776073109%2FFunctions%2F-251573632"><span class="token function">optReference</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">foreign<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.dao.id/IdTable///PointingToDeclaration/">IdTable</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-776073109%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">fkName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span data-unresolved-link="org.jetbrains.exposed.dao.id/EntityID///PointingToDeclaration/">EntityID</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-776073109%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#1673366821%2FFunctions%2F-251573632">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="../-requests/index.html#1673366821%2FFunctions%2F-251573632"><span class="token function">optReference</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">refColumn<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#1673366821%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">fkName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#1673366821%2FFunctions%2F-251573632">T</a><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-name/index.html"><span class="token annotation builtin">JvmName</span></a><span class="token punctuation">(</span><span>name<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;optReferenceByIdColumn&quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#326261444%2FFunctions%2F-251573632">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#326261444%2FFunctions%2F-251573632">E</a><span class="token operator"> : </span><span data-unresolved-link="org.jetbrains.exposed.dao.id/EntityID///PointingToDeclaration/">EntityID</span><span class="token operator">&lt;</span><a href="../-requests/index.html#326261444%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="../-requests/index.html#326261444%2FFunctions%2F-251573632"><span class="token function">optReference</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">refColumn<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#326261444%2FFunctions%2F-251573632">E</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">fkName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#326261444%2FFunctions%2F-251573632">E</a><span class="token operator">?</span><span class="token operator">&gt;</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
 <a data-name="-1893911857%2FFunctions%2F-251573632" anchor-label="reference" id="-1893911857%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-1611843206%2FFunctions%2F-251573632"><span><span>reference</span></span></a></div>
@@ -1014,13 +1014,13 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1611843206%2FFunctions%2F-251573632">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="../-requests/index.html#-1611843206%2FFunctions%2F-251573632"><span class="token function">reference</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">foreign<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.dao.id/IdTable///PointingToDeclaration/">IdTable</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1611843206%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">fkName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span data-unresolved-link="org.jetbrains.exposed.dao.id/EntityID///PointingToDeclaration/">EntityID</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1611843206%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1554934348%2FFunctions%2F-251573632">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="../-requests/index.html#-1554934348%2FFunctions%2F-251573632"><span class="token function">reference</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">refColumn<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1554934348%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">fkName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1554934348%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-2116555563%2FFunctions%2F-251573632">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#-2116555563%2FFunctions%2F-251573632">E</a><span class="token operator"> : </span><span data-unresolved-link="org.jetbrains.exposed.dao.id/EntityID///PointingToDeclaration/">EntityID</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-2116555563%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="../-requests/index.html#-2116555563%2FFunctions%2F-251573632"><span class="token function">reference</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">refColumn<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-2116555563%2FFunctions%2F-251573632">E</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">fkName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-2116555563%2FFunctions%2F-251573632">E</a><span class="token operator">&gt;</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1611843206%2FFunctions%2F-251573632">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="../-requests/index.html#-1611843206%2FFunctions%2F-251573632"><span class="token function">reference</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">foreign<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.dao.id/IdTable///PointingToDeclaration/">IdTable</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1611843206%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">fkName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span data-unresolved-link="org.jetbrains.exposed.dao.id/EntityID///PointingToDeclaration/">EntityID</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1611843206%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1554934348%2FFunctions%2F-251573632">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><a href="../-requests/index.html#-1554934348%2FFunctions%2F-251573632"><span class="token function">reference</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">refColumn<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1554934348%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">fkName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1554934348%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span></div><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-name/index.html"><span class="token annotation builtin">JvmName</span></a><span class="token punctuation">(</span><span>name<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;referenceByIdColumn&quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-2116555563%2FFunctions%2F-251573632">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#-2116555563%2FFunctions%2F-251573632">E</a><span class="token operator"> : </span><span data-unresolved-link="org.jetbrains.exposed.dao.id/EntityID///PointingToDeclaration/">EntityID</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-2116555563%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="../-requests/index.html#-2116555563%2FFunctions%2F-251573632"><span class="token function">reference</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">refColumn<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-2116555563%2FFunctions%2F-251573632">E</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">fkName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-2116555563%2FFunctions%2F-251573632">E</a><span class="token operator">&gt;</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
 <a data-name="-1924302262%2FFunctions%2F-251573632" anchor-label="references" id="-1924302262%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632"><span><span>references</span></span></a></div>
@@ -1029,13 +1029,13 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">infix </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632">S</a><span class="token operator"> : </span><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632">T</a><span class="token punctuation">, </span><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632">C</a><span class="token operator"> : </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632">S</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632">C</a><span class="token punctuation">.</span><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632"><span class="token function">references</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">ref<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632">C</a></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1135166853%2FFunctions%2F-251573632">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#-1135166853%2FFunctions%2F-251573632">S</a><span class="token operator"> : </span><a href="../-requests/index.html#-1135166853%2FFunctions%2F-251573632">T</a><span class="token punctuation">, </span><a href="../-requests/index.html#-1135166853%2FFunctions%2F-251573632">C</a><span class="token operator"> : </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1135166853%2FFunctions%2F-251573632">S</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="../-requests/index.html#-1135166853%2FFunctions%2F-251573632">C</a><span class="token punctuation">.</span><a href="../-requests/index.html#-1135166853%2FFunctions%2F-251573632"><span class="token function">references</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">ref<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1135166853%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">fkName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-requests/index.html#-1135166853%2FFunctions%2F-251573632">C</a></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1237615822%2FFunctions%2F-251573632">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#-1237615822%2FFunctions%2F-251573632">S</a><span class="token operator"> : </span><a href="../-requests/index.html#-1237615822%2FFunctions%2F-251573632">T</a><span class="token punctuation">, </span><a href="../-requests/index.html#-1237615822%2FFunctions%2F-251573632">C</a><span class="token operator"> : </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1237615822%2FFunctions%2F-251573632">S</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="../-requests/index.html#-1237615822%2FFunctions%2F-251573632">C</a><span class="token punctuation">.</span><a href="../-requests/index.html#-1237615822%2FFunctions%2F-251573632"><span class="token function">references</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">ref<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span data-unresolved-link="org.jetbrains.exposed.dao.id/EntityID///PointingToDeclaration/">EntityID</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1237615822%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">fkName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-requests/index.html#-1237615822%2FFunctions%2F-251573632">C</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">infix </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632">S</a><span class="token operator"> : </span><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632">T</a><span class="token punctuation">, </span><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632">C</a><span class="token operator"> : </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632">S</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632">C</a><span class="token punctuation">.</span><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632"><span class="token function">references</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">ref<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-requests/index.html#-430772221%2FFunctions%2F-251573632">C</a></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1135166853%2FFunctions%2F-251573632">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#-1135166853%2FFunctions%2F-251573632">S</a><span class="token operator"> : </span><a href="../-requests/index.html#-1135166853%2FFunctions%2F-251573632">T</a><span class="token punctuation">, </span><a href="../-requests/index.html#-1135166853%2FFunctions%2F-251573632">C</a><span class="token operator"> : </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1135166853%2FFunctions%2F-251573632">S</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="../-requests/index.html#-1135166853%2FFunctions%2F-251573632">C</a><span class="token punctuation">.</span><a href="../-requests/index.html#-1135166853%2FFunctions%2F-251573632"><span class="token function">references</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">ref<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1135166853%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">fkName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-requests/index.html#-1135166853%2FFunctions%2F-251573632">C</a></div><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-name/index.html"><span class="token annotation builtin">JvmName</span></a><span class="token punctuation">(</span><span>name<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;referencesById&quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1237615822%2FFunctions%2F-251573632">T</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#-1237615822%2FFunctions%2F-251573632">S</a><span class="token operator"> : </span><a href="../-requests/index.html#-1237615822%2FFunctions%2F-251573632">T</a><span class="token punctuation">, </span><a href="../-requests/index.html#-1237615822%2FFunctions%2F-251573632">C</a><span class="token operator"> : </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1237615822%2FFunctions%2F-251573632">S</a><span class="token operator">&gt;</span><span class="token operator">&gt; </span><a href="../-requests/index.html#-1237615822%2FFunctions%2F-251573632">C</a><span class="token punctuation">.</span><a href="../-requests/index.html#-1237615822%2FFunctions%2F-251573632"><span class="token function">references</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">ref<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span data-unresolved-link="org.jetbrains.exposed.dao.id/EntityID///PointingToDeclaration/">EntityID</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-1237615822%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">onDelete<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">onUpdate<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ReferenceOption///PointingToDeclaration/">ReferenceOption</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">fkName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-requests/index.html#-1237615822%2FFunctions%2F-251573632">C</a></div></div></div>
                 </div>
               </div>
             </div>
           </div>
 <a data-name="-1436422398%2FFunctions%2F-251573632" anchor-label="registerColumn" id="-1436422398%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-1436422398%2FFunctions%2F-251573632"><span>register</span><wbr></wbr><span><span>Column</span></span></a></div>
@@ -1050,7 +1050,7 @@
             </div>
           </div>
 <a data-name="1191287290%2FFunctions%2F-251573632" anchor-label="registerCompositeColumn" id="1191287290%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#1191287290%2FFunctions%2F-251573632"><span>register</span><wbr></wbr><span>Composite</span><wbr></wbr><span><span>Column</span></span></a></div>
@@ -1065,7 +1065,7 @@
             </div>
           </div>
 <a data-name="270889164%2FFunctions%2F-251573632" anchor-label="replaceColumn" id="270889164%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#270889164%2FFunctions%2F-251573632"><span>replace</span><wbr></wbr><span><span>Column</span></span></a></div>
@@ -1080,7 +1080,7 @@
             </div>
           </div>
 <a data-name="2072823933%2FFunctions%2F-251573632" anchor-label="rightJoin" id="2072823933%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#2072823933%2FFunctions%2F-251573632"><span>right</span><wbr></wbr><span><span>Join</span></span></a></div>
@@ -1094,23 +1094,23 @@
               </div>
             </div>
           </div>
-<a data-name="-916444385%2FFunctions%2F-251573632" anchor-label="select" id="-916444385%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+<a data-name="-79807745%2FFunctions%2F-251573632" anchor-label="select" id="-79807745%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#205602079%2FFunctions%2F-251573632"><span><span>select</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-916444385%2FFunctions%2F-251573632"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-79807745%2FFunctions%2F-251573632"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="../-requests/index.html#205602079%2FFunctions%2F-251573632"><span class="token function">select</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">columns<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span data-unresolved-link="org.jetbrains.exposed.sql/Expression///PointingToDeclaration/">Expression</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Query///PointingToDeclaration/">Query</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="../-requests/index.html#-784207796%2FFunctions%2F-251573632"><span class="token function">select</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">column<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Expression///PointingToDeclaration/">Expression</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>columns<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Expression///PointingToDeclaration/">Expression</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Query///PointingToDeclaration/">Query</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="../-requests/index.html#205602079%2FFunctions%2F-251573632"><span class="token function">select</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">columns<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span data-unresolved-link="org.jetbrains.exposed.sql/Expression///PointingToDeclaration/">Expression</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Query///PointingToDeclaration/">Query</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="../-requests/index.html#-189865236%2FFunctions%2F-251573632"><span class="token function">select</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">column<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Expression///PointingToDeclaration/">Expression</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>columns<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Expression///PointingToDeclaration/">Expression</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Query///PointingToDeclaration/">Query</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
 <a data-name="301540525%2FFunctions%2F-251573632" anchor-label="short" id="301540525%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#301540525%2FFunctions%2F-251573632"><span><span>short</span></span></a></div>
@@ -1125,7 +1125,7 @@
             </div>
           </div>
 <a data-name="-60221748%2FFunctions%2F-251573632" anchor-label="text" id="-60221748%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-60221748%2FFunctions%2F-251573632"><span><span>text</span></span></a></div>
@@ -1140,7 +1140,7 @@
             </div>
           </div>
 <a data-name="810810624%2FFunctions%2F-251573632" anchor-label="transform" id="810810624%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#788045574%2FFunctions%2F-251573632"><span><span>transform</span></span></a></div>
@@ -1149,13 +1149,13 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#788045574%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#788045574%2FFunctions%2F-251573632">Wrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#788045574%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../-requests/index.html#788045574%2FFunctions%2F-251573632"><span class="token function">transform</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">transformer<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ColumnTransformer///PointingToDeclaration/">ColumnTransformer</span><span class="token operator">&lt;</span><a href="../-requests/index.html#788045574%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator">?</span><span class="token punctuation">, </span><a href="../-requests/index.html#788045574%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#788045574%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#536473151%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#536473151%2FFunctions%2F-251573632">Wrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#536473151%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../-requests/index.html#536473151%2FFunctions%2F-251573632"><span class="token function">transform</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">transformer<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ColumnTransformer///PointingToDeclaration/">ColumnTransformer</span><span class="token operator">&lt;</span><a href="../-requests/index.html#536473151%2FFunctions%2F-251573632">Unwrapped</a><span class="token punctuation">, </span><a href="../-requests/index.html#536473151%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#536473151%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#1346864102%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#1346864102%2FFunctions%2F-251573632">Wrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#1346864102%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../-requests/index.html#1346864102%2FFunctions%2F-251573632"><span class="token function">transform</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">wrap<span class="token operator">: </span><span class="token punctuation">(</span><a href="../-requests/index.html#1346864102%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../-requests/index.html#1346864102%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">unwrap<span class="token operator">: </span><span class="token punctuation">(</span><a href="../-requests/index.html#1346864102%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../-requests/index.html#1346864102%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#1346864102%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-571515795%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#-571515795%2FFunctions%2F-251573632">Wrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-571515795%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../-requests/index.html#-571515795%2FFunctions%2F-251573632"><span class="token function">transform</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">wrap<span class="token operator">: </span><span class="token punctuation">(</span><a href="../-requests/index.html#-571515795%2FFunctions%2F-251573632">Unwrapped</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../-requests/index.html#-571515795%2FFunctions%2F-251573632">Wrapped</a><span class="token punctuation">, </span></span><span class="parameter ">unwrap<span class="token operator">: </span><span class="token punctuation">(</span><a href="../-requests/index.html#-571515795%2FFunctions%2F-251573632">Wrapped</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../-requests/index.html#-571515795%2FFunctions%2F-251573632">Unwrapped</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-571515795%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">&gt;</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-name/index.html"><span class="token annotation builtin">JvmName</span></a><span class="token punctuation">(</span><span>name<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;transformNullable&quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#788045574%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#788045574%2FFunctions%2F-251573632">Wrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#788045574%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../-requests/index.html#788045574%2FFunctions%2F-251573632"><span class="token function">transform</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">transformer<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ColumnTransformer///PointingToDeclaration/">ColumnTransformer</span><span class="token operator">&lt;</span><a href="../-requests/index.html#788045574%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator">?</span><span class="token punctuation">, </span><a href="../-requests/index.html#788045574%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#788045574%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#536473151%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#536473151%2FFunctions%2F-251573632">Wrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#536473151%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../-requests/index.html#536473151%2FFunctions%2F-251573632"><span class="token function">transform</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">transformer<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/ColumnTransformer///PointingToDeclaration/">ColumnTransformer</span><span class="token operator">&lt;</span><a href="../-requests/index.html#536473151%2FFunctions%2F-251573632">Unwrapped</a><span class="token punctuation">, </span><a href="../-requests/index.html#536473151%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#536473151%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">&gt;</span></div><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-name/index.html"><span class="token annotation builtin">JvmName</span></a><span class="token punctuation">(</span><span>name<span class="token operator"> = </span><span class="breakable-word"><span class="token string">&quot;transformNullable&quot;</span></span></span><wbr></wbr><span class="token punctuation">)</span></div></div><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#1346864102%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#1346864102%2FFunctions%2F-251573632">Wrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#1346864102%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../-requests/index.html#1346864102%2FFunctions%2F-251573632"><span class="token function">transform</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">wrap<span class="token operator">: </span><span class="token punctuation">(</span><a href="../-requests/index.html#1346864102%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../-requests/index.html#1346864102%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">unwrap<span class="token operator">: </span><span class="token punctuation">(</span><a href="../-requests/index.html#1346864102%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../-requests/index.html#1346864102%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#1346864102%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">?</span><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-571515795%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token punctuation">, </span><a href="../-requests/index.html#-571515795%2FFunctions%2F-251573632">Wrapped</a><span class="token operator"> : </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt; </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-571515795%2FFunctions%2F-251573632">Unwrapped</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../-requests/index.html#-571515795%2FFunctions%2F-251573632"><span class="token function">transform</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">wrap<span class="token operator">: </span><span class="token punctuation">(</span><a href="../-requests/index.html#-571515795%2FFunctions%2F-251573632">Unwrapped</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../-requests/index.html#-571515795%2FFunctions%2F-251573632">Wrapped</a><span class="token punctuation">, </span></span><span class="parameter ">unwrap<span class="token operator">: </span><span class="token punctuation">(</span><a href="../-requests/index.html#-571515795%2FFunctions%2F-251573632">Wrapped</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="../-requests/index.html#-571515795%2FFunctions%2F-251573632">Unwrapped</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-571515795%2FFunctions%2F-251573632">Wrapped</a><span class="token operator">&gt;</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
 <a data-name="562469068%2FFunctions%2F-251573632" anchor-label="ubyte" id="562469068%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#562469068%2FFunctions%2F-251573632"><span><span>ubyte</span></span></a></div>
@@ -1170,7 +1170,7 @@
             </div>
           </div>
 <a data-name="1604056636%2FFunctions%2F-251573632" anchor-label="uinteger" id="1604056636%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#1604056636%2FFunctions%2F-251573632"><span><span>uinteger</span></span></a></div>
@@ -1185,7 +1185,7 @@
             </div>
           </div>
 <a data-name="1509429766%2FFunctions%2F-251573632" anchor-label="ulong" id="1509429766%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#1509429766%2FFunctions%2F-251573632"><span><span>ulong</span></span></a></div>
@@ -1199,23 +1199,23 @@
               </div>
             </div>
           </div>
-<a data-name="662575007%2FFunctions%2F-251573632" anchor-label="uniqueIndex" id="662575007%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+<a data-name="1117734421%2FFunctions%2F-251573632" anchor-label="uniqueIndex" id="1117734421%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#-17665861%2FFunctions%2F-251573632"><span>unique</span><wbr></wbr><span><span>Index</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="662575007%2FFunctions%2F-251573632"></span>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1117734421%2FFunctions%2F-251573632"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-17665861%2FFunctions%2F-251573632">T</a><span class="token operator">&gt; </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-17665861%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../-requests/index.html#-17665861%2FFunctions%2F-251573632"><span class="token function">uniqueIndex</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">customIndexName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-17665861%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="../-requests/index.html#-1434313059%2FFunctions%2F-251573632"><span class="token function">uniqueIndex</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>columns<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">filterCondition<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/FilterCondition///PointingToDeclaration/">FilterCondition</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="../-requests/index.html#252970649%2FFunctions%2F-251573632"><span class="token function">uniqueIndex</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">customIndexName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>columns<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">functions<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span data-unresolved-link="org.jetbrains.exposed.sql/ExpressionWithColumnType///PointingToDeclaration/">ExpressionWithColumnType</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">filterCondition<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/FilterCondition///PointingToDeclaration/">FilterCondition</span></span></span><span class="token punctuation">)</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-17665861%2FFunctions%2F-251573632">T</a><span class="token operator">&gt; </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-17665861%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../-requests/index.html#-17665861%2FFunctions%2F-251573632"><span class="token function">uniqueIndex</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">customIndexName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-17665861%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="../-requests/index.html#1527758529%2FFunctions%2F-251573632"><span class="token function">uniqueIndex</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>columns<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">filterCondition<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/FilterCondition///PointingToDeclaration/">FilterCondition</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="../-requests/index.html#302095805%2FFunctions%2F-251573632"><span class="token function">uniqueIndex</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">customIndexName<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">vararg </span>columns<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">functions<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span data-unresolved-link="org.jetbrains.exposed.sql/ExpressionWithColumnType///PointingToDeclaration/">ExpressionWithColumnType</span><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">filterCondition<span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/FilterCondition///PointingToDeclaration/">FilterCondition</span><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
                 </div>
               </div>
             </div>
           </div>
 <a data-name="1712749182%2FFunctions%2F-251573632" anchor-label="ushort" id="1712749182%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#1712749182%2FFunctions%2F-251573632"><span><span>ushort</span></span></a></div>
@@ -1230,7 +1230,7 @@
             </div>
           </div>
 <a data-name="154288180%2FFunctions%2F-251573632" anchor-label="uuid" id="154288180%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#154288180%2FFunctions%2F-251573632"><span><span>uuid</span></span></a></div>
@@ -1245,7 +1245,7 @@
             </div>
           </div>
 <a data-name="1923632435%2FFunctions%2F-251573632" anchor-label="varchar" id="1923632435%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
                   <div><a href="../-requests/index.html#1923632435%2FFunctions%2F-251573632"><span><span>varchar</span></span></a></div>
@@ -1259,17 +1259,17 @@
               </div>
             </div>
           </div>
-<a data-name="-379886487%2FFunctions%2F-251573632" anchor-label="withDefinition" id="-379886487%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
-          <div class="table-row" data-filterable-current=":/main" data-filterable-set=":/main">
+<a data-name="73678329%2FFunctions%2F-251573632" anchor-label="withDefinition" id="73678329%2FFunctions%2F-251573632" data-filterable-set=":/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":/main" data-filterable-set=":/main">
             <div class="main-subrow keyValue ">
               <div class=""><span class="inline-flex">
-                  <div><a href="../-requests/index.html#-379886487%2FFunctions%2F-251573632"><span>with</span><wbr></wbr><span><span>Definition</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-379886487%2FFunctions%2F-251573632"></span>
+                  <div><a href="../-requests/index.html#73678329%2FFunctions%2F-251573632"><span>with</span><wbr></wbr><span><span>Definition</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="73678329%2FFunctions%2F-251573632"></span>
                     <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#-379886487%2FFunctions%2F-251573632">T</a><span class="token operator">&gt; </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-379886487%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../-requests/index.html#-379886487%2FFunctions%2F-251573632"><span class="token function">withDefinition</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>definition<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#-379886487%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../-requests/index.html#73678329%2FFunctions%2F-251573632">T</a><span class="token operator">&gt; </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#73678329%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="../-requests/index.html#73678329%2FFunctions%2F-251573632"><span class="token function">withDefinition</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">vararg </span>definition<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.jetbrains.exposed.sql/Column///PointingToDeclaration/">Column</span><span class="token operator">&lt;</span><a href="../-requests/index.html#73678329%2FFunctions%2F-251573632">T</a><span class="token operator">&gt;</span></div></div></div>
                 </div>
               </div>
             </div>
@@ -1280,17 +1280,21 @@
   </div>
 </div>
     <div class="footer">
-        <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
-        <span>© 2025 Copyright</span>
-        <span class="pull-right">
-            <span>Generated by </span>
-            <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
-                <span>dokka</span>
-            </a>
-        </span>
-    </div>
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
             </div>
         </div>
     </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
